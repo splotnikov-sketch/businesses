@@ -62,7 +62,7 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
         with:
-          registry: ${{ secret.ACR_LOGIN_SERVER}}
+          registry: ${{ secrets.ACR_LOGIN_SERVER}}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}    
       
