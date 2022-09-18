@@ -36,5 +36,43 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "d3318fbd-4796-4222-979b-792602ce5e5c",
+    "colId": "284c3d09-bdba-4a49-8d3f-c503b659b087",
+    "containerId": "",
+    "name": "/location/search",
+    "url": "https://business-api1.herokuapp.com/location/search",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2022-09-18T17:29:36.955Z",
+    "modified": "2022-09-18T17:30:47.177Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"term\": \"williamsport, pa\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "e30e6566-09c3-4c8b-811e-f4a9d69e74cd",
+    "colId": "284c3d09-bdba-4a49-8d3f-c503b659b087",
+    "containerId": "",
+    "name": "/businesses/search",
+    "url": "https://business-api1.herokuapp.com/businesses/search",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2022-09-18T17:31:27.044Z",
+    "modified": "2022-09-18T17:31:59.726Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"lat\": 41.2493292,\n  \"lon\": -77.0027671,\n  \"term\": \"italian\"\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]
