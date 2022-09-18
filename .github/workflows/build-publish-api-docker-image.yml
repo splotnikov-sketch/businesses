@@ -65,6 +65,9 @@ jobs:
           registry: ${{ secrets.ACR_LOGIN_SERVER}}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}    
+      - run: az acr login --name ${{ secrets.ACR_LOGIN_SERVER }}
+      - run: docker build . -t ${{ secrets.ACR_LOGIN_SERVER }}/businessapicontainerregistry:${{ github.sha }}
+      - run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/businessapicontainerregistry:${{ github.sha }}    
       
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
