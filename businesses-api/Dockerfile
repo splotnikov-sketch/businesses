@@ -1,15 +1,17 @@
-FROM node:latest
-
+FROM node:18.9.0-alpine AS appbuild
 WORKDIR /app
-
-COPY package.json /app
-
+COPY package.json ./
+COPY .babelrc ./
 RUN npm install
-
-COPY . /app
-
+COPY ./src ./src
 RUN npm run build
 
+FROM node:18.9.0-alpine
+WORKDIR /app
+COPY package.json ./
+COPY .babelrc ./
+RUN npm install
+COPY --from=appbuild /app/dist ./dist
 
 ENV PORT 80
 ENV MONGODB_URI N/A
