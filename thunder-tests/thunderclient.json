@@ -1,14 +1,14 @@
 [
   {
-    "_id": "1b4f0972-5637-42c8-8ae8-d6b66c1d042d",
-    "colId": "5e790bd9-f484-4e04-a09c-9fe52dc5b8c6",
+    "_id": "49540087-4669-4b68-b10b-ac74c57dbf2a",
+    "colId": "e4e405b5-6426-4abe-8575-42a9b96a729b",
     "containerId": "",
-    "name": "/location/search",
-    "url": "http://localhost:3010/location/search",
+    "name": "search",
+    "url": "{{HOST}}/location/search",
     "method": "POST",
     "sortNum": 10000,
-    "created": "2022-09-15T03:33:04.887Z",
-    "modified": "2022-09-15T03:33:04.887Z",
+    "created": "2022-09-24T13:42:40.195Z",
+    "modified": "2022-09-24T16:31:41.968Z",
     "headers": [],
     "params": [],
     "body": {
@@ -16,18 +16,37 @@
       "raw": "{\n  \"term\": \"williamsport, pa\"\n}",
       "form": []
     },
-    "tests": []
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "custom-header",
+        "custom": "Content-Type",
+        "action": "equal",
+        "value": "application/json; charset=utf-8"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": "true"
+      }
+    ]
   },
   {
-    "_id": "9de321eb-de88-447f-ab82-2e0bbd25209e",
-    "colId": "5e790bd9-f484-4e04-a09c-9fe52dc5b8c6",
+    "_id": "2b5ad681-8a9d-4ccf-b277-36efcd8a3e9b",
+    "colId": "a869877a-2e35-4750-a7f3-6731f6a81875",
     "containerId": "",
-    "name": "/businesses/search",
-    "url": "http://localhost:3010/businesses/search",
+    "name": "search",
+    "url": "{{HOST}}/businesses/search",
     "method": "POST",
-    "sortNum": 20000,
-    "created": "2022-09-15T03:33:57.610Z",
-    "modified": "2022-09-15T03:36:27.660Z",
+    "sortNum": 10000,
+    "created": "2022-09-24T15:18:34.080Z",
+    "modified": "2022-09-24T15:41:58.485Z",
     "headers": [],
     "params": [],
     "body": {
@@ -38,39 +57,20 @@
     "tests": []
   },
   {
-    "_id": "d3318fbd-4796-4222-979b-792602ce5e5c",
-    "colId": "284c3d09-bdba-4a49-8d3f-c503b659b087",
+    "_id": "9b2deb1b-ad43-4b9c-bda0-f2c13626f27c",
+    "colId": "d0dbb298-509a-4a85-bcf4-0b217c409422",
     "containerId": "",
-    "name": "/location/search",
-    "url": "https://business-api1.herokuapp.com/location/search",
+    "name": "signin",
+    "url": "{{HOST}}/account/signin",
     "method": "POST",
     "sortNum": 10000,
-    "created": "2022-09-18T17:29:36.955Z",
-    "modified": "2022-09-18T17:30:47.177Z",
+    "created": "2022-09-26T01:26:05.819Z",
+    "modified": "2022-09-26T01:52:26.040Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"term\": \"williamsport, pa\"\n}",
-      "form": []
-    },
-    "tests": []
-  },
-  {
-    "_id": "e30e6566-09c3-4c8b-811e-f4a9d69e74cd",
-    "colId": "284c3d09-bdba-4a49-8d3f-c503b659b087",
-    "containerId": "",
-    "name": "/businesses/search",
-    "url": "https://business-api1.herokuapp.com/businesses/search",
-    "method": "POST",
-    "sortNum": 20000,
-    "created": "2022-09-18T17:31:27.044Z",
-    "modified": "2022-09-18T17:31:59.726Z",
-    "headers": [],
-    "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n  \"lat\": 41.2493292,\n  \"lon\": -77.0027671,\n  \"term\": \"italian\"\n}",
+      "raw": "{\n  \"email\": \"aaa@bbb.com\",\n  \"password\": \"123456\"\n}",
       "form": []
     },
     "tests": []

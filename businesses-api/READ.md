@@ -19,4 +19,4 @@
 
 - Build docker image `docker build . -t businesses-api`
 - Verify this before running the main process `docker run -it -p 3010:3010 --env-file .env businesses-api:latest -e "console.log(process.env)`
-- Start container `docker run -p 3010:3010 --env-file .env businesses-api:latest`
+- Start container `docker run --rm -d -p 3010:3010 --env-file .env.local businesses-api:latest`

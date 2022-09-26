@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "_id": "7ac4891b-a950-41a6-91b0-956fa7b4beca",
+    "name": "heroku",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2022-09-24T13:31:45.303Z",
+    "modified": "2022-09-24T15:13:12.243Z",
+    "data": [],
+    "envFile": "..\\businesses-api\\.env"
+  },
+  {
+    "_id": "e3cd7eba-cb22-432b-ae4b-58d581b7601d",
+    "name": "local",
+    "default": false,
+    "sortNum": 20000,
+    "created": "2022-09-24T13:31:57.751Z",
+    "modified": "2022-09-24T15:26:20.946Z",
+    "data": [],
+    "envFile": "..\\businesses-api\\.env.local"
+  }
+]
