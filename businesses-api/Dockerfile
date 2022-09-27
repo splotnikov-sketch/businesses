@@ -23,4 +23,4 @@ ENV GEOAPIFY_KEY N/A
 
 EXPOSE $PORT
 
-CMD ["node", "dist/bin/www"]
+CMD ["npm", "run", "docker-prod"]

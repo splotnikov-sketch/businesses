@@ -11,7 +11,8 @@
     "build": "babel ./src --out-dir dist",
     "prod": "NODE_ENV=production npm-run-all clean build server:prod",
     "watch": "nodemon",
-    "test": "jest --collect-coverage"
+    "test": "jest --collect-coverage",
+    "docker-prod": "NODE_ENV=production npm-run-all server:prod"
   },
   "dependencies": {
     "@babel/cli": "^7.18.10",

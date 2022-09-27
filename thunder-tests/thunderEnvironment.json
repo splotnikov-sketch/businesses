@@ -15,8 +15,12 @@
     "default": false,
     "sortNum": 20000,
     "created": "2022-09-24T13:31:57.751Z",
-    "modified": "2022-09-24T15:26:20.946Z",
-    "data": [],
-    "envFile": "..\\businesses-api\\.env.local"
+    "modified": "2022-09-27T14:02:43.850Z",
+    "data": [
+      {
+        "name": "HOST",
+        "value": "http://localhost:3010"
+      }
+    ]
   }
 ]
