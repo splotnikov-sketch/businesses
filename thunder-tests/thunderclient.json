@@ -74,5 +74,24 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "5cdead32-988e-4a13-b3a1-5afed1b4aa85",
+    "colId": "d0dbb298-509a-4a85-bcf4-0b217c409422",
+    "containerId": "",
+    "name": "signup",
+    "url": "{{HOST}}/account/signup",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2022-09-30T18:38:12.008Z",
+    "modified": "2022-09-30T18:38:50.146Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"aaa@bbb.com\",\n  \"password\": \"123456\"\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]
