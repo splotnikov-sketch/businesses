@@ -6,13 +6,13 @@
     "start": "npm run prod",
     "server": "babel-node ./src/bin/www",
     "server:prod": "node ./dist/bin/www",
-    "dev": "NODE_ENV=development npm-run-all server",
+    "dev": "cross-env NODE_ENV=development npm-run-all server",
     "clean": "rimraf dist",
     "build": "babel ./src --out-dir dist",
-    "prod": "NODE_ENV=production npm-run-all clean build server:prod",
+    "prod": "cross-env NODE_ENV=production npm-run-all clean build server:prod",
     "watch": "nodemon",
-    "test": "jest --collect-coverage",
-    "docker-prod": "NODE_ENV=production npm-run-all server:prod"
+    "test": "cross-env NODE_ENV=test jest --collect-coverage --testTimeout=10000",
+    "docker-prod": "cross-env NODE_ENV=production npm-run-all server:prod"
   },
   "dependencies": {
     "@babel/cli": "^7.18.10",
@@ -32,8 +32,16 @@
   },
   "devDependencies": {
     "@babel/node": "^7.18.10",
+    "cross-env": "^7.0.3",
     "jest": "^29.0.3",
     "nodemon": "^2.0.19",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "supertest": "^6.2.4"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

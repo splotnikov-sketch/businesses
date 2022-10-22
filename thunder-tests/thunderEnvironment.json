@@ -12,7 +12,7 @@
   {
     "_id": "e3cd7eba-cb22-432b-ae4b-58d581b7601d",
     "name": "local",
-    "default": false,
+    "default": true,
     "sortNum": 20000,
     "created": "2022-09-24T13:31:57.751Z",
     "modified": "2022-09-27T14:02:43.850Z",
