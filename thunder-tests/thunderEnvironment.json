@@ -22,5 +22,19 @@
         "value": "http://localhost:3010"
       }
     ]
+  },
+  {
+    "_id": "0947d9d1-8293-429c-859e-1a4bc21594e8",
+    "name": "railway",
+    "default": true,
+    "sortNum": 30000,
+    "created": "2022-10-22T20:49:09.363Z",
+    "modified": "2022-10-22T20:54:14.677Z",
+    "data": [
+      {
+        "name": "HOST",
+        "value": "https://businesses-production.up.railway.app"
+      }
+    ]
   }
 ]
