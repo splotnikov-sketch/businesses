@@ -2,7 +2,7 @@
   {
     "_id": "7ac4891b-a950-41a6-91b0-956fa7b4beca",
     "name": "heroku",
-    "default": true,
+    "default": false,
     "sortNum": 10000,
     "created": "2022-09-24T13:31:45.303Z",
     "modified": "2022-09-24T15:13:12.243Z",
@@ -20,6 +20,20 @@
       {
         "name": "HOST",
         "value": "http://localhost:3010"
+      }
+    ]
+  },
+  {
+    "_id": "0947d9d1-8293-429c-859e-1a4bc21594e8",
+    "name": "railway",
+    "default": true,
+    "sortNum": 30000,
+    "created": "2022-10-22T20:49:09.363Z",
+    "modified": "2022-10-22T20:54:14.677Z",
+    "data": [
+      {
+        "name": "HOST",
+        "value": "https://businesses-production.up.railway.app"
       }
     ]
   }
