@@ -1,6 +1,5 @@
 import bodyParser from 'body-parser'
 import express from 'express'
-// import {OpenApiValidator} from 'express-openapi-validator' // if version 3.*
 import * as OpenApiValidator from 'express-openapi-validator'
 import { Express } from 'express-serve-static-core'
 import morgan from 'morgan'
@@ -48,17 +47,17 @@ export async function createServer(): Promise<Express> {
     validateRequests: true,
     validateResponses: true,
   }
-  //   await new OpenApiValidator(validatorOptions).install(server) // if version 3.*
+
   server.use(OpenApiValidator.middleware(validatorOptions))
 
-  server.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.header(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept'
-    )
-    next()
-  })
+  // server.use((req, res, next) => {
+  //   res.setHeader('Access-Control-Allow-Origin', '*')
+  //   res.header(
+  //     'Access-Control-Allow-Headers',
+  //     'Origin, X-Requested-With, Content-Type, Accept'
+  //   )
+  //   next()
+  // })
 
   // error customization, if request is invalid
   server.use(

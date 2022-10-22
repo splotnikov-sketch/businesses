@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "cross-env ENV_FILE=./config/.env.prod node -r tsconfig-paths/register ./bin/app.js",
-    "dev": "cross-env ENV_FILE=./config/.env.dev ts-node -r tsconfig-paths/register ./src/app.ts"
+    "dev": "cross-env ENV_FILE=./config/.env.dev ts-node -r tsconfig-paths/register ./src/app.ts",
+    "test:unit": "cross-env ENV_FILE=./config/.env.test jest"
   },
   "author": "",
   "license": "ISC",
@@ -34,6 +35,11 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
+    "@types/jest": "^29.1.1",
+    "@types/supertest": "^2.0.12",
+    "jest": "^29.1.2",
+    "supertest": "^6.2.4",
+    "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1"
   }
 }
