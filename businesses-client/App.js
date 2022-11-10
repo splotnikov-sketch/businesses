@@ -16,14 +16,6 @@ import SignInScreen from './src/screens/SignInScreen'
 const Stack = createNativeStackNavigator()
 //const Drawer = createDrawerNavigator()
 
-// function DrawerNavigator() {
-//   return (
-//     <Drawer.Navigator>
-//       <Drawer.Screen />
-//     </Drawer.Navigator>
-//   )
-// }
-
 // function AccountStackNavigator() {
 //   return (
 //     <Stack.Navigator>
