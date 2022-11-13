@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import {
-  Text,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  TextInput,
-  Pressable,
-} from 'react-native'
+import { Text, StyleSheet, View, TextInput, Pressable } from 'react-native'
 import { Button } from '@rneui/base'
 import { MaterialIcons } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
@@ -66,9 +59,9 @@ const SearchLocation = () => {
       {editMode && (
         <View style={styles.editContainer}>
           <View style={styles.editBox}>
-            <TouchableOpacity style={styles.clearBox} onPress={onClearPress}>
+            <Pressable style={styles.clearBox} onPress={onClearPress}>
               <MaterialIcons name='clear' style={styles.clearIcon} />
-            </TouchableOpacity>
+            </Pressable>
             <TextInput
               ref={locationEditRef}
               style={styles.editText}

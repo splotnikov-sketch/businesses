@@ -1,14 +1,17 @@
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { Text, StyleSheet, Image, Pressable } from 'react-native'
 
 const ResultItem = ({ item }) => {
   const navigation = useNavigation()
+
+  function itemPressHandler(id, name) {
+    navigation.navigate('Detail', { id: item.id, name: item.name })
+  }
+
   return (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate('Detail', { id: item.id, name: item.name })
-      }
+    <Pressable
+      onPress={() => itemPressHandler(item.id, item.name)}
       style={styles.container}
     >
       <Image style={styles.image} source={{ uri: item.image_url }} />
@@ -20,7 +23,7 @@ const ResultItem = ({ item }) => {
         {'\n'}
         {item.address}
       </Text>
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 
