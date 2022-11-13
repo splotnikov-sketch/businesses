@@ -24,9 +24,6 @@ export const search = (dispatch) => {
 
       const { data } = response
 
-      console.log('data')
-      console.log(data)
-
       const businesses = data.map((x) => ({
         id: x.id,
         name: x.name,
@@ -63,9 +60,6 @@ export const getBusinessDetail = (dispatch) => {
     dispatch({ type: LOADING_DETAIL })
     try {
       const response = await apiInstance.get(`/businesses/${id}`)
-
-      console.log('data-detail')
-      console.log(response.data)
 
       dispatch({
         type: SET_DETAIL,
