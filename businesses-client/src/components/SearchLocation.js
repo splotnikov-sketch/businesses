@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Text, StyleSheet, View, TextInput, Pressable } from 'react-native'
-import { Button } from '@rneui/base'
-import { MaterialIcons } from '@expo/vector-icons'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useAppContext } from '../contexts/AppContext'
+import IconButton from './ui/IconButton'
 
 const SearchLocation = () => {
   const { state, detectLocation, lookupLocation } = useAppContext()
-  const [location, setLocation] = useState('N/A')
+  const [locationTerm, setLocationTerm] = useState('')
   const [editMode, setEditMode] = useState(false)
   const locationEditRef = useRef()
 
@@ -18,34 +16,35 @@ const SearchLocation = () => {
   }, [])
 
   useEffect(() => {
-    setLocation(state.location.location)
-  }, [state.location.location])
+    if (state.location.cityState === '') {
+      return
+    }
+    setLocationTerm(state.location.cityState)
+    if (editMode) {
+      setEditMode(false)
+    }
+  }, [state.location.cityState])
 
   const onViewPress = () => {
-    setEditMode(true)
+    if (state.location.cityState !== '') {
+      setLocationTerm(state.location.cityState)
+      setEditMode(true)
+    }
   }
 
   const onClearPress = () => {
-    setLocation('')
+    setLocationTerm('')
     if (editMode && locationEditRef.current) {
       locationEditRef.current.focus()
     }
   }
 
   const onSetPress = async () => {
-    const lookupLocationResult = await lookupLocation(location)
-    if (lookupLocationResult) {
-      setEditMode(false)
-      return
-    }
-    setLocation('')
+    await lookupLocation(locationTerm)
   }
 
   const onCancelPress = () => {
     setEditMode(false)
-    setLocation(
-      state.location.location !== null ? state.location.location : 'N/A'
-    )
   }
 
   return (
@@ -53,47 +52,43 @@ const SearchLocation = () => {
       {!editMode && (
         <Pressable style={styles.viewContainer} onPress={onViewPress}>
           <Text style={styles.viewLabel}>Location: </Text>
-          <Text style={styles.viewText}>{location}</Text>
+          <Text style={styles.viewText}>{state.location.cityState}</Text>
         </Pressable>
       )}
       {editMode && (
         <View style={styles.editContainer}>
           <View style={styles.editBox}>
-            <Pressable style={styles.clearBox} onPress={onClearPress}>
-              <MaterialIcons name='clear' style={styles.clearIcon} />
-            </Pressable>
+            <IconButton
+              icon='remove'
+              color='black'
+              size={24}
+              onPress={onClearPress}
+            />
             <TextInput
               ref={locationEditRef}
               style={styles.editText}
               placeholder='City and State'
-              value={location}
-              onChangeText={(text) => setLocation(text)}
+              value={locationTerm}
+              onChangeText={(text) => setLocationTerm(text)}
               autoCorrect={false}
               autoCapitalize='words'
             />
           </View>
-          <Button
-            buttonStyle={styles.setButton}
-            containerStyle={styles.setButtonContainer}
+          <IconButton
+            icon='md-checkmark'
+            size={24}
             onPress={onSetPress}
-            disabled={location === ''}
-          >
-            <MaterialIcons
-              name='check-circle-outline'
-              size={24}
-              color='black'
-            />
-          </Button>
-          <Button
-            buttonStyle={styles.cancelButton}
-            containerStyle={styles.cancelButtonContainer}
+            border={true}
+          />
+          <IconButton
+            icon='close-outline'
+            size={24}
             onPress={onCancelPress}
-          >
-            <MaterialCommunityIcons name='cancel' size={24} color='black' />
-          </Button>
+            border={true}
+          />
         </View>
       )}
-      {state.location.location === null && !state.location.isDetecting && (
+      {state.location === null && !state.location.isDetecting && (
         <Text style={styles.errorText}>
           Please setup location to perform search
         </Text>
@@ -134,48 +129,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: 'row',
     backgroundColor: '#d3d3d3',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
   },
 
   editBox: {
     flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
 
   editText: {
     marginStart: 5,
-    width: 200,
-  },
-
-  clearBox: {
-    fontSize: 30,
-    color: 'black',
-    alignSelf: 'center',
-  },
-
-  clearIcon: {
-    fontSize: 30,
-    alignSelf: 'center',
-  },
-  // set button
-  setButton: {
-    width: 60,
-    backgroundColor: '#BEBEBF',
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 5,
-  },
-  setButtonContainer: {},
-
-  // cancel button
-  cancelButton: {
-    width: 60,
-    backgroundColor: '#BEBEBF',
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 5,
-  },
-  cancelButtonContainer: {
-    //width: 80,
+    width: 250,
   },
 })
 
