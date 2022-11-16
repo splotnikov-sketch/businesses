@@ -38,17 +38,23 @@ export const search = (dispatch) => {
 
       dispatch({
         type: SET_SEARCH_RESULTS,
-        payload: { businesses: businesses },
+        payload: {
+          term: term,
+          businesses: businesses,
+        },
       })
     } catch (error) {
       console.log(error)
       dispatch({
         type: SET_SEARCH_RESULTS,
-        payload: { businesses: null },
+        payload: {
+          term: term,
+          businesses: null,
+        },
       })
       dispatch({
         type: SET_DATA_ERRORS,
-        payload: 'Something went wrong',
+        payload: `Something went wrong for ${term}`,
       })
     }
   }
@@ -63,14 +69,17 @@ export const getBusinessDetail = (dispatch) => {
 
       dispatch({
         type: SET_DETAIL,
-        payload: { business: response.data },
+        payload: {
+          id: id,
+          business: response.data,
+        },
       })
     } catch (error) {
       console.log(error)
       dispatch({ type: SET_DETAIL, payload: { business: null } })
       dispatch({
         type: SET_DATA_ERRORS,
-        payload: 'Something went wrong',
+        payload: `Something went wrong for ${id}`,
       })
     }
   }

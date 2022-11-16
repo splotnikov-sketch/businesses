@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import apiInstance from '../../api/apiInstance'
+import apiInstance from 'api/apiInstance'
 
 import { SIGN_IN, SIGN_OUT, ADD_AUTH_ERROR, CLEAR_AUTH_ERROR } from '../types'
 

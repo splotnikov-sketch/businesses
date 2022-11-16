@@ -1,11 +1,11 @@
+import IconButton from 'components/ui/IconButton'
+import { useAppContext } from 'contexts/AppContext'
 import React, { useEffect, useRef } from 'react'
-import { StyleSheet, View, TextInput, Pressable } from 'react-native'
-import { useAppContext } from '../contexts/AppContext'
-import IconButton from './ui/IconButton'
+import { StyleSheet, View, TextInput } from 'react-native'
 
 const SearchBox = ({ term, onTermChange, onEndEditing }) => {
   const { state } = useAppContext()
-  const searchEditRef = useRef()
+  const searchEditRef = useRef(null)
 
   useEffect(() => {
     searchEditRef.current.focus()
@@ -18,6 +18,7 @@ const SearchBox = ({ term, onTermChange, onEndEditing }) => {
         color='black'
         size={24}
         onPress={onEndEditing}
+        border={null}
       />
       <TextInput
         ref={searchEditRef}

@@ -1,14 +1,10 @@
+import ResultsList from 'components/ResultsList'
+import SearchBox from 'components/SearchBox'
+import SearchLocation from 'components/SearchLocation'
+import Loader from 'components/ui/Loader'
+import { useAppContext } from 'contexts/AppContext'
 import React, { useState } from 'react'
 import { Text, StyleSheet, View, ScrollView } from 'react-native'
-import SearchLocation from '../components/SearchLocation'
-import SearchBox from '../components/SearchBox'
-import ResultsList from '../components/ResultsList'
-import { useAppContext } from '../contexts/AppContext'
-import { List } from 'react-content-loader/native'
-
-const SearchScreenLoader = () => {
-  return <List />
-}
 
 const SearchScreen = () => {
   const { state, search } = useAppContext()
@@ -17,31 +13,28 @@ const SearchScreen = () => {
   const { businesses, errors, isLoading } = state.data
   const results = businesses ? businesses : []
   const [term, setTerm] = useState('')
+  const [noResultsMessage, setNoResultsMessage] = useState('')
 
   const handleSearch = async () => {
+    setNoResultsMessage('')
     if (state.location.cityState === '') {
       return
     }
-
     if (term === '') {
       return
     }
-
     await search(latitude, longitude, term)
+
+    if (results === null || results.length === 0) {
+      if (term !== '') {
+        setNoResultsMessage(`No results for ${term}`)
+      }
+    }
   }
 
-  return (
-    <View style={styles.container}>
-      <SearchLocation />
-      <SearchBox
-        term={term}
-        onTermChange={(x) => setTerm(x)}
-        onEndEditing={() => handleSearch()}
-      />
-      {errors ? <Text style={styles.errorText}>{errors}</Text> : null}
-      {isLoading ? (
-        <SearchScreenLoader />
-      ) : (
+  const ResultsToShow = () => {
+    if (results !== null && results.length > 0 && term != '') {
+      return (
         <ScrollView>
           <ResultsList
             title='Cost Effective'
@@ -59,7 +52,32 @@ const SearchScreen = () => {
             data={results.filter((x) => x.price === '$$$')}
           />
         </ScrollView>
-      )}
+      )
+    }
+
+    console.log('noResultsMessage')
+    console.log(noResultsMessage)
+    if (noResultsMessage !== '') {
+      return (
+        <View>
+          <Text>{noResultsMessage}</Text>
+        </View>
+      )
+    }
+
+    return null
+  }
+
+  return (
+    <View style={styles.container}>
+      <SearchLocation />
+      <SearchBox
+        term={term}
+        onTermChange={(x) => setTerm(x)}
+        onEndEditing={() => handleSearch()}
+      />
+      {errors ? <Text style={styles.errorText}>{errors}</Text> : null}
+      {isLoading ? <Loader /> : <ResultsToShow />}
     </View>
   )
 }

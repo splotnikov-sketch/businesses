@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Button, Icon } from 'react-native'
+import { StyleSheet, Button } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { ThemeProvider } from '@rneui/themed'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -16,7 +16,7 @@ import SignInScreen from './src/screens/SignInScreen'
 const Stack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
 
-function AccountStackNavigator() {
+function AuthStack() {
   return (
     <Stack.Navigator initialRouteName='Sign In'>
       <Stack.Screen
@@ -31,6 +31,8 @@ function AccountStackNavigator() {
     </Stack.Navigator>
   )
 }
+
+function AuthenticatedStack() {}
 
 function SearchStackNavigator() {
   return (
@@ -66,29 +68,8 @@ export default function App() {
           <NavigationContainer>
             <Drawer.Navigator>
               <Drawer.Screen name='Search' component={SearchStackNavigator} />
-              <Drawer.Screen name='Account' component={AccountStackNavigator} />
+              <Drawer.Screen name='Account' component={AuthStack} />
             </Drawer.Navigator>
-            {/* <Stack.Navigator initialRouteName='Search'>
-              <Stack.Screen
-                name='Search'
-                component={SearchScreen}
-                options={{
-                  title: 'Businesses Search',
-                  headerRight: () => (
-                    <Button
-                      onPress={() => alert('This is a button!')}
-                      title='Info'
-                      color='#fff'
-                    />
-                  ),
-                }}
-              />
-              <Stack.Screen
-                name='Detail'
-                component={DetailScreen}
-                options={({ route }) => ({ title: route.params.name })}
-              />
-            </Stack.Navigator> */}
           </NavigationContainer>
         </ThemeProvider>
       </AppProvider>

@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Text, StyleSheet, View, FlatList, Image } from 'react-native'
-import { Code } from 'react-content-loader/native'
-
+import Loader from '../components/ui/Loader'
 import { useAppContext } from '../contexts/AppContext'
 
 // alternative for components
 // import {useRoute} from '@react-navigation/native'
 // const route = useRoute();
 // const { id } = route.params
-
-const DetailScreenContentLoader = () => {
-  return <Code />
-}
 
 const DetailScreen = ({ route, navigation }) => {
   const { id } = route.params
@@ -31,7 +26,7 @@ const DetailScreen = ({ route, navigation }) => {
   // }
 
   return business === null ? (
-    <DetailScreenContentLoader />
+    <Loader />
   ) : (
     <View style={styles.container}>
       <Text style={styles.name}>{business.name}</Text>

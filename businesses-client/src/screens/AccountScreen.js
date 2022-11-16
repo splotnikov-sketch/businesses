@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, SafeAreaView } from 'react-native'
 import { Button } from 'react-native-elements'
-import { SafeAreaView } from 'react-navigation'
+
 import Spacer from '../components/ui/Spacer'
 import { useAppContext } from '../contexts/AppContext'
 import { FontAwesome } from '@expo/vector-icons'
