@@ -39,6 +39,7 @@ module.exports = function (api) {
             contexts: './src/contexts',
             lib: './src/lib',
             api: './src/api',
+            utils: './src/utils',
           },
         },
       ],

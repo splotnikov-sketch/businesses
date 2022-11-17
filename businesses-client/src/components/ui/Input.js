@@ -5,7 +5,7 @@ import { Colors } from '../../constants/styles'
 function Input({
   label,
   keyboardType,
-  secure,
+  secure = false,
   onUpdateValue,
   value,
   isInvalid,

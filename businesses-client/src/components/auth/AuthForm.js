@@ -98,4 +98,5 @@ const styles = StyleSheet.create({
   buttons: {
     marginTop: 12,
   },
+  form: {},
 })

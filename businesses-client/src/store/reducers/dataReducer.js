@@ -1,15 +1,17 @@
 import {
-  PERFORMING_SEARCH,
+  LOADING_DATA,
   SET_SEARCH_RESULTS,
-  LOADING_DETAIL,
   SET_DETAIL,
   SET_DATA_ERRORS,
   CLEAR_DATA_ERRORS,
 } from '../types'
 
 export const initialState = {
-  term: '',
-  businesses: [],
+  lat: null,
+  lon: null,
+  cityState: null,
+  term: null,
+  businesses: null,
   id: null,
   business: null,
   isLoading: false,
@@ -18,26 +20,31 @@ export const initialState = {
 
 export const dataReducer = (state = initialState, action) => {
   switch (action.type) {
-    case PERFORMING_SEARCH: {
-      return { ...state, businesses: [], isLoading: true }
+    case LOADING_DATA: {
+      return { ...state, errors: null, isLoading: true }
     }
 
     case SET_SEARCH_RESULTS: {
+      const { lat, lon, cityState, term, businesses } = action.payload
       return {
-        ...state,
-        businesses: action.payload.businesses,
+        lat,
+        lon,
+        cityState,
+        term,
+        businesses,
         isLoading: false,
+        errors: null,
       }
     }
 
-    case LOADING_DETAIL: {
-      return { ...state, business: null, isLoading: true }
-    }
-
     case SET_DETAIL: {
+      const { id, business } = action.payload
+
       return {
         ...state,
-        business: action.payload.business,
+        id,
+        business,
+        errors: null,
         isLoading: false,
       }
     }

@@ -3,85 +3,60 @@ import SearchBox from 'components/SearchBox'
 import SearchLocation from 'components/SearchLocation'
 import Loader from 'components/ui/Loader'
 import { useAppContext } from 'contexts/AppContext'
-import React, { useState } from 'react'
+import React from 'react'
 import { Text, StyleSheet, View, ScrollView } from 'react-native'
+import { isNullOrEmpty } from 'utils/index'
 
 const SearchScreen = () => {
-  const { state, search } = useAppContext()
+  const { state } = useAppContext()
 
-  const { latitude, longitude } = state.location
-  const { businesses, errors, isLoading } = state.data
-  const results = businesses ? businesses : []
-  const [term, setTerm] = useState('')
-  const [noResultsMessage, setNoResultsMessage] = useState('')
-
-  const handleSearch = async () => {
-    setNoResultsMessage('')
-    if (state.location.cityState === '') {
-      return
-    }
-    if (term === '') {
-      return
-    }
-    await search(latitude, longitude, term)
-
-    if (results === null || results.length === 0) {
-      if (term !== '') {
-        setNoResultsMessage(`No results for ${term}`)
-      }
-    }
-  }
+  const { businesses, errors, isLoading, cityState, term } = state.data
 
   const ResultsToShow = () => {
-    if (results !== null && results.length > 0 && term != '') {
+    if (!isNullOrEmpty(businesses)) {
       return (
         <ScrollView>
           <ResultsList
             title='Cost Effective'
-            data={results.filter(
+            data={businesses.filter(
               (x) =>
                 x.price === undefined || x.price === null || x.price === '$'
             )}
           />
           <ResultsList
             title='Bit Pricer'
-            data={results.filter((x) => x.price === '$$')}
+            data={businesses.filter((x) => x.price === '$$')}
           />
           <ResultsList
             title='Big Spender'
-            data={results.filter((x) => x.price === '$$$')}
+            data={businesses.filter((x) => x.price === '$$$')}
           />
         </ScrollView>
       )
     }
-
-    console.log('noResultsMessage')
-    console.log(noResultsMessage)
-    if (noResultsMessage !== '') {
-      return (
-        <View>
-          <Text>{noResultsMessage}</Text>
-        </View>
-      )
+    if (isNullOrEmpty(term)) {
+      return null
     }
 
-    return null
+    return (
+      <View style={styles.noResultsContainer}>
+        <Text>No results for </Text>
+        <Text style={styles.noResultsTextHighlight}>{term}</Text>
+        <Text> near by </Text>
+        <Text style={styles.noResultsTextHighlight}>{cityState}</Text>
+      </View>
+    )
   }
 
   return (
     <View style={styles.container}>
       <SearchLocation />
-      <SearchBox
-        term={term}
-        onTermChange={(x) => setTerm(x)}
-        onEndEditing={() => handleSearch()}
-      />
+      <SearchBox />
       {errors ? <Text style={styles.errorText}>{errors}</Text> : null}
       {isLoading ? <Loader /> : <ResultsToShow />}
     </View>
   )
 }
-
 const styles = StyleSheet.create({
   container: {
     margin: 10,
@@ -96,6 +71,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'red',
     marginLeft: 10,
+  },
+  noResultsContainer: {
+    marginLeft: 10,
+    marginTop: 10,
+    flexDirection: 'row',
+  },
+  noResultsTextHighlight: {
+    color: 'blue',
   },
 })
 

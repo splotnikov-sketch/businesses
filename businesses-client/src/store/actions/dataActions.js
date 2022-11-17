@@ -1,26 +1,23 @@
 import apiInstance from '../../api/apiInstance'
 import {
-  PERFORMING_SEARCH,
+  LOADING_DATA,
   SET_SEARCH_RESULTS,
-  LOADING_DETAIL,
   SET_DETAIL,
   SET_DATA_ERRORS,
-  CLEAR_DATA_ERRORS,
 } from '../types'
 
 export const search = (dispatch) => {
-  return async (latitude, longitude, term) => {
-    dispatch({ type: CLEAR_DATA_ERRORS })
-    dispatch({ type: PERFORMING_SEARCH })
+  return async (latitude, longitude, cityState, term) => {
+    dispatch({ type: LOADING_DATA })
 
-    const payload = {
+    const request = {
       term: term,
       lat: latitude,
       lon: longitude,
     }
 
     try {
-      const response = await apiInstance.post(`/businesses/search`, payload)
+      const response = await apiInstance.post(`/businesses/search`, request)
 
       const { data } = response
 
@@ -38,23 +35,19 @@ export const search = (dispatch) => {
 
       dispatch({
         type: SET_SEARCH_RESULTS,
-        payload: {
-          term: term,
-          businesses: businesses,
-        },
+        payload: { ...request, cityState, businesses },
       })
     } catch (error) {
       console.log(error)
+
       dispatch({
         type: SET_SEARCH_RESULTS,
-        payload: {
-          term: term,
-          businesses: null,
-        },
+        payload: { ...request, cityState, businesses: null },
       })
+
       dispatch({
         type: SET_DATA_ERRORS,
-        payload: `Something went wrong for ${term}`,
+        payload: `Something went wrong. Location: ${cityState}, term: ${term}`,
       })
     }
   }
@@ -62,8 +55,7 @@ export const search = (dispatch) => {
 
 export const getBusinessDetail = (dispatch) => {
   return async (id) => {
-    dispatch({ type: CLEAR_DATA_ERRORS })
-    dispatch({ type: LOADING_DETAIL })
+    dispatch({ type: LOADING_DATA })
     try {
       const response = await apiInstance.get(`/businesses/${id}`)
 
