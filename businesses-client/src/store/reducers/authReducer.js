@@ -1,4 +1,9 @@
-import { SIGN_IN, SIGN_OUT, ADD_AUTH_ERROR, CLEAR_AUTH_ERROR } from '../types'
+import {
+  SET_AUTHENTICATED,
+  SIGN_OUT,
+  CLEAR_AUTH_ERROR,
+  ADD_AUTH_ERROR,
+} from '../types'
 
 export const initialState = {
   token: null,
@@ -7,19 +12,23 @@ export const initialState = {
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SIGN_IN: {
-      return { token: action.payload, errorMessage: '' }
-    }
-    case SIGN_OUT: {
-      return { token: null, errorMessage: '' }
-    }
-
-    case ADD_AUTH_ERROR: {
-      return { ...state, errorMessage: action.payload }
+    case SET_AUTHENTICATED: {
+      return {
+        token: action.payload.token,
+        errorMessage: '',
+      }
     }
 
     case CLEAR_AUTH_ERROR: {
       return { ...state, errorMessage: '' }
+    }
+
+    case ADD_AUTH_ERROR: {
+      return { token: null, errorMessage: action.payload.errorMessage }
+    }
+
+    case SIGN_OUT: {
+      return { token: null, errorMessage: '' }
     }
 
     default: {

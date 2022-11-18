@@ -5,13 +5,12 @@ import { ThemeProvider } from '@rneui/themed'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import { AppProvider } from './src/contexts/AppContext'
-import SearchScreen from './src/screens/SearchScreen'
-import DetailScreen from './src/screens/DetailScreen'
+import { AppProvider } from 'contexts/AppContext'
+import SearchScreen from 'screens/SearchScreen'
+import DetailScreen from 'screens/DetailScreen'
 
-import AccountScreen from './src/screens/AccountScreen'
-import SignUpScreen from './src/screens/SignUpScreen'
-import SignInScreen from './src/screens/SignInScreen'
+import SignupScreen from 'screens/SignupScreen'
+import LoginScreen from 'screens/LoginScreen'
 
 const Stack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -19,15 +18,8 @@ const Drawer = createDrawerNavigator()
 function AuthStack() {
   return (
     <Stack.Navigator initialRouteName='Sign In'>
-      <Stack.Screen
-        name='Account Screen'
-        component={AccountScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen name='Sign Up' component={SignUpScreen} />
-      <Stack.Screen name='Sign In' component={SignInScreen} />
+      <Stack.Screen name='Login' component={LoginScreen} />
+      <Stack.Screen name='Signup' component={SignupScreen} />
     </Stack.Navigator>
   )
 }

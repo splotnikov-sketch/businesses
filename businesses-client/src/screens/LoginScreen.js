@@ -3,21 +3,21 @@ import AuthContent from 'components/auth/AuthContent'
 import LoadingOverlay from 'components/ui/LoadingOverlay'
 import { useAppContext } from 'contexts/AppContext'
 
-function SignupScreen() {
-  const { signUp } = useAppContext()
+function LoginScreen() {
+  const { signIn } = useAppContext()
   const [isAuthenticating, setIsAuthenticating] = useState(false)
 
-  const signupHandler = ({ email, password }) => {
+  async function loginHandler({ email, password }) {
     setIsAuthenticating(true)
-    signUp(email, password)
+    signIn(email, password)
     setIsAuthenticating(false)
   }
 
   if (isAuthenticating) {
-    return <LoadingOverlay message='Creating user...' />
+    return <LoadingOverlay message='Logging you in...' />
   }
 
-  return <AuthContent onAuthenticate={signupHandler} />
+  return <AuthContent isLogin onAuthenticate={loginHandler} />
 }
 
-export default SignupScreen
+export default LoginScreen

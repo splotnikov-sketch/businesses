@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import Input from '../../components/ui/Input'
+import Input from 'components/ui/Input'
 
-import Button from '../ui/Button'
+import Button from 'components/ui/Button'
 
 function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   const [enteredEmail, setEnteredEmail] = useState('')
@@ -16,23 +16,6 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
     password: passwordIsInvalid,
     confirmPassword: passwordsDontMatch,
   } = credentialsInvalid
-
-  function updateInputValueHandler(inputType, enteredValue) {
-    switch (inputType) {
-      case 'email':
-        setEnteredEmail(enteredValue)
-        break
-      case 'confirmEmail':
-        setEnteredConfirmEmail(enteredValue)
-        break
-      case 'password':
-        setEnteredPassword(enteredValue)
-        break
-      case 'confirmPassword':
-        setEnteredConfirmPassword(enteredValue)
-        break
-    }
-  }
 
   function submitHandler() {
     onSubmit({
@@ -48,16 +31,15 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
       <View>
         <Input
           label='Email Address'
-          onUpdateValue={updateInputValueHandler.bind(this, 'email')}
+          onUpdateValue={(value) => setEnteredEmail(value)}
           value={enteredEmail}
           keyboardType='email-address'
           isInvalid={emailIsInvalid}
-          secure={undefined}
         />
         {!isLogin && (
           <Input
             label='Confirm Email Address'
-            onUpdateValue={updateInputValueHandler.bind(this, 'confirmEmail')}
+            onUpdateValue={(value) => setEnteredConfirmEmail(value)}
             value={enteredConfirmEmail}
             keyboardType='email-address'
             isInvalid={emailsDontMatch}
@@ -65,7 +47,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
         )}
         <Input
           label='Password'
-          onUpdateValue={updateInputValueHandler.bind(this, 'password')}
+          onUpdateValue={(value) => setEnteredPassword(value)}
           secure
           value={enteredPassword}
           isInvalid={passwordIsInvalid}
@@ -73,10 +55,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
         {!isLogin && (
           <Input
             label='Confirm Password'
-            onUpdateValue={updateInputValueHandler.bind(
-              this,
-              'confirmPassword'
-            )}
+            onUpdateValue={(value) => setEnteredConfirmPassword(value)}
             secure
             value={enteredConfirmPassword}
             isInvalid={passwordsDontMatch}

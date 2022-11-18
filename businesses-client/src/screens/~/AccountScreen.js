@@ -2,8 +2,8 @@ import React from 'react'
 import { View, StyleSheet, Text, SafeAreaView } from 'react-native'
 import { Button } from 'react-native-elements'
 
-import Spacer from '../components/ui/Spacer'
-import { useAppContext } from '../contexts/AppContext'
+import Spacer from '../../components/ui/Spacer'
+import { useAppContext } from '../../contexts/AppContext'
 import { FontAwesome } from '@expo/vector-icons'
 
 const AccountScreen = () => {

@@ -13,8 +13,7 @@ export const SET_DATA_ERRORS = 'SET_DATA_ERRORS'
 export const CLEAR_DATA_ERRORS = 'CLEAR_DATA_ERRORS'
 
 // Auth reducer types
-export const SIGN_IN = 'SIGN_IN'
-export const SIGN_UP = 'SIGN_UP'
+export const SET_AUTHENTICATED = 'SET_AUTHENTICATED'
+export const CLEAR_AUTH_ERROR = 'CLEAR_AUTH_ERROR'
 export const SIGN_OUT = 'SIGN_OUT'
 export const ADD_AUTH_ERROR = 'ADD_AUTH_ERROR'
-export const CLEAR_AUTH_ERROR = 'CLEAR_AUTH_ERROR'

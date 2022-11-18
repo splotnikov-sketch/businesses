@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
-import AuthForm from '../components/ui/AuthForm'
-import NavLink from '../components/ui/NavLink'
-import { useAppContext } from '../contexts/AppContext'
+import AuthForm from '../../components/ui/AuthForm'
+import NavLink from '../../components/ui/NavLink'
+import { useAppContext } from '../../contexts/AppContext'
 
 const SignInScreen = ({ navigation }) => {
   const { state, signIn, clearAuthError } = useAppContext()
