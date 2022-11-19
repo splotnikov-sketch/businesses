@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import Input from 'components/ui/Input'
-
 import Button from 'components/ui/Button'
 
 function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
@@ -62,9 +61,10 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
           />
         )}
         <View style={styles.buttons}>
-          <Button onPress={submitHandler}>
-            {isLogin ? 'Log In' : 'Sign Up'}
-          </Button>
+          <Button
+            onPress={submitHandler}
+            title={isLogin ? 'Log In' : 'Sign Up'}
+          />
         </View>
       </View>
     </View>

@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { Text, StyleSheet, View, FlatList, Image } from 'react-native'
-import Loader from '../components/ui/Loader'
-import { useAppContext } from '../contexts/AppContext'
+import Loader from 'components/ui/Loader'
+import { useAppContext } from 'contexts/AppContext'
+import { isNullOrEmpty } from 'utils/index'
+import { Colors } from 'constants/styles'
+import IconButton from 'components/ui/IconButton'
 
 // alternative for components
 // import {useRoute} from '@react-navigation/native'
@@ -19,13 +22,32 @@ const DetailScreen = ({ route, navigation }) => {
     })()
   }, [])
 
+  function headerButtonPressHandler() {
+    console.log('Pressed!')
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <IconButton
+            icon='star-outline'
+            size={24}
+            color='white'
+            onPress={headerButtonPressHandler}
+          />
+        )
+      },
+    })
+  }, [navigation, headerButtonPressHandler])
+
   // TODO: extract business item to component
 
   // function renderBusiness(itemData) {
   //  return <BusinessDetail data={itemData.item}>
   // }
 
-  return business === null ? (
+  return isNullOrEmpty(business) ? (
     <Loader />
   ) : (
     <View style={styles.container}>
@@ -49,18 +71,22 @@ const DetailScreen = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: Colors.primary800,
     margin: 10,
     borderRadius: 8,
     overflow: 'hidden',
-    backgroundColor: 'white',
   },
   name: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: 'white',
+    marginLeft: 10,
   },
   details: {
     fontSize: 12,
-    paddingBottom: 4,
+    marginVertical: 5,
+    marginHorizontal: 10,
+    color: Colors.primary100,
   },
   image: {
     height: 200,

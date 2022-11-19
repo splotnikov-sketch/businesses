@@ -60,7 +60,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
     password = password.trim()
 
     const emailIsValid = email.includes('@')
-    const passwordIsValid = password.length > 6
+    const passwordIsValid = password.length >= 6
     const emailsAreEqual = email === confirmEmail
     const passwordsAreEqual = password === confirmPassword
 
@@ -90,7 +90,9 @@ function AuthContent({ isLogin, onAuthenticate }) {
       />
       <View style={styles.buttons}>
         <FlatButton onPress={switchAuthModeHandler}>
-          {isLogin ? 'Create a new user' : 'Log in instead'}
+          {isLogin
+            ? `Don't have an account? Sign up instead`
+            : 'Sign In to Your Account'}
         </FlatButton>
       </View>
     </View>

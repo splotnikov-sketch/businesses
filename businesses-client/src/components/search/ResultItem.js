@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Text, StyleSheet, Image, Pressable } from 'react-native'
+import { Colors } from 'constants/styles'
 
 const ResultItem = ({ item }) => {
   const navigation = useNavigation()
@@ -30,8 +31,11 @@ const ResultItem = ({ item }) => {
 const styles = StyleSheet.create({
   name: {
     fontWeight: 'bold',
+    color: 'white',
   },
-  detail: {},
+  detail: {
+    color: Colors.primary100,
+  },
   container: {
     marginLeft: 15,
     marginBottom: 20,

@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Text, StyleSheet, View, TextInput, Pressable } from 'react-native'
-import { useAppContext } from '../contexts/AppContext'
-import IconButton from './ui/IconButton'
+import { useAppContext } from 'contexts/AppContext'
+import IconButton from 'components/ui/IconButton'
+import Button from 'components/ui/Button'
+import { Colors } from 'constants/styles'
 
 const SearchLocation = () => {
   const { state, detectLocation, lookupLocation } = useAppContext()
@@ -50,10 +52,10 @@ const SearchLocation = () => {
   return (
     <View style={styles.mainContainer}>
       {!editMode && (
-        <Pressable style={styles.viewContainer} onPress={onViewPress}>
-          <Text style={styles.viewLabel}>Location: </Text>
+        <View style={styles.viewContainer}>
+          <Button title='Location:' onPress={onViewPress} />
           <Text style={styles.viewText}>{state.location.cityState}</Text>
-        </Pressable>
+        </View>
       )}
       {editMode && (
         <View style={styles.editContainer}>
@@ -74,18 +76,8 @@ const SearchLocation = () => {
               autoCapitalize='words'
             />
           </View>
-          <IconButton
-            icon='md-checkmark'
-            size={24}
-            onPress={onSetPress}
-            border={true}
-          />
-          <IconButton
-            icon='close-outline'
-            size={24}
-            onPress={onCancelPress}
-            border={true}
-          />
+          <IconButton icon='md-checkmark' size={24} onPress={onSetPress} />
+          <IconButton icon='close-outline' size={24} onPress={onCancelPress} />
         </View>
       )}
       {state.location === null && !state.location.isDetecting && (
@@ -105,30 +97,25 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   viewContainer: {
-    marginStart: 10,
+    height: 40,
+    marginStart: 5,
     flexDirection: 'row',
   },
 
-  viewLabel: {
-    fontWeight: 'bold',
-    backgroundColor: '#d3d3d3',
-    borderColor: 'black',
-    borderRadius: 8,
-    borderWidth: 1,
-    padding: 4,
-  },
-
   viewText: {
-    padding: 4,
+    marginLeft: 4,
+    alignSelf: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white',
   },
 
   editContainer: {
     height: 40,
-    borderRadius: 7,
-    marginLeft: 10,
-    marginTop: 10,
+    borderRadius: 6,
+    marginHorizontal: 6,
     flexDirection: 'row',
-    backgroundColor: '#d3d3d3',
+    backgroundColor: Colors.primary100,
     justifyContent: 'flex-end',
   },
 
@@ -138,6 +125,7 @@ const styles = StyleSheet.create({
   },
 
   editText: {
+    fontSize: 16,
     marginStart: 5,
     width: 250,
   },

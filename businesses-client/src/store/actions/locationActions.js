@@ -9,9 +9,9 @@ import {
   SET_LOCATION_UNKNOWN,
   SET_ERRORS,
 } from '../types'
-import apiInstance from '../../api/apiInstance'
-import states from '../../constants/states'
-import { isNullOrEmpty } from '../../utils'
+import apiInstance from 'api/apiInstance'
+import states from 'constants/states'
+import { isNullOrEmpty } from 'utils'
 
 const noLocationDetected = (dispatch) => {
   dispatch({ type: SET_ERRORS, payload: `Can't detect location` })

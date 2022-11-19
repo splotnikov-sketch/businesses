@@ -58,7 +58,6 @@ export const getBusinessDetail = (dispatch) => {
     dispatch({ type: LOADING_DATA })
     try {
       const response = await apiInstance.get(`/businesses/${id}`)
-
       dispatch({
         type: SET_DETAIL,
         payload: {

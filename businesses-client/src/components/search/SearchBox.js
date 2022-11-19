@@ -3,6 +3,7 @@ import { useAppContext } from 'contexts/AppContext'
 import React, { useEffect, useRef, useState } from 'react'
 import { StyleSheet, View, TextInput, Text } from 'react-native'
 import { isNullOrEmpty } from 'utils/index'
+import { Colors } from 'constants/styles'
 
 const SearchBox = () => {
   const { state, search } = useAppContext()
@@ -31,6 +32,16 @@ const SearchBox = () => {
     inputRef.current.focus()
   }, [])
 
+  useEffect(() => {
+    const autoSearch = async () => {
+      if (isNullOrEmpty(cityState) || isNullOrEmpty(term)) {
+        return
+      }
+      await search(latitude, longitude, cityState, term)
+    }
+    autoSearch()
+  }, [cityState])
+
   return (
     <View style={styles.container}>
       <View style={styles.searchInputContainer}>
@@ -48,7 +59,6 @@ const SearchBox = () => {
           color='black'
           size={24}
           onPress={() => handleSearch()}
-          border={null}
         />
       </View>
       {inputError !== '' ? (
@@ -61,17 +71,19 @@ const SearchBox = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
+    marginTop: 6,
   },
   searchInputContainer: {
-    marginTop: 8,
-    marginLeft: 8,
-    backgroundColor: '#d3d3d3',
+    backgroundColor: Colors.primary100,
+    marginHorizontal: 6,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     height: 40,
-    borderRadius: 7,
+    borderRadius: 6,
   },
   input: {
+    fontSize: 16,
+    paddingLeft: 6,
     width: 335,
   },
   error: {

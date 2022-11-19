@@ -1,11 +1,12 @@
-import ResultsList from 'components/ResultsList'
-import SearchBox from 'components/SearchBox'
-import SearchLocation from 'components/SearchLocation'
+import ResultsList from 'components/search/ResultsList'
+import SearchBox from 'components/search/SearchBox'
+import SearchLocation from 'components/location/SearchLocation'
 import Loader from 'components/ui/Loader'
 import { useAppContext } from 'contexts/AppContext'
 import React from 'react'
 import { Text, StyleSheet, View, ScrollView } from 'react-native'
 import { isNullOrEmpty } from 'utils/index'
+import { Colors } from 'constants/styles'
 
 const SearchScreen = () => {
   const { state } = useAppContext()
@@ -15,7 +16,7 @@ const SearchScreen = () => {
   const ResultsToShow = () => {
     if (!isNullOrEmpty(businesses)) {
       return (
-        <ScrollView>
+        <ScrollView style={styles.results}>
           <ResultsList
             title='Cost Effective'
             data={businesses.filter(
@@ -50,8 +51,10 @@ const SearchScreen = () => {
 
   return (
     <View style={styles.container}>
-      <SearchLocation />
-      <SearchBox />
+      <View style={styles.searchParamsContainer}>
+        <SearchLocation />
+        <SearchBox />
+      </View>
       {errors ? <Text style={styles.errorText}>{errors}</Text> : null}
       {isLoading ? <Loader /> : <ResultsToShow />}
     </View>
@@ -62,6 +65,13 @@ const styles = StyleSheet.create({
     margin: 10,
     flex: 1,
   },
+  searchParamsContainer: {
+    backgroundColor: Colors.primary800,
+    paddingHorizontal: 2,
+    paddingVertical: 6,
+    borderRadius: 8,
+  },
+
   title: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -78,7 +88,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   noResultsTextHighlight: {
-    color: 'blue',
+    fontWeight: 'bold',
+  },
+  results: {
+    backgroundColor: Colors.primary800,
+    marginTop: 6,
+    borderRadius: 8,
   },
 })
 

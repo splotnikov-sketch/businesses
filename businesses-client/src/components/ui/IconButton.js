@@ -7,7 +7,7 @@ function IconButton({ icon, size, color, onPress, border }) {
       onPress={onPress}
       style={[styles.buttonContainer, border ? styles.border : null]}
     >
-      <Ionicons name={icon} size={size} color='black' />
+      <Ionicons name={icon} size={size} color={color} />
     </Pressable>
   )
 }
