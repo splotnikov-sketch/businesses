@@ -11,6 +11,8 @@ import {
 const autError = 'Error signing in. Wrong email or password.'
 
 const authorization = async (dispatch, email, password, authUrl) => {
+  console.log('authorization')
+  console.log(email, password)
   try {
     dispatch({ type: CLEAR_AUTH_ERROR })
 
@@ -18,6 +20,8 @@ const authorization = async (dispatch, email, password, authUrl) => {
       email,
       password,
     })
+    console.log('response')
+    console.log(response)
 
     if (response.status !== 200) {
       dispatch({
@@ -27,14 +31,15 @@ const authorization = async (dispatch, email, password, authUrl) => {
     }
 
     const {
-      data: { token: token },
+      data: { email: email, token: token },
     } = response
 
     await AsyncStorage.setItem('token', token)
+    await AsyncStorage.setItem('email', email)
 
     dispatch({
       type: SET_AUTHENTICATED,
-      payload: { token: token },
+      payload: { email: email, token: token },
     })
   } catch (error) {
     console.log(error)
@@ -60,6 +65,7 @@ export const signUp = (dispatch) => {
 export const signOut = (dispatch) => {
   return async () => {
     await AsyncStorage.removeItem('token')
+    await AsyncStorage.removeItem('email')
     dispatch({ type: SIGN_OUT })
   }
 }

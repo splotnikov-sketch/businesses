@@ -6,6 +6,7 @@ import {
 } from '../types'
 
 export const initialState = {
+  email: null,
   token: null,
   errorMessage: '',
 }
@@ -14,6 +15,7 @@ export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_AUTHENTICATED: {
       return {
+        email: action.payload.email,
         token: action.payload.token,
         errorMessage: '',
       }
@@ -24,11 +26,15 @@ export const authReducer = (state = initialState, action) => {
     }
 
     case ADD_AUTH_ERROR: {
-      return { token: null, errorMessage: action.payload.errorMessage }
+      return {
+        email: null,
+        token: null,
+        errorMessage: action.payload.errorMessage,
+      }
     }
 
     case SIGN_OUT: {
-      return { token: null, errorMessage: '' }
+      return { email: null, token: null, errorMessage: '' }
     }
 
     default: {

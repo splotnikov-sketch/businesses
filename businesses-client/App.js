@@ -12,14 +12,15 @@ import SearchScreen from 'screens/search/SearchScreen'
 import DetailScreen from 'screens/search/DetailScreen'
 import SignupScreen from 'screens/account/SignupScreen'
 import LoginScreen from 'screens/account/LoginScreen'
-import WelcomeScreen from 'screens/account/WelcomeScreen'
+import ProfileScreen from 'screens/account/ProfileScreen'
 import { isNullOrEmpty } from 'utils/index'
 import IconButton from 'components/ui/IconButton'
+import { Ionicons } from '@expo/vector-icons'
 
 const Stack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
 
-function AuthStack() {
+function UnauthenticatedStack() {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -45,8 +46,8 @@ function AuthenticatedStack() {
       }}
     >
       <Stack.Screen
-        name='Welcome'
-        component={WelcomeScreen}
+        name='Profile'
+        component={ProfileScreen}
         options={{
           headerRight: ({ tintColor }) => (
             <IconButton
@@ -65,7 +66,6 @@ function AuthenticatedStack() {
 function SearchStackNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName='Search'
       screenOptions={{
         headerStyle: { backgroundColor: Colors.primary500 },
         headerTintColor: 'white',
@@ -73,7 +73,7 @@ function SearchStackNavigator() {
       }}
     >
       <Stack.Screen
-        name='Businesses Search'
+        name='Search'
         component={SearchScreen}
         options={{
           headerShown: false,
@@ -89,7 +89,9 @@ function SearchStackNavigator() {
       <Stack.Screen
         name='Detail'
         component={DetailScreen}
-        options={({ route }) => ({ title: route.params.name })}
+        options={({ route }) => ({
+          title: route.params.name,
+        })}
       />
     </Stack.Navigator>
   )
@@ -100,11 +102,34 @@ function Navigation() {
   const isAuthenticated = !isNullOrEmpty(state.auth.token)
   return (
     <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen name='Search' component={SearchStackNavigator} />
+      <Drawer.Navigator
+        screenOptions={{
+          drawerStyle: {
+            // backgroundColor: Colors.primary100,
+          },
+        }}
+      >
+        <Drawer.Screen
+          name='Businesses Search'
+          component={SearchStackNavigator}
+          options={{
+            drawerLabel: 'Search',
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name='search' color={color} size={size} />
+            ),
+          }}
+        />
         <Drawer.Screen
           name='Account'
-          component={isAuthenticated ? AuthenticatedStack : AuthStack}
+          component={
+            isAuthenticated ? AuthenticatedStack : UnauthenticatedStack
+          }
+          options={{
+            drawerLabel: 'Profile',
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name='person-outline' color={color} size={size} />
+            ),
+          }}
         />
       </Drawer.Navigator>
     </NavigationContainer>
