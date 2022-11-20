@@ -48,11 +48,14 @@ export const detectLocation = (dispatch) => {
     }
 
     const stateAbbreviation = states.find((x) => x.label === response[0].region)
+    const city = !isNullOrEmpty(response[0].city)
+      ? response[0].city
+      : response[0].district
 
     dispatch({
       type: SET_LOCATION,
       payload: {
-        cityState: `${response[0].city}, ${stateAbbreviation.value}`,
+        cityState: `${city}, ${stateAbbreviation.value}`,
         latitude,
         longitude,
       },

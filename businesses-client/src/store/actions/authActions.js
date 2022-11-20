@@ -16,12 +16,12 @@ const authorization = async (dispatch, email, password, authUrl) => {
   try {
     dispatch({ type: CLEAR_AUTH_ERROR })
 
-    const response = await apiInstance.post(authUrl, {
-      email,
+    const request = {
+      email: email,
       password,
-    })
-    console.log('response')
-    console.log(response)
+    }
+
+    const response = await apiInstance.post(authUrl, request)
 
     if (response.status !== 200) {
       dispatch({

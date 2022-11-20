@@ -21,6 +21,10 @@ router.post('/signup', async (req, res) => {
 })
 
 router.post('/signin', async (req, res) => {
+  const body = req.body
+  console.log('body')
+  console.log(body)
+
   const { email, password } = req.body
   console.log('email', email, password)
 
