@@ -11,17 +11,15 @@ import {
 const autError = 'Error signing in. Wrong email or password.'
 
 const authorization = async (dispatch, email, password, authUrl) => {
-  console.log('authorization')
-  console.log(email, password)
   try {
-    dispatch({ type: CLEAR_AUTH_ERROR })
-
-    const request = {
+    const req = {
       email: email,
-      password,
+      password: password,
     }
 
-    const response = await apiInstance.post(authUrl, request)
+    dispatch({ type: CLEAR_AUTH_ERROR })
+
+    const response = await apiInstance.post(authUrl, req)
 
     if (response.status !== 200) {
       dispatch({
@@ -31,7 +29,7 @@ const authorization = async (dispatch, email, password, authUrl) => {
     }
 
     const {
-      data: { email: email, token: token },
+      data: { token: token },
     } = response
 
     await AsyncStorage.setItem('token', token)
