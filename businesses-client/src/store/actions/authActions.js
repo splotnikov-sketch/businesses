@@ -8,7 +8,7 @@ import {
   ADD_AUTH_ERROR,
 } from '../types'
 
-const autError = 'Error signing in. Wrong email or password.'
+const authError = 'Authorization error'
 
 const authorization = async (dispatch, email, password, authUrl) => {
   console.log('authorization')
@@ -26,7 +26,7 @@ const authorization = async (dispatch, email, password, authUrl) => {
     if (response.status !== 200) {
       dispatch({
         type: ADD_AUTH_ERROR,
-        payload: { errorMessage: autError },
+        payload: { errorMessage: authError },
       })
     }
 
@@ -45,7 +45,7 @@ const authorization = async (dispatch, email, password, authUrl) => {
     console.log(error)
     dispatch({
       type: ADD_AUTH_ERROR,
-      payload: { errorMessage: autError },
+      payload: { errorMessage: authError },
     })
   }
 }
