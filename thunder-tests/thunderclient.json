@@ -93,5 +93,19 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "41e54f0a-93c7-4d74-9f60-43d6cbcce7f6",
+    "colId": "7fb2e81f-d086-433b-9a63-1fe3a704668f",
+    "containerId": "",
+    "name": "Get browser id",
+    "url": "{{HOST}}/cdp/browser/id",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2022-11-21T18:23:37.640Z",
+    "modified": "2022-11-21T18:23:44.806Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

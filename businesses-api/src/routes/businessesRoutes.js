@@ -1,10 +1,10 @@
 // /routes/yelpRoutes.js
 
-import axios from "axios"
-import express from "express"
-import config from "../config"
-import { isNullOrEmpty } from "../utils"
-import { apiResponseMessage } from "../constants"
+import axios from 'axios'
+import express from 'express'
+import config from '../config'
+import { isNullOrEmpty } from '../utils'
+import { apiResponseMessage } from '../constants'
 
 const router = express.Router()
 
@@ -14,11 +14,11 @@ const yelp = axios.create({
   headers: { Authorization: `Bearer ${config.YELP_TOKEN}` },
 })
 
-router.post("/categories", async (req, res) => {
+router.post('/categories', async (req, res) => {
   try {
-    const response = await yelp.get("/categories", {
+    const response = await yelp.get('/categories', {
       params: {
-        locale: "en_US",
+        locale: 'en_US',
       },
     })
 
@@ -35,7 +35,7 @@ router.post("/categories", async (req, res) => {
   }
 })
 
-router.post("/search", async (req, res) => {
+router.post('/search', async (req, res) => {
   const body = req.body
 
   const { lat, lon } = body
@@ -43,7 +43,7 @@ router.post("/search", async (req, res) => {
   if (isNullOrEmpty(lat) || isNullOrEmpty(lon)) {
     return res
       .status(400)
-      .send({ error: "Latitude and longitude have to be supplied" })
+      .send({ error: 'Latitude and longitude have to be supplied' })
   }
 
   let params = {
@@ -77,7 +77,7 @@ router.post("/search", async (req, res) => {
   }
 
   try {
-    const response = await yelp.get("/businesses/search", {
+    const response = await yelp.get('/businesses/search', {
       params: params,
     })
 
@@ -121,7 +121,7 @@ router.post("/search", async (req, res) => {
   }
 })
 
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const response = await yelp.get(`/businesses/${req.params.id}`)
 

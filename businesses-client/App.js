@@ -24,7 +24,7 @@ function UnauthenticatedStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.primary500 },
+        headerStyle: { backgroundColor: Colors.primary800 },
         headerTintColor: 'white',
         contentStyle: { backgroundColor: Colors.primary100 },
       }}
@@ -40,7 +40,7 @@ function AuthenticatedStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.primary500 },
+        headerStyle: { backgroundColor: Colors.primary800 },
         headerTintColor: 'white',
         contentStyle: { backgroundColor: Colors.primary100 },
       }}
@@ -67,7 +67,7 @@ function SearchStackNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.primary500 },
+        headerStyle: { backgroundColor: Colors.primary800 },
         headerTintColor: 'white',
         contentStyle: { backgroundColor: Colors.primary100 },
       }}

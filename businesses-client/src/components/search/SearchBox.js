@@ -1,7 +1,7 @@
 import IconButton from 'components/ui/IconButton'
 import { useAppContext } from 'contexts/AppContext'
 import React, { useEffect, useRef, useState } from 'react'
-import { StyleSheet, View, TextInput, Text } from 'react-native'
+import { StyleSheet, View, TextInput, Text, Keyboard } from 'react-native'
 import { isNullOrEmpty } from 'utils/index'
 import { Colors } from 'constants/styles'
 
@@ -28,18 +28,32 @@ const SearchBox = () => {
     await search(latitude, longitude, cityState, term)
   }
 
+  const handleSearchSilent = async () => {
+    console.log('handleSearchSilent', latitude, longitude, term)
+    if (
+      isNullOrEmpty(latitude) ||
+      isNullOrEmpty(longitude) ||
+      isNullOrEmpty(term)
+    ) {
+      return
+    }
+    await search(latitude, longitude, cityState, term)
+  }
+
   useEffect(() => {
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () =>
+      handleSearchSilent()
+    )
+
     inputRef.current.focus()
+
+    return () => {
+      hideSubscription.remove()
+    }
   }, [])
 
   useEffect(() => {
-    const autoSearch = async () => {
-      if (isNullOrEmpty(cityState) || isNullOrEmpty(term)) {
-        return
-      }
-      await search(latitude, longitude, cityState, term)
-    }
-    autoSearch()
+    handleSearchSilent()
   }, [cityState])
 
   return (
@@ -53,6 +67,9 @@ const SearchBox = () => {
           placeholder='Search'
           autoCorrect={false}
           autoCapitalize='none'
+          returnKeyLabel='Done'
+          returnKeyType='done'
+          onSubmitEditing={Keyboard.dismiss}
         />
         <IconButton
           icon='md-search'

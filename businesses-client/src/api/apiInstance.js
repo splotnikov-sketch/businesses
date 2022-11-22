@@ -8,7 +8,4 @@ const apiInstance = axios.create({
   timeout: 1000,
 })
 
-console.log('config.BUSINESS_API_URI')
-console.log(config.BUSINESS_API_URI)
-
 export default apiInstance

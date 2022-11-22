@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "_id": "eff1ff83-4507-4e6a-b1a4-63ce848fabc2",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{HOST}}/cdp/browser/id",
+    "url": "{{HOST}}/cdp/browser/id",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-21T18:17:25.182Z",
+    "modified": "2022-11-21T18:17:25.182Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  }
+]

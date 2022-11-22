@@ -21,17 +21,37 @@ export const search = (dispatch) => {
 
       const { data } = response
 
-      const businesses = data.map((x) => ({
-        id: x.id,
-        name: x.name,
-        url: x.url,
-        image_url: x.image_url,
-        review_count: x.review_count,
-        price: x.price,
-        rating: x.rating,
-        distance_miles: x.distance_miles.toFixed(2),
-        address: `${x.location.address1}\n${x.location.city} ${x.location.state}, ${x.location.zip_code}`,
-      }))
+      // const businesses = data.map((x) => ({
+      //   id: x.id,
+      //   name: x.name,
+      //   url: x.url,
+      //   image_url: x.image_url,
+      //   review_count: x.review_count,
+      //   price: x.price,
+      //   rating: x.rating,
+      //   distance_miles: x.distance_miles.toFixed(2),
+      //   address: `${x.location.address1}\n${x.location.city} ${x.location.state}, ${x.location.zip_code}`,
+      // }))
+
+      let categories = []
+      let businesses = []
+
+      data.forEach((x) => {
+        const business = {
+          id: x.id,
+          name: x.name,
+          url: x.url,
+          image_url: x.image_url,
+          review_count: x.review_count,
+          price: x.price,
+          rating: x.rating,
+          distance_miles: x.distance_miles.toFixed(2),
+          address: `${x.location.address1}\n${x.location.city} ${x.location.state}, ${x.location.zip_code}`,
+        }
+        businesses.push(business)
+        console.log('categories')
+        console.log(x.categories)
+      })
 
       dispatch({
         type: SET_SEARCH_RESULTS,
