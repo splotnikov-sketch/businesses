@@ -5,13 +5,18 @@
     "default": true,
     "sortNum": 20000,
     "created": "2022-09-24T13:31:57.751Z",
-    "modified": "2022-09-27T14:02:43.850Z",
+    "modified": "2022-11-23T16:45:39.812Z",
     "data": [
       {
         "name": "HOST",
         "value": "http://localhost:3010"
+      },
+      {
+        "name": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzEyMGIyNDg4NzIwYmY1YzQzMWUxYWUiLCJpYXQiOjE2NjkyMjE5Mzl9.CZe11tDlFQgafe0kGOVBzx4lvWk4QxDq8WZu2HG3OIg"
       }
-    ]
+    ],
+    "envFile": "..\\businesses-api\\.env"
   },
   {
     "_id": "0947d9d1-8293-429c-859e-1a4bc21594e8",

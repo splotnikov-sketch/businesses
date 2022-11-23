@@ -5,6 +5,7 @@ import express from 'express'
 import config from '../config'
 import { isNullOrEmpty } from '../utils'
 import { apiResponseMessage } from '../constants'
+import requireApiKey from '../middleware/requireApiKey'
 
 const router = express.Router()
 
@@ -14,7 +15,7 @@ const yelp = axios.create({
   headers: { Authorization: `Bearer ${config.YELP_TOKEN}` },
 })
 
-router.post('/categories', async (req, res) => {
+router.post('/categories', requireApiKey, async (req, res) => {
   try {
     const response = await yelp.get('/categories', {
       params: {
@@ -35,7 +36,7 @@ router.post('/categories', async (req, res) => {
   }
 })
 
-router.post('/search', async (req, res) => {
+router.post('/search', requireApiKey, async (req, res) => {
   const body = req.body
 
   const { lat, lon } = body
@@ -121,7 +122,7 @@ router.post('/search', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', requireApiKey, async (req, res) => {
   try {
     const response = await yelp.get(`/businesses/${req.params.id}`)
 

@@ -1,12 +1,12 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
 import config from '../config'
-
 import User from '../models/User'
+import requireApiKey from '../middleware/requireApiKey'
 
 const router = express.Router()
 
-router.post('/signup', async (req, res) => {
+router.post('/signup', requireApiKey, async (req, res) => {
   const { email, password } = req.body
 
   try {
@@ -20,7 +20,7 @@ router.post('/signup', async (req, res) => {
   }
 })
 
-router.post('/signin', async (req, res) => {
+router.post('/signin', requireApiKey, async (req, res) => {
   const { email, password } = req.body
 
   if (!email || !password) {

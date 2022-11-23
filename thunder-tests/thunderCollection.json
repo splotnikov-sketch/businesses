@@ -1,28 +1,28 @@
 [
   {
     "_id": "e4e405b5-6426-4abe-8575-42a9b96a729b",
-    "colName": "locations",
+    "colName": "Location",
     "created": "2022-09-24T13:42:22.110Z",
     "sortNum": 30000,
     "folders": []
   },
   {
     "_id": "a869877a-2e35-4750-a7f3-6731f6a81875",
-    "colName": "businesses",
+    "colName": "Businesses",
     "created": "2022-09-24T15:17:21.618Z",
     "sortNum": 40000,
     "folders": []
   },
   {
     "_id": "d0dbb298-509a-4a85-bcf4-0b217c409422",
-    "colName": "account",
+    "colName": "Account",
     "created": "2022-09-26T01:25:29.284Z",
     "sortNum": 50000,
     "folders": []
   },
   {
     "_id": "7fb2e81f-d086-433b-9a63-1fe3a704668f",
-    "colName": "cdp",
+    "colName": "CDP",
     "created": "2022-11-21T18:14:36.693Z",
     "sortNum": 60000,
     "folders": []

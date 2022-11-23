@@ -1,17 +1,18 @@
 // /routes/geoapifyRoutes.js
 
-import axios from "axios"
-import express from "express"
-import config from "../config"
-import { isNullOrEmpty } from "../utils"
+import axios from 'axios'
+import express from 'express'
+import config from '../config'
+import { isNullOrEmpty } from '../utils'
+import requireApiKey from '../middleware/requireApiKey'
 
 const router = express.Router()
 
-router.post("/search", async (req, res) => {
+router.post('/search', requireApiKey, async (req, res) => {
   const { term } = req.body
 
   if (isNullOrEmpty(term)) {
-    return res.status(400).send({ error: "Search term has to be supplied" })
+    return res.status(400).send({ error: 'Search term has to be supplied' })
   }
 
   const geopify = axios.create({
@@ -20,7 +21,7 @@ router.post("/search", async (req, res) => {
   })
 
   try {
-    const response = await geopify.get("/search", {
+    const response = await geopify.get('/search', {
       params: {
         text: term,
         limit: 1,
@@ -37,7 +38,7 @@ router.post("/search", async (req, res) => {
       data.features[0].properties === null
     ) {
       return res.status(500).send({
-        error: "Something went wrong. Please try again later.",
+        error: 'Something went wrong. Please try again later.',
       })
     }
 
@@ -64,7 +65,7 @@ router.post("/search", async (req, res) => {
     console.log(error)
     return res
       .status(500)
-      .send({ error: "Something went wrong. Please try again later." })
+      .send({ error: 'Something went wrong. Please try again later.' })
   }
 })
 
