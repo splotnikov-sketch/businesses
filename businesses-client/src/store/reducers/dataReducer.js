@@ -12,6 +12,7 @@ export const initialState = {
   cityState: null,
   term: null,
   businesses: null,
+  categories: null,
   id: null,
   business: null,
   isLoading: false,
@@ -25,13 +26,15 @@ export const dataReducer = (state = initialState, action) => {
     }
 
     case SET_SEARCH_RESULTS: {
-      const { lat, lon, cityState, term, businesses } = action.payload
+      const { lat, lon, cityState, term, businesses, categories } =
+        action.payload
       return {
         lat,
         lon,
         cityState,
         term,
         businesses,
+        categories,
         isLoading: false,
         errors: null,
       }

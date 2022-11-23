@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Text, StyleSheet, Image, Pressable } from 'react-native'
 import { Colors } from 'constants/styles'
+import { isNullOrEmpty } from 'utils/index'
 
 const ResultItem = ({ item }) => {
   const navigation = useNavigation()
@@ -10,12 +11,17 @@ const ResultItem = ({ item }) => {
     navigation.navigate('Detail', { id: item.id, name: item.name })
   }
 
+  const url = !isNullOrEmpty(item.image_url)
+    ? item.image_url
+    : 'https://placehold.jp/250x200.png'
+
   return (
     <Pressable
       onPress={() => itemPressHandler(item.id, item.name)}
       style={styles.container}
     >
-      <Image style={styles.image} source={{ uri: item.image_url }} />
+      <Image style={styles.image} source={{ uri: url }} />
+
       <Text style={styles.name}>{item.name}</Text>
       <Text style={styles.detail}>
         {item.rating} Stars, {item.review_count} reviews

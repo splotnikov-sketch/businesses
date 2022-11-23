@@ -5,6 +5,7 @@ import {
   SET_DETAIL,
   SET_DATA_ERRORS,
 } from '../types'
+import { isNullOrEmpty } from 'utils/index'
 
 export const search = (dispatch) => {
   return async (latitude, longitude, cityState, term) => {
@@ -21,18 +22,6 @@ export const search = (dispatch) => {
 
       const { data } = response
 
-      // const businesses = data.map((x) => ({
-      //   id: x.id,
-      //   name: x.name,
-      //   url: x.url,
-      //   image_url: x.image_url,
-      //   review_count: x.review_count,
-      //   price: x.price,
-      //   rating: x.rating,
-      //   distance_miles: x.distance_miles.toFixed(2),
-      //   address: `${x.location.address1}\n${x.location.city} ${x.location.state}, ${x.location.zip_code}`,
-      // }))
-
       let categories = []
       let businesses = []
 
@@ -46,23 +35,42 @@ export const search = (dispatch) => {
           price: x.price,
           rating: x.rating,
           distance_miles: x.distance_miles.toFixed(2),
-          address: `${x.location.address1}\n${x.location.city} ${x.location.state}, ${x.location.zip_code}`,
+          address: `${
+            !isNullOrEmpty(x.location?.address1)
+              ? x.location.address1 + '\n'
+              : ''
+          }${x.location.city} ${x.location.state}, ${x.location.zip_code}`,
+          categories: x.categories,
         }
         businesses.push(business)
-        console.log('categories')
-        console.log(x.categories)
+
+        x.categories.forEach((item) => {
+          const index = categories.findIndex(
+            (category) => category.alias === item.alias
+          )
+          if (index > -1) {
+            const existingCategory = categories[index]
+            existingCategory.num = existingCategory.num + 1
+          } else {
+            categories.push({
+              alias: item.alias,
+              title: item.title,
+              num: 1,
+            })
+          }
+        })
       })
 
       dispatch({
         type: SET_SEARCH_RESULTS,
-        payload: { ...request, cityState, businesses },
+        payload: { ...request, cityState, businesses, categories },
       })
     } catch (error) {
       console.log(error)
 
       dispatch({
         type: SET_SEARCH_RESULTS,
-        payload: { ...request, cityState, businesses: null },
+        payload: { ...request, cityState, businesses: null, categories },
       })
 
       dispatch({

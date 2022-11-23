@@ -3,7 +3,6 @@ import SearchBox from 'components/search/SearchBox'
 import SearchLocation from 'components/location/SearchLocation'
 import Loader from 'components/ui/Loader'
 import { useAppContext } from 'contexts/AppContext'
-import React from 'react'
 import { Text, StyleSheet, View, ScrollView } from 'react-native'
 import { isNullOrEmpty } from 'utils/index'
 import { Colors } from 'constants/styles'
@@ -11,27 +10,34 @@ import { Colors } from 'constants/styles'
 const SearchScreen = () => {
   const { state } = useAppContext()
 
-  const { businesses, errors, isLoading, cityState, term } = state.data
+  const { categories, businesses, errors, isLoading, cityState, term } =
+    state.data
+
+  const getByAlias = (alias) => {
+    const filtered = businesses.filter((x) =>
+      x.categories.findIndex((y) => y.alias === alias)
+    )
+    return filtered
+  }
 
   const ResultsToShow = () => {
-    if (!isNullOrEmpty(businesses)) {
+    let sortedCategories = categories
+    if (categories !== null) {
+      sortedCategories = categories.sort((item1, item2) =>
+        item1.num < item2.num ? 1 : -1
+      )
+    }
+
+    if (!isNullOrEmpty(sortedCategories)) {
       return (
         <ScrollView style={styles.results}>
-          <ResultsList
-            title='Cost Effective'
-            data={businesses.filter(
-              (x) =>
-                x.price === undefined || x.price === null || x.price === '$'
-            )}
-          />
-          <ResultsList
-            title='Bit Pricer'
-            data={businesses.filter((x) => x.price === '$$')}
-          />
-          <ResultsList
-            title='Big Spender'
-            data={businesses.filter((x) => x.price === '$$$')}
-          />
+          {sortedCategories.map((x) => (
+            <ResultsList
+              key={x.alias}
+              title={x.title}
+              data={getByAlias(x.alias)}
+            />
+          ))}
         </ScrollView>
       )
     }

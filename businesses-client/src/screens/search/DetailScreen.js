@@ -54,7 +54,9 @@ const DetailScreen = ({ route, navigation }) => {
       <Text style={styles.name}>{business.name}</Text>
       <Text style={styles.details}>
         Address: {business.location?.display_address[0]}{' '}
-        {business.location?.display_address[1]}
+        {!isNullOrEmpty(business.location?.display_address[1])
+          ? business.location?.display_address[1]
+          : ''}
         {'\n'}
         Phone: {business.display_phone}
       </Text>

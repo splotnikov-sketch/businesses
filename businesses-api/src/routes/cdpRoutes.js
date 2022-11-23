@@ -32,20 +32,64 @@ router.get('/browser/id', async (req, res) => {
   }
 })
 
+const create_event_url = `/event/create.json?client_key=${config.CDP_API_KEY_ID}`
+
 router.post('/event/search', async (req, res) => {
-  const { channel, browser_id, term } = req.body
+  try {
+    const { channel, browser_id, lat, lon, cityState, term } = req.body
+    const event = {
+      channel,
+      type: 'SEARCH',
+      currency: 'USD',
+      browser_id,
+      pos: config.CDP_POINT_OF_SALE,
+      product_type: 'BUSINESS',
+      ext: {
+        latitude: lat,
+        longitude: lon,
+        place: cityState,
+      },
+      product_name: term,
+    }
 
-  const event = {
-    channel,
-    type: 'SEARCH',
-    currency: 'USD',
-    browser_id,
-    pos: config.CDP_POINT_OF_SAIL,
-    product_type: 'BUSINESS',
-    product_name: term,
+    const url = create_event_url + `&message=${JSON.stringify(event)}`
+
+    const response = await cdp_browser.get(url, event)
+
+    res.status(201).json({ ref: response.data.ref })
+    return
+  } catch (error) {
+    console.log('Error while calling /event/search')
+    console.log(error)
   }
+})
 
-  const response = await cdp_rest.post(url)
+router.post('/event/identity', async (req, res) => {
+  try {
+    const { channel, browser_id, email } = req.body
+    const event = {
+      channel,
+      type: 'IDENTITY',
+      browser_id,
+      pos: config.CDP_POINT_OF_SALE,
+      identifiers: [
+        {
+          provider: config.CDP_ID_PROVIDER,
+          id: email,
+        },
+      ],
+    }
+
+    const url = create_event_url + `&message=${JSON.stringify(event)}`
+
+    const response = await cdp_browser.get(url, event)
+
+    res.status(201).json({ ref: response.data.ref })
+    return
+  } catch (error) {
+    console.log('Error while calling /event/identity')
+    console.log(error)
+  }
 })
 
 export default router

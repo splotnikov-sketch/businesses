@@ -107,5 +107,43 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "0994403c-6b6d-45f4-9ff3-20e217ca32d1",
+    "colId": "7fb2e81f-d086-433b-9a63-1fe3a704668f",
+    "containerId": "",
+    "name": "Send Search event",
+    "url": "{{HOST}}/cdp/event/search",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2022-11-22T01:57:10.384Z",
+    "modified": "2022-11-23T00:45:01.786Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"browser_id\": \"66d2cab4-3947-46ee-9d93-9fa10401ba67\",\n  \"channel\": \"MOBILE_APP\",\n  \"lat\":  \"41.2320232\",\n  \"lon\": \"-76.9991341\",\n  \"cityState\": \"South Williamsport, PA\",\n  \"term\": \"pizza\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "83418830-7375-418e-9355-c53934422f00",
+    "colId": "7fb2e81f-d086-433b-9a63-1fe3a704668f",
+    "containerId": "",
+    "name": "Send Identity event",
+    "url": "{{HOST}}/cdp/event/identity",
+    "method": "POST",
+    "sortNum": 50000,
+    "created": "2022-11-22T14:48:08.933Z",
+    "modified": "2022-11-22T14:48:47.764Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"browser_id\": \"66d2cab4-3947-46ee-9d93-9fa10401ba67\",\n  \"channel\": \"MOBILE_APP\",\n  \"email\": \"aaa@bbb.com\"\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]

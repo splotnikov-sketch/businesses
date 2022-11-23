@@ -16,6 +16,7 @@ const config = {
   CDP_API_KEY_ID: process.env.CDP_API_KEY_ID,
   CDP_API_SECRET: process.env.CDP_API_SECRET,
   CDP_POINT_OF_SAIL: process.env.CDP_POINT_OF_SAIL,
+  CDP_ID_PROVIDER: process.env.CDP_ID_PROVIDER,
 }
 
 export default config
