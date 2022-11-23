@@ -1,10 +1,10 @@
-import apiInstance from '../../api/apiInstance'
+import apiInstance from 'api/apiInstance'
 import {
   LOADING_DATA,
   SET_SEARCH_RESULTS,
   SET_DETAIL,
   SET_DATA_ERRORS,
-} from '../types'
+} from 'store/types'
 import { isNullOrEmpty } from 'utils/index'
 
 export const search = (dispatch) => {

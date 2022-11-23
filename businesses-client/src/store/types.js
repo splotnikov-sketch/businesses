@@ -17,3 +17,6 @@ export const SET_AUTHENTICATED = 'SET_AUTHENTICATED'
 export const CLEAR_AUTH_ERROR = 'CLEAR_AUTH_ERROR'
 export const SIGN_OUT = 'SIGN_OUT'
 export const ADD_AUTH_ERROR = 'ADD_AUTH_ERROR'
+
+// CDP reducer types
+export const SET_OFFERS = 'SET_OFFERS'

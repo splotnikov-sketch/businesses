@@ -3,7 +3,7 @@ import {
   SIGN_OUT,
   CLEAR_AUTH_ERROR,
   ADD_AUTH_ERROR,
-} from '../types'
+} from 'store/types'
 
 export const initialState = {
   email: null,

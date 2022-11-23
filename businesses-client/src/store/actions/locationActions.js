@@ -8,7 +8,7 @@ import {
   SET_LOCATION,
   SET_LOCATION_UNKNOWN,
   SET_ERRORS,
-} from '../types'
+} from 'store/types'
 import apiInstance from 'api/apiInstance'
 import states from 'constants/states'
 import { isNullOrEmpty } from 'utils'

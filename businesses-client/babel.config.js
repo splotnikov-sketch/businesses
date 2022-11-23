@@ -32,6 +32,7 @@ module.exports = function (api) {
             '.json',
           ],
           alias: {
+            root: './src',
             screens: './src/screens',
             components: './src/components',
             store: './src/store',

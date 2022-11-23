@@ -6,7 +6,7 @@ import {
   SIGN_OUT,
   CLEAR_AUTH_ERROR,
   ADD_AUTH_ERROR,
-} from '../types'
+} from 'store/types'
 
 const authError = 'Authorization error'
 

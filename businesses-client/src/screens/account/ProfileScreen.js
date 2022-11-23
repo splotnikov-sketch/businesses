@@ -1,9 +1,24 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { useEffect } from 'react'
+import { StyleSheet, Text, View, Alert } from 'react-native'
 import { useAppContext } from 'contexts/AppContext'
+import { isNullOrEmpty } from 'utils'
 
 function ProfileScreen() {
-  const { state } = useAppContext()
+  const { state, getOffers } = useAppContext()
   const { email } = state.auth
+
+  useEffect(() => {
+    ;(async () => {
+      await getOffers()
+    })()
+  }, [])
+
+  useEffect(() => {
+    if (!isNullOrEmpty(state.cdp.offers)) {
+      const offer = state.cdp.offers[0]
+      Alert.alert(offer.title, offer.text)
+    }
+  }, [state.cdp.offers])
 
   return (
     <View style={styles.rootContainer}>
