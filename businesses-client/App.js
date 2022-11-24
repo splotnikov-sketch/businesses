@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Button } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
@@ -98,8 +99,15 @@ function SearchStackNavigator() {
 }
 
 function Navigation() {
-  const { state } = useAppContext()
+  const { state, getBrowserId } = useAppContext()
   const isAuthenticated = !isNullOrEmpty(state.auth.token)
+
+  useEffect(() => {
+    ;(async () => {
+      await getBrowserId()
+    })()
+  }, [])
+
   return (
     <NavigationContainer>
       <Drawer.Navigator
