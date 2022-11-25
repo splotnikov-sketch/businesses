@@ -98,9 +98,10 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   input: {
+    flex: 1,
     fontSize: 16,
-    paddingLeft: 6,
-    width: 335,
+    marginLeft: 4,
+    width: 320,
   },
   error: {
     fontSize: 12,

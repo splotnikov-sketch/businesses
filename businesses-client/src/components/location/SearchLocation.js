@@ -5,6 +5,7 @@ import { useAppContext } from 'contexts/AppContext'
 import IconButton from 'components/ui/IconButton'
 import Button from 'components/ui/Button'
 import { Colors } from 'constants/styles'
+import OutlinedButtonWhite from 'components/ui/OutlinedButtonWhite'
 
 const SearchLocation = () => {
   const { state, detectLocation, lookupLocationByTerm } = useAppContext()
@@ -56,7 +57,9 @@ const SearchLocation = () => {
     <View style={styles.mainContainer}>
       {!editMode && (
         <View style={styles.viewContainer}>
-          <Button title='Location:' onPress={onViewPress} />
+          <OutlinedButtonWhite icon='location' onPress={onViewPress}>
+            Location
+          </OutlinedButtonWhite>
           <Text style={styles.viewText}>{state.location.cityState}</Text>
         </View>
       )}
@@ -109,7 +112,6 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     alignSelf: 'center',
     fontSize: 16,
-    fontWeight: 'bold',
     color: 'white',
   },
 

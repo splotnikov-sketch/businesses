@@ -65,6 +65,7 @@ function LocationPicker() {
           autoCorrect={false}
           autoCapitalize='words'
         />
+
         <OutlinedButton icon='md-checkmark' onPress={onSetPress}>
           Set
         </OutlinedButton>
@@ -102,17 +103,14 @@ const styles = StyleSheet.create({
   editBox: {
     flexDirection: 'row',
     backgroundColor: Colors.primary100,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
   },
 
   editText: {
     fontSize: 16,
     marginStart: 5,
-    width: 300,
-  },
-
-  setButton: {
-    justifySelf: 'e',
+    width: '68%',
+    alignSelf: 'stretch',
   },
 
   mapView: {
