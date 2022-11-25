@@ -29,7 +29,6 @@ const SearchBox = () => {
   }
 
   const handleSearchSilent = async () => {
-    console.log('handleSearchSilent', latitude, longitude, term)
     if (
       isNullOrEmpty(latitude) ||
       isNullOrEmpty(longitude) ||

@@ -7,6 +7,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { Colors } from 'constants/styles'
 import { useAppContext } from 'contexts/AppContext'
+import { isNullOrEmpty } from 'utils/index'
+import IconButton from 'components/ui/IconButton'
+import { Ionicons } from '@expo/vector-icons'
 
 import { AppProvider } from 'contexts/AppContext'
 import SearchScreen from 'screens/search/SearchScreen'
@@ -14,9 +17,7 @@ import DetailScreen from 'screens/search/DetailScreen'
 import SignupScreen from 'screens/account/SignupScreen'
 import LoginScreen from 'screens/account/LoginScreen'
 import ProfileScreen from 'screens/account/ProfileScreen'
-import { isNullOrEmpty } from 'utils/index'
-import IconButton from 'components/ui/IconButton'
-import { Ionicons } from '@expo/vector-icons'
+import EditLocationScreen from 'screens/location/EditLocationScreen'
 
 const Stack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -94,16 +95,18 @@ function SearchStackNavigator() {
           title: route.params.name,
         })}
       />
+      <Stack.Screen name='Edit Location' component={EditLocationScreen} />
     </Stack.Navigator>
   )
 }
 
 function Navigation() {
-  const { state, getBrowserId } = useAppContext()
+  const { state, getBrowserId, detectLocation } = useAppContext()
   const isAuthenticated = !isNullOrEmpty(state.auth.token)
 
   useEffect(() => {
     ;(async () => {
+      await detectLocation()
       await getBrowserId()
     })()
   }, [])

@@ -20,6 +20,9 @@ const noLocationDetected = (dispatch) => {
   })
 }
 
+// TODO: refactor this - useForegroundPermissions - hook
+// const [locationPermissionInformation, requestPermission] = useForegroundPermissions()
+
 export const detectLocation = (dispatch) => {
   return async () => {
     dispatch({ type: DETECTING_LOCATION })
@@ -33,6 +36,7 @@ export const detectLocation = (dispatch) => {
     const currentPosition = await getCurrentPositionAsync({})
     if (currentPosition === null || currentPosition.coords === null) {
       noLocationDetected(dispatch)
+      return
     }
 
     const { latitude, longitude } = currentPosition.coords
@@ -45,6 +49,7 @@ export const detectLocation = (dispatch) => {
     if (response === null) {
       console.log(`reverseGeocodeAsync response is null`)
       noLocationDetected(dispatch)
+      return
     }
 
     const stateAbbreviation = states.find((x) => x.label === response[0].region)
@@ -63,7 +68,44 @@ export const detectLocation = (dispatch) => {
   }
 }
 
-export const lookupLocation = (dispatch) => {
+export const lookupLocationByCoordinates = (dispatch) => {
+  return async (latitude, longitude) => {
+    try {
+      const response = await reverseGeocodeAsync({
+        latitude,
+        longitude,
+      })
+
+      if (response === null) {
+        console.log(`reverseGeocodeAsync response is null`)
+        noLocationDetected(dispatch)
+        return
+      }
+
+      const stateAbbreviation = states.find(
+        (x) => x.label === response[0].region
+      )
+      const city = !isNullOrEmpty(response[0].city)
+        ? response[0].city
+        : response[0].district
+
+      dispatch({
+        type: SET_LOCATION,
+        payload: {
+          cityState: `${city}, ${stateAbbreviation.value}`,
+          latitude,
+          longitude,
+        },
+      })
+    } catch (error) {
+      console.log(error)
+      noLocationDetected(dispatch)
+      return
+    }
+  }
+}
+
+export const lookupLocationByTerm = (dispatch) => {
   return async (locationTerm) => {
     try {
       const response = await apiInstance.post('/location/search', {

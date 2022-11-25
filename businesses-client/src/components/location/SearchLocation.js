@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { Text, StyleSheet, View, TextInput, Pressable } from 'react-native'
 import { useAppContext } from 'contexts/AppContext'
 import IconButton from 'components/ui/IconButton'
@@ -6,16 +7,17 @@ import Button from 'components/ui/Button'
 import { Colors } from 'constants/styles'
 
 const SearchLocation = () => {
-  const { state, detectLocation, lookupLocation } = useAppContext()
+  const { state, detectLocation, lookupLocationByTerm } = useAppContext()
   const [locationTerm, setLocationTerm] = useState('')
   const [editMode, setEditMode] = useState(false)
   const locationEditRef = useRef()
+  const navigation = useNavigation()
 
-  useEffect(() => {
-    ;(async () => {
-      await detectLocation()
-    })()
-  }, [])
+  // useEffect(() => {
+  //   ;(async () => {
+  //     await detectLocation()
+  //   })()
+  // }, [])
 
   useEffect(() => {
     if (state.location.cityState === '') {
@@ -28,10 +30,11 @@ const SearchLocation = () => {
   }, [state.location.cityState])
 
   const onViewPress = () => {
-    if (state.location.cityState !== '') {
-      setLocationTerm(state.location.cityState)
-      setEditMode(true)
-    }
+    // if (state.location.cityState !== '') {
+    //   setLocationTerm(state.location.cityState)
+    //   setEditMode(true)
+    // }
+    navigation.navigate('Edit Location')
   }
 
   const onClearPress = () => {
@@ -42,7 +45,7 @@ const SearchLocation = () => {
   }
 
   const onSetPress = async () => {
-    await lookupLocation(locationTerm)
+    await lookupLocationByTerm(locationTerm)
   }
 
   const onCancelPress = () => {
