@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import { View, StyleSheet, TextInput } from 'react-native'
+import { View, StyleSheet, TextInput, Text } from 'react-native'
 import OutlinedButton from 'components/ui/OutlinedButton'
 import IconButton from 'components/ui/IconButton'
 import { Colors } from 'constants/styles'
 import { useAppContext } from 'contexts/AppContext'
 import MapView, { Marker } from 'react-native-maps'
+import { isNullOrEmpty } from 'utils'
 
 function LocationPicker() {
   const {
@@ -12,9 +13,10 @@ function LocationPicker() {
     detectLocation,
     lookupLocationByTerm,
     lookupLocationByCoordinates,
+    clearLocationError,
   } = useAppContext()
 
-  const { cityState, latitude, longitude } = state.location
+  const { cityState, latitude, longitude, error } = state.location
   const [region, setRegion] = useState({
     latitude,
     longitude,
@@ -32,6 +34,13 @@ function LocationPicker() {
       longitudeDelta: 0.0421,
     })
   }, [state.location.cityState])
+
+  useEffect(() => {
+    if (isNullOrEmpty(error)) {
+      return
+    }
+    setLocationTerm(cityState)
+  }, [error])
 
   const getLocationHandler = async () => {
     await detectLocation()
@@ -70,6 +79,7 @@ function LocationPicker() {
           Set
         </OutlinedButton>
       </View>
+      {!isNullOrEmpty(error) && <Text style={styles.errorText}>{error}</Text>}
       <MapView
         style={styles.mapView}
         region={region}
@@ -125,5 +135,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignSelf: 'center',
+  },
+  errorText: {
+    fontSize: 12,
+    color: Colors.primary500,
+    marginLeft: 10,
   },
 })

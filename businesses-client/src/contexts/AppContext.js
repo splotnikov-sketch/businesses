@@ -6,6 +6,7 @@ import {
   detectLocation,
   lookupLocationByTerm,
   lookupLocationByCoordinates,
+  clearLocationError,
 } from 'store/actions/locationActions'
 import { search, getBusinessDetail } from 'store/actions/dataActions'
 import { getBrowserId, getOffers } from 'store/actions/cdpActions'
@@ -23,6 +24,7 @@ export const { Context, AppProvider } = createAppContext(
     detectLocation,
     lookupLocationByTerm,
     lookupLocationByCoordinates,
+    clearLocationError,
     search,
     getBusinessDetail,
     signIn,

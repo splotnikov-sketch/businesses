@@ -6,41 +6,18 @@ import {
 import {
   DETECTING_LOCATION,
   SET_LOCATION,
-  SET_LOCATION_UNKNOWN,
-  SET_ERRORS,
+  SET_LOCATION_ERROR,
+  CLEAR_LOCATION_ERROR,
 } from 'store/types'
 import apiInstance from 'api/apiInstance'
 import states from 'constants/states'
 import { isNullOrEmpty } from 'utils'
 
-const noLocationDetected = (dispatch) => {
-  dispatch({ type: SET_ERRORS, payload: `Can't detect location` })
-  dispatch({
-    type: SET_LOCATION_UNKNOWN,
-  })
-}
-
 // TODO: refactor this - useForegroundPermissions - hook
 // const [locationPermissionInformation, requestPermission] = useForegroundPermissions()
 
-export const detectLocation = (dispatch) => {
-  return async () => {
-    dispatch({ type: DETECTING_LOCATION })
-    const { granted } = await requestForegroundPermissionsAsync()
-    if (!granted) {
-      console.log('Permission to access location was denied')
-      noLocationDetected(dispatch)
-      return
-    }
-
-    const currentPosition = await getCurrentPositionAsync({})
-    if (currentPosition === null || currentPosition.coords === null) {
-      noLocationDetected(dispatch)
-      return
-    }
-
-    const { latitude, longitude } = currentPosition.coords
-
+const getLocationNameByCoords = async (latitude, longitude, dispatch) => {
+  try {
     const response = await reverseGeocodeAsync({
       latitude,
       longitude,
@@ -48,7 +25,10 @@ export const detectLocation = (dispatch) => {
 
     if (response === null) {
       console.log(`reverseGeocodeAsync response is null`)
-      noLocationDetected(dispatch)
+      dispatch({
+        type: SET_LOCATION_ERROR,
+        payload: { error: `Can't detect location` },
+      })
       return
     }
 
@@ -65,43 +45,43 @@ export const detectLocation = (dispatch) => {
         longitude,
       },
     })
+  } catch (error) {
+    dispatch({
+      type: SET_LOCATION_ERROR,
+      payload: { error: `Can't detect location` },
+    })
+  }
+}
+
+export const detectLocation = (dispatch) => {
+  return async () => {
+    dispatch({ type: DETECTING_LOCATION })
+    const { granted } = await requestForegroundPermissionsAsync()
+    if (!granted) {
+      const error = 'Permission to access location was denied'
+      console.log(error)
+      dispatch({ type: SET_LOCATION_ERROR, payload: { error } })
+      return
+    }
+
+    const currentPosition = await getCurrentPositionAsync({})
+    if (currentPosition === null || currentPosition.coords === null) {
+      console.log('Result of getCurrentPositionAsync is null')
+      dispatch({
+        type: SET_LOCATION_ERROR,
+        payload: { error: `Can't detect current position` },
+      })
+      return
+    }
+
+    const { latitude, longitude } = currentPosition.coords
+    await getLocationNameByCoords(latitude, longitude, dispatch)
   }
 }
 
 export const lookupLocationByCoordinates = (dispatch) => {
   return async (latitude, longitude) => {
-    try {
-      const response = await reverseGeocodeAsync({
-        latitude,
-        longitude,
-      })
-
-      if (response === null) {
-        console.log(`reverseGeocodeAsync response is null`)
-        noLocationDetected(dispatch)
-        return
-      }
-
-      const stateAbbreviation = states.find(
-        (x) => x.label === response[0].region
-      )
-      const city = !isNullOrEmpty(response[0].city)
-        ? response[0].city
-        : response[0].district
-
-      dispatch({
-        type: SET_LOCATION,
-        payload: {
-          cityState: `${city}, ${stateAbbreviation.value}`,
-          latitude,
-          longitude,
-        },
-      })
-    } catch (error) {
-      console.log(error)
-      noLocationDetected(dispatch)
-      return
-    }
+    await getLocationNameByCoords(latitude, longitude, dispatch)
   }
 }
 
@@ -113,8 +93,11 @@ export const lookupLocationByTerm = (dispatch) => {
       })
 
       if (isNullOrEmpty(response) || isNullOrEmpty(response.data)) {
-        noLocationDetected(dispatch)
-        return false
+        dispatch({
+          type: SET_LOCATION_ERROR,
+          payload: { error: `No location for term ${locationTerm}` },
+        })
+        return
       }
 
       dispatch({
@@ -128,8 +111,19 @@ export const lookupLocationByTerm = (dispatch) => {
       return
     } catch (error) {
       console.log(error)
-      noLocationDetected(dispatch)
+      dispatch({
+        type: SET_LOCATION_ERROR,
+        payload: { error: `Error while looking up location` },
+      })
       return
     }
+  }
+}
+
+export const clearLocationError = (dispatch) => {
+  return () => {
+    dispatch({
+      type: CLEAR_LOCATION_ERROR,
+    })
   }
 }

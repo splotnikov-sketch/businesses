@@ -2,6 +2,8 @@ import {
   DETECTING_LOCATION,
   SET_LOCATION,
   SET_LOCATION_UNKNOWN,
+  SET_LOCATION_ERROR,
+  CLEAR_LOCATION_ERROR,
 } from '../types'
 
 export const initialState = {
@@ -9,6 +11,7 @@ export const initialState = {
   latitude: null,
   longitude: null,
   isDetecting: false,
+  error: null,
 }
 
 export const locationReducer = (state = initialState, action) => {
@@ -26,6 +29,7 @@ export const locationReducer = (state = initialState, action) => {
         latitude: action.payload.latitude,
         longitude: action.payload.longitude,
         isDetecting: false,
+        error: null,
       }
 
     case SET_LOCATION_UNKNOWN:
@@ -34,7 +38,13 @@ export const locationReducer = (state = initialState, action) => {
         latitude: null,
         longitude: null,
         isDetecting: false,
+        error: null,
       }
+    case SET_LOCATION_ERROR:
+      return { ...state, error: action.payload.error }
+
+    case CLEAR_LOCATION_ERROR:
+      return { ...state, error: null }
 
     default: {
       return state

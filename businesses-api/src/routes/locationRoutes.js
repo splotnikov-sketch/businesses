@@ -37,8 +37,8 @@ router.post('/search', requireApiKey, async (req, res) => {
       data.features.length === 0 ||
       data.features[0].properties === null
     ) {
-      return res.status(500).send({
-        error: 'Something went wrong. Please try again later.',
+      return res.status(404).send({
+        error: `No location for term ${term}`,
       })
     }
 
