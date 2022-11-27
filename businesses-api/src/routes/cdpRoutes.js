@@ -67,7 +67,7 @@ router.post('/event/view', requireApiKey, async (req, res) => {
       },
     }
 
-    const url = CREATE_EVENT_URL + `${JSON.stringify(event)}`
+    const url = CREATE_EVENT_URL + `&message=${JSON.stringify(event)}`
     const response = await cdp_browser.get(url)
     res.status(201).json({ ref: response.data.ref })
 

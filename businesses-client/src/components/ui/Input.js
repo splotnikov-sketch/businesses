@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   label: {
-    color: 'white',
+    color: Colors.primary900,
     marginBottom: 4,
   },
   labelInvalid: {
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   input: {
     paddingVertical: 8,
     paddingHorizontal: 6,
-    backgroundColor: Colors.primary100,
+    backgroundColor: Colors.primary30,
     borderRadius: 4,
     fontSize: 16,
   },

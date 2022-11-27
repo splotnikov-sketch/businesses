@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import apiInstance from 'api/apiInstance'
-import { SET_BROWSER_ID, SET_OFFERS } from 'store/types'
+import { SET_BROWSER_ID, SET_OFFERS, VIEW_EVENT_SENT } from 'store/types'
 import config from 'root/config'
 import { isNullOrEmpty } from 'utils'
+import { Platform } from 'react-native'
 
 export const initialState = {
   offers: null,
@@ -36,11 +37,36 @@ export const getBrowserId = (dispatch) => {
 }
 
 export const sendViewEvent = (dispatch) => {
-  return async () => {
+  return async (event) => {
     try {
       if (!config.CDP_TRACKING) {
         return
       }
+
+      const { browser_id, page } = event
+
+      const request = {
+        channel: config.CDP_CHANNEL,
+        browser_id,
+        page,
+        platform: Platform.OS,
+      }
+
+      const response = await apiInstance.post(`/cdp/event/view`, request)
+
+      if (response.status !== 200 || isNullOrEmpty(response.data)) {
+        return
+      }
+
+      dispatch({
+        type: VIEW_EVENT_SENT,
+        payload: {
+          event: {
+            ref: response.data.ref,
+            browser_id,
+          },
+        },
+      })
     } catch (error) {
       console.log('An error occurred while sending view event')
       console.log(error)

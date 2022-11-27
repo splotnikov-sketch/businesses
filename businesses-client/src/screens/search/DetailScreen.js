@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useCallback } from 'react'
 import { Text, StyleSheet, View, FlatList, Image } from 'react-native'
 import Loader from 'components/ui/Loader'
 import { useAppContext } from 'contexts/AppContext'
@@ -22,9 +22,9 @@ const DetailScreen = ({ route, navigation }) => {
     })()
   }, [])
 
-  function headerButtonPressHandler() {
+  const headerButtonPressHandler = useCallback(() => {
     console.log('Pressed!')
-  }
+  }, [navigation])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -61,6 +61,7 @@ const DetailScreen = ({ route, navigation }) => {
         Phone: {business.display_phone}
       </Text>
       <FlatList
+        style={styles.flatList}
         data={business.photos}
         keyExtractor={(photo) => photo}
         renderItem={({ item }) => {
@@ -73,6 +74,7 @@ const DetailScreen = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'column',
     backgroundColor: Colors.primary800,
     margin: 10,
     borderRadius: 8,
@@ -88,13 +90,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginVertical: 5,
     marginHorizontal: 10,
-    color: Colors.primary100,
+    color: Colors.primary30,
   },
   image: {
     height: 200,
     width: '95%',
     margin: 8,
     borderRadius: 8,
+  },
+  flatList: {
+    height: '95%',
   },
 })
 

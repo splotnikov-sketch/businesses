@@ -23,3 +23,4 @@ export const ADD_AUTH_ERROR = 'ADD_AUTH_ERROR'
 // CDP reducer types
 export const SET_OFFERS = 'SET_OFFERS'
 export const SET_BROWSER_ID = 'SET_BROWSER_ID'
+export const VIEW_EVENT_SENT = 'VIEW_EVENT_SENT'

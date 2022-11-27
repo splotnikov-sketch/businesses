@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginHorizontal: 6,
     flexDirection: 'row',
-    backgroundColor: Colors.primary100,
+    backgroundColor: Colors.primary30,
     justifyContent: 'flex-end',
   },
 

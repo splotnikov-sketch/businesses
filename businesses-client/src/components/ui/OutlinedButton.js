@@ -12,7 +12,7 @@ function OnlineButton({ onPress, icon, children }) {
         style={styles.icon}
         name={icon}
         size={18}
-        color={Colors.primary500}
+        color={Colors.primary900}
       />
       <Text style={styles.text}>{children}</Text>
     </Pressable>
@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: Colors.primary500,
+    borderColor: Colors.primary800,
+    borderRadius: 5,
   },
   pressed: {
     opacity: 0.7,
@@ -39,6 +40,6 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   text: {
-    color: Colors.primary500,
+    color: Colors.primary900,
   },
 })

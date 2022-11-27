@@ -28,7 +28,7 @@ function UnauthenticatedStack() {
       screenOptions={{
         headerStyle: { backgroundColor: Colors.primary800 },
         headerTintColor: 'white',
-        contentStyle: { backgroundColor: Colors.primary100 },
+        contentStyle: { backgroundColor: Colors.primary30 },
       }}
     >
       <Stack.Screen name='Login' component={LoginScreen} />
@@ -44,7 +44,7 @@ function AuthenticatedStack() {
       screenOptions={{
         headerStyle: { backgroundColor: Colors.primary800 },
         headerTintColor: 'white',
-        contentStyle: { backgroundColor: Colors.primary100 },
+        contentStyle: { backgroundColor: Colors.primary30 },
       }}
     >
       <Stack.Screen
@@ -55,7 +55,7 @@ function AuthenticatedStack() {
             <IconButton
               icon='exit'
               color={tintColor}
-              size={24}
+              size={32}
               onPress={signOut}
             />
           ),
@@ -71,7 +71,7 @@ function SearchStackNavigator() {
       screenOptions={{
         headerStyle: { backgroundColor: Colors.primary800 },
         headerTintColor: 'white',
-        contentStyle: { backgroundColor: Colors.primary100 },
+        contentStyle: { backgroundColor: Colors.primary30 },
       }}
     >
       <Stack.Screen
@@ -116,7 +116,7 @@ function Navigation() {
       <Drawer.Navigator
         screenOptions={{
           drawerStyle: {
-            // backgroundColor: Colors.primary100,
+            backgroundColor: Colors.primary30,
           },
         }}
       >

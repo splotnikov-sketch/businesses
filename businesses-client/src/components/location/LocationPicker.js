@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react'
-import { View, StyleSheet, TextInput, Text } from 'react-native'
+import { useState, useEffect, useLayoutEffect, useCallback } from 'react'
+import { View, StyleSheet, TextInput, Text, Alert } from 'react-native'
 import OutlinedButton from 'components/ui/OutlinedButton'
 import IconButton from 'components/ui/IconButton'
 import { Colors } from 'constants/styles'
 import { useAppContext } from 'contexts/AppContext'
 import MapView, { Marker } from 'react-native-maps'
+import { useNavigation } from '@react-navigation/native'
 import { isNullOrEmpty } from 'utils'
 
 function LocationPicker() {
+  const navigation = useNavigation()
   const {
     state,
     detectLocation,
@@ -25,6 +27,19 @@ function LocationPicker() {
   })
   const [locationTerm, setLocationTerm] = useState('')
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: ({ tintColor }) => (
+        <IconButton
+          icon='exit'
+          color={tintColor}
+          size={32}
+          onPress={exitLocationEditScreenHandler}
+        />
+      ),
+    })
+  }, [navigation, exitLocationEditScreenHandler])
+
   useEffect(() => {
     setLocationTerm(cityState)
     setRegion({
@@ -41,6 +56,17 @@ function LocationPicker() {
     }
     setLocationTerm(cityState)
   }, [error])
+
+  const exitLocationEditScreenHandler = useCallback(() => {
+    if (isNullOrEmpty(cityState)) {
+      Alert.alert(
+        `No location was set`,
+        `Please input valid location and tap 'Set', or tap 'Locate' button`
+      )
+      return
+    }
+    navigation.navigate('Search')
+  }, [navigation, cityState])
 
   const getLocationHandler = async () => {
     await detectLocation()
@@ -96,7 +122,7 @@ function LocationPicker() {
       </MapView>
       <View style={styles.actions}>
         <OutlinedButton icon='location' onPress={getLocationHandler}>
-          Locate User
+          Locate
         </OutlinedButton>
       </View>
     </View>
@@ -112,7 +138,7 @@ const styles = StyleSheet.create({
 
   editBox: {
     flexDirection: 'row',
-    backgroundColor: Colors.primary100,
+    backgroundColor: Colors.primary30,
     justifyContent: 'flex-start',
   },
 
@@ -138,7 +164,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 12,
-    color: Colors.primary500,
+    color: Colors.primary100,
     marginLeft: 10,
   },
 })

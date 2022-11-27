@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   searchInputContainer: {
-    backgroundColor: Colors.primary100,
+    backgroundColor: Colors.primary30,
     marginHorizontal: 6,
     flexDirection: 'row',
     justifyContent: 'flex-end',

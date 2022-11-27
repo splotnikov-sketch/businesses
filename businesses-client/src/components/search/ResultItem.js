@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   detail: {
-    color: Colors.primary100,
+    color: Colors.primary30,
   },
   container: {
     marginLeft: 15,

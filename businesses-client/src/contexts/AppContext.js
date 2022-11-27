@@ -9,14 +9,18 @@ import {
   clearLocationError,
 } from 'store/actions/locationActions'
 import { search, getBusinessDetail } from 'store/actions/dataActions'
-import { getBrowserId, getOffers } from 'store/actions/cdpActions'
+import {
+  getBrowserId,
+  sendViewEvent,
+  getOffers,
+} from 'store/actions/cdpActions'
 
 import {
   signIn,
   signUp,
   signOut,
   clearAuthError,
-} from '../store/actions/authActions'
+} from 'store/actions/authActions'
 
 export const { Context, AppProvider } = createAppContext(
   rootReducer,
@@ -32,6 +36,7 @@ export const { Context, AppProvider } = createAppContext(
     signOut,
     clearAuthError,
     getBrowserId,
+    sendViewEvent,
     getOffers,
   },
   initialState
