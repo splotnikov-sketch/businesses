@@ -131,7 +131,17 @@ router.post('/event/search', requireApiKey, async (req, res) => {
 
 router.post('/event/identity', requireApiKey, async (req, res) => {
   try {
-    const { channel, browser_id, platform, device, email, page, ext } = req.body
+    const {
+      channel,
+      browser_id,
+      platform,
+      device,
+      email,
+      page,
+      currency,
+      language,
+      ext,
+    } = req.body
 
     const event = {
       channel,
@@ -190,6 +200,9 @@ router.post('/offer', requireAuth, async (req, res) => {
     if (response.status !== 200) {
       return res.json([])
     }
+
+    console.log('/callFlows - data')
+    console.log(response.data)
 
     const result = response.data.decisionOffers
       .filter((x) => x.status === 'ACTIVE')

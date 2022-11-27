@@ -11,6 +11,8 @@ const postIdentityEvent = async (event) => {
 
     const { browser_id, page, ext } = event
 
+    console.log('postIdentityEvent', browser_id, page, ext)
+
     if (isNullOrEmpty(browser_id) || isNullOrEmpty(page)) {
       return null
     }

@@ -6,7 +6,7 @@ import postIdentityEvent from 'api/cdp/postIdentityEvent'
 
 function LoginScreen() {
   const { state, signIn } = useAppContext()
-  const { browser_id } = state.auth
+  const { browser_id } = state.cdp
   const [isAuthenticating, setIsAuthenticating] = useState(false)
 
   async function loginHandler({ email, password }) {

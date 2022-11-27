@@ -5,7 +5,7 @@ import { useAppContext } from 'contexts/AppContext'
 
 function SignupScreen() {
   const { state, signUp, postIdentityEvent } = useAppContext()
-  const { browser_id } = state.auth
+  const { browser_id } = state.cdp
   const [isAuthenticating, setIsAuthenticating] = useState(false)
 
   const signupHandler = ({ email, password }) => {
