@@ -13,7 +13,7 @@ function LoginScreen() {
     setIsAuthenticating(true)
     const signInResult = await signIn(email, password)
     if (signInResult) {
-      postIdentityEvent({ browser_id, page: 'login' })
+      postIdentityEvent({ browser_id, page: 'login', email })
     }
     setIsAuthenticating(false)
   }

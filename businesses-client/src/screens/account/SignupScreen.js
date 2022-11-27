@@ -12,7 +12,7 @@ function SignupScreen() {
     setIsAuthenticating(true)
     const signUpResult = signUp(email, password)
     if (signUpResult) {
-      postIdentityEvent({ browser_id, page: 'signup' })
+      postIdentityEvent({ browser_id, page: 'signup', email })
     }
     setIsAuthenticating(false)
   }

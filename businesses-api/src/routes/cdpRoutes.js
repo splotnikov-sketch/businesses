@@ -197,12 +197,16 @@ router.post('/offer', requireAuth, async (req, res) => {
 
     const response = await cdp_rest.post(url, request)
 
-    if (response.status !== 200) {
+    if (isNullOrEmpty(response) || response.status !== 200) {
       return res.json([])
     }
 
-    console.log('/callFlows - data')
-    console.log(response.data)
+    if (
+      isNullOrEmpty(response.data) ||
+      isNullOrEmpty(response.data.decisionOffers)
+    ) {
+      return res.json([])
+    }
 
     const result = response.data.decisionOffers
       .filter((x) => x.status === 'ACTIVE')

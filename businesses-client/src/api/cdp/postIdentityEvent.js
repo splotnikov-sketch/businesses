@@ -9,9 +9,9 @@ const postIdentityEvent = async (event) => {
       return null
     }
 
-    const { browser_id, page, ext } = event
+    const { browser_id, page, email, ext } = event
 
-    console.log('postIdentityEvent', browser_id, page, ext)
+    console.log('postIdentityEvent', browser_id, page, email, ext)
 
     if (isNullOrEmpty(browser_id) || isNullOrEmpty(page)) {
       return null
@@ -21,6 +21,8 @@ const postIdentityEvent = async (event) => {
       channel: config.CDP_CHANNEL,
       browser_id,
       platform: Platform.OS,
+      email,
+      page,
     }
 
     if (!isNullOrEmpty(ext)) {
