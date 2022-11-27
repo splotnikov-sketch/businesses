@@ -5,6 +5,7 @@ import { useAppContext } from 'contexts/AppContext'
 import { isNullOrEmpty } from 'utils/index'
 import { Colors } from 'constants/styles'
 import IconButton from 'components/ui/IconButton'
+import useViewEvent from 'hooks/useViewEvent'
 
 // alternative for components
 // import {useRoute} from '@react-navigation/native'
@@ -15,6 +16,8 @@ const DetailScreen = ({ route, navigation }) => {
   const { id } = route.params
   const { state, getBusinessDetail } = useAppContext()
   const { business } = state.data
+
+  useViewEvent('detail', { id })
 
   useEffect(() => {
     ;(async () => {

@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import ResultsList from 'components/search/ResultsList'
 import SearchBox from 'components/search/SearchBox'
 import SearchLocation from 'components/location/SearchLocation'
@@ -7,14 +6,14 @@ import { useAppContext } from 'contexts/AppContext'
 import { Text, StyleSheet, View, ScrollView } from 'react-native'
 import { isNullOrEmpty } from 'utils/index'
 import { Colors } from 'constants/styles'
+import useViewEvent from 'hooks/useViewEvent'
 
 const SearchScreen = () => {
-  const { state, sendViewEvent } = useAppContext()
-
+  const { state } = useAppContext()
   const { categories, businesses, errors, isLoading, cityState, term } =
     state.data
 
-  const { browser_id } = state.cdp
+  useViewEvent('search')
 
   const getByAlias = (alias) => {
     const filtered = businesses.filter((x) =>
@@ -57,12 +56,6 @@ const SearchScreen = () => {
       </View>
     )
   }
-
-  useEffect(() => {
-    ;(async () => {
-      await sendViewEvent({ browser_id, page: 'search page' })
-    })()
-  }, [])
 
   return (
     <View style={styles.container}>

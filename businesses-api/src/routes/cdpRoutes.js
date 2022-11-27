@@ -84,6 +84,7 @@ router.post('/event/search', requireApiKey, async (req, res) => {
     const {
       channel,
       browser_id,
+      page,
       platform,
       device,
       lat,
@@ -94,8 +95,10 @@ router.post('/event/search', requireApiKey, async (req, res) => {
       language,
       ext,
     } = req.body
+
     const event = {
       browser_id,
+      page,
       channel,
       pos: config.CDP_POINT_OF_SALE,
       type: 'SEARCH',
@@ -128,19 +131,28 @@ router.post('/event/search', requireApiKey, async (req, res) => {
 
 router.post('/event/identity', requireApiKey, async (req, res) => {
   try {
-    const { channel, browser_id, id, email } = req.body
+    const { channel, browser_id, platform, device, email, page, ext } = req.body
+
     const event = {
       channel,
       type: 'IDENTITY',
       browser_id,
+      currency: !isNullOrEmpty(currency) ? currency : DEFAULT_CURRENCY,
+      language: !isNullOrEmpty(language) ? language : DEFAULT_LANGUAGE,
       pos: config.CDP_POINT_OF_SALE,
       email,
+      page,
       identifiers: [
         {
           provider: config.CDP_ID_PROVIDER,
           id: email,
         },
       ],
+      ext: {
+        platform,
+        device,
+        ...ext,
+      },
     }
 
     const url = CREATE_EVENT_URL + `&message=${JSON.stringify(event)}`

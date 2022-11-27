@@ -38,7 +38,13 @@ function UnauthenticatedStack() {
 }
 
 function AuthenticatedStack() {
-  const { signOut } = useAppContext()
+  const { signOut, getCdpBrowserId } = useAppContext()
+
+  const signOutLocal = async () => {
+    signOut()
+    await getCdpBrowserId()
+  }
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -56,7 +62,7 @@ function AuthenticatedStack() {
               icon='exit'
               color={tintColor}
               size={32}
-              onPress={signOut}
+              onPress={signOutLocal}
             />
           ),
         }}
@@ -101,13 +107,13 @@ function SearchStackNavigator() {
 }
 
 function Navigation() {
-  const { state, getBrowserId, detectLocation } = useAppContext()
+  const { state, getCdpBrowserId, detectLocation } = useAppContext()
   const isAuthenticated = !isNullOrEmpty(state.auth.token)
 
   useEffect(() => {
     ;(async () => {
       await detectLocation()
-      await getBrowserId()
+      await getCdpBrowserId()
     })()
   }, [])
 

@@ -39,24 +39,27 @@ const authorization = async (dispatch, email, password, authUrl) => {
       type: SET_AUTHENTICATED,
       payload: { email: email, token: token },
     })
+
+    return true
   } catch (error) {
     console.log(error)
     dispatch({
       type: ADD_AUTH_ERROR,
       payload: { errorMessage: authError },
     })
+    return false
   }
 }
 
 export const signIn = (dispatch) => {
   return async (email, password) => {
-    await authorization(dispatch, email, password, `/account/signin`)
+    return await authorization(dispatch, email, password, `/account/signin`)
   }
 }
 
 export const signUp = (dispatch) => {
   return async (email, password) => {
-    await authorization(dispatch, email, password, `/account/signup`)
+    return await authorization(dispatch, email, password, `/account/signup`)
   }
 }
 

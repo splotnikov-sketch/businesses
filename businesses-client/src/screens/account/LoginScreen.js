@@ -2,14 +2,19 @@ import { useState } from 'react'
 import AuthContent from 'components/auth/AuthContent'
 import LoadingOverlay from 'components/ui/LoadingOverlay'
 import { useAppContext } from 'contexts/AppContext'
+import postIdentityEvent from 'api/cdp/postIdentityEvent'
 
 function LoginScreen() {
-  const { signIn } = useAppContext()
+  const { state, signIn } = useAppContext()
+  const { browser_id } = state.auth
   const [isAuthenticating, setIsAuthenticating] = useState(false)
 
   async function loginHandler({ email, password }) {
     setIsAuthenticating(true)
-    signIn(email, password)
+    const signInResult = await signIn(email, password)
+    if (signInResult) {
+      postIdentityEvent({ browser_id, page: 'login' })
+    }
     setIsAuthenticating(false)
   }
 

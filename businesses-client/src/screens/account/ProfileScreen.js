@@ -1,24 +1,32 @@
-import { useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { StyleSheet, Text, View, Alert } from 'react-native'
 import { useAppContext } from 'contexts/AppContext'
 import { isNullOrEmpty } from 'utils'
+import getOffers from 'api/cdp/getOffers'
 
 function ProfileScreen() {
-  const { state, getOffers } = useAppContext()
+  const { state } = useAppContext()
   const { email } = state.auth
+  const [offers, setOffers] = useState(null)
+  const offersShown = useRef(false)
 
   useEffect(() => {
     ;(async () => {
-      await getOffers()
+      const offersResult = await getOffers()
+      if (!isNullOrEmpty(offersResult) && !isNullOrEmpty(offersResult.offers)) {
+        setOffers(offersResult.offers)
+      }
     })()
   }, [])
 
   useEffect(() => {
-    if (!isNullOrEmpty(state.cdp.offers)) {
-      const offer = state.cdp.offers[0]
+    console.log('useEffect', offers)
+    if (!isNullOrEmpty(offers)) {
+      const offer = offers[0]
       Alert.alert(offer.title, offer.text)
+      offersShown.current = true
     }
-  }, [state.cdp.offers])
+  }, [offers])
 
   return (
     <View style={styles.rootContainer}>

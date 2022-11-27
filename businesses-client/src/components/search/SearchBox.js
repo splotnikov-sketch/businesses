@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { StyleSheet, View, TextInput, Text, Keyboard } from 'react-native'
 import { isNullOrEmpty } from 'utils/index'
 import { Colors } from 'constants/styles'
+import postSearchEvent from 'api/cdp/postSearchEvent'
 
 const SearchBox = () => {
   const { state, search } = useAppContext()
@@ -12,6 +13,7 @@ const SearchBox = () => {
   const [inputError, setInputError] = useState('')
 
   const { latitude, longitude, cityState } = state.location
+  const { browser_id } = state.cdp
 
   const handleSearch = async () => {
     if (cityState === '') {
@@ -25,7 +27,17 @@ const SearchBox = () => {
     }
 
     setInputError('')
+
     await search(latitude, longitude, cityState, term)
+
+    await postSearchEvent({
+      browser_id,
+      page: 'search',
+      lat: latitude,
+      lon: longitude,
+      cityState,
+      term,
+    })
   }
 
   const handleSearchSilent = async () => {
@@ -37,23 +49,31 @@ const SearchBox = () => {
       return
     }
     await search(latitude, longitude, cityState, term)
+    await postSearchEvent({
+      browser_id,
+      page: 'search',
+      lat: latitude,
+      lon: longitude,
+      cityState,
+      term,
+    })
   }
 
   useEffect(() => {
-    const hideSubscription = Keyboard.addListener('keyboardDidHide', () =>
-      handleSearchSilent()
-    )
+    // const hideSubscription = Keyboard.addListener('keyboardDidHide', () =>
+    //   handleSearchSilent()
+    // )
 
     inputRef.current.focus()
 
-    return () => {
-      hideSubscription.remove()
-    }
+    // return () => {
+    //   hideSubscription.remove()
+    // }
   }, [])
 
-  useEffect(() => {
-    handleSearchSilent()
-  }, [cityState])
+  // useEffect(() => {
+  //   handleSearchSilent()
+  // }, [cityState])
 
   return (
     <View style={styles.container}>

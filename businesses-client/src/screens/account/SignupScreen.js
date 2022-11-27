@@ -4,12 +4,16 @@ import LoadingOverlay from 'components/ui/LoadingOverlay'
 import { useAppContext } from 'contexts/AppContext'
 
 function SignupScreen() {
-  const { signUp } = useAppContext()
+  const { state, signUp, postIdentityEvent } = useAppContext()
+  const { browser_id } = state.auth
   const [isAuthenticating, setIsAuthenticating] = useState(false)
 
   const signupHandler = ({ email, password }) => {
     setIsAuthenticating(true)
-    signUp(email, password)
+    const signUpResult = signUp(email, password)
+    if (signUpResult) {
+      postIdentityEvent({ browser_id, page: 'signup' })
+    }
     setIsAuthenticating(false)
   }
 
