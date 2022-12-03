@@ -203,5 +203,110 @@
       "bearer": "{{token}}"
     },
     "tests": []
+  },
+  {
+    "_id": "e6c5bea5-617b-457c-9339-48312ed48dcf",
+    "colId": "246e57c3-e08b-42d2-9a0c-5a848a626112",
+    "containerId": "",
+    "name": "/restaurants/cuisine",
+    "url": "{{HOST}}/restaurants/cuisine",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2022-12-03T03:22:18.069Z",
+    "modified": "2022-12-03T03:45:51.459Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"italian\"\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{API_KEY}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "e741c35e-4a74-4423-9c5f-2c5b9c6b4bbc",
+    "colId": "246e57c3-e08b-42d2-9a0c-5a848a626112",
+    "containerId": "",
+    "name": "restaurants/cuisine",
+    "url": "{{HOST}}/restaurants/cuisine",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2022-12-03T04:17:56.902Z",
+    "modified": "2022-12-03T04:18:33.533Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{API_KEY}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "4a8094c7-1d18-4dbe-9499-8be7fc5a4948",
+    "colId": "246e57c3-e08b-42d2-9a0c-5a848a626112",
+    "containerId": "",
+    "name": "/cuisine/:cuisineName/food",
+    "url": "{{HOST}}/restaurants/cuisine/mexican/food",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2022-12-03T04:50:25.291Z",
+    "modified": "2022-12-03T05:21:36.681Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"foodName\": \"quesadilla\"\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{API_KEY}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "5f5558a6-1d0b-4f5b-87af-2540a777f634",
+    "colId": "246e57c3-e08b-42d2-9a0c-5a848a626112",
+    "containerId": "",
+    "name": "/restaurants/food/:foodName",
+    "url": "{{HOST}}/restaurants/food/pizza",
+    "method": "GET",
+    "sortNum": 40000,
+    "created": "2022-12-03T05:38:44.562Z",
+    "modified": "2022-12-03T05:43:14.139Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{API_KEY}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "7bb98f00-93bc-4430-a6f8-b6b8e70a0c45",
+    "colId": "7fb2e81f-d086-433b-9a63-1fe3a704668f",
+    "containerId": "",
+    "name": "cdp/session/kill",
+    "url": "{{HOST}}/cdp/session/kill",
+    "method": "POST",
+    "sortNum": 70000,
+    "created": "2022-12-03T14:32:43.840Z",
+    "modified": "2022-12-03T14:39:34.196Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"browser_id\": \"69cf65b5-2169-4e68-bab0-f4fc42eb1dc5\",\n  \"channel\": \"MOBILE_APP\"\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{API_KEY}}"
+    },
+    "tests": []
   }
 ]

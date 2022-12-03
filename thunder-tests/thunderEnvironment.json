@@ -2,7 +2,7 @@
   {
     "_id": "e3cd7eba-cb22-432b-ae4b-58d581b7601d",
     "name": "local",
-    "default": false,
+    "default": true,
     "sortNum": 20000,
     "created": "2022-09-24T13:31:57.751Z",
     "modified": "2022-11-23T16:45:39.812Z",
@@ -21,7 +21,7 @@
   {
     "_id": "0947d9d1-8293-429c-859e-1a4bc21594e8",
     "name": "railway",
-    "default": true,
+    "default": false,
     "sortNum": 30000,
     "created": "2022-10-22T20:49:09.363Z",
     "modified": "2022-11-23T18:49:55.000Z",

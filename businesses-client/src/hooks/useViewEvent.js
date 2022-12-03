@@ -6,12 +6,17 @@ import postViewEvent from 'api/cdp/postViewEvent'
 const useViewEvent = (page, ext) => {
   const { state } = useAppContext()
   const { browser_id } = state.cdp
+  const { cityState, latitude, longitude } = state.location
 
   const wasSent = useRef(false)
   const sending = useRef(false)
 
   const sendEvent = async (ext) => {
-    if (isNullOrEmpty(browser_id)) {
+    if (
+      (isNullOrEmpty(browser_id) || isNullOrEmpty(cityState),
+      isNullOrEmpty(latitude),
+      isNullOrEmpty(longitude))
+    ) {
       return
     }
 
@@ -40,7 +45,11 @@ const useViewEvent = (page, ext) => {
 
   useEffect(() => {
     sendEvent(ext)
-  }, [state.cdp.browser_id])
+  }, [browser_id])
+
+  useEffect(() => {
+    sendEvent(ext)
+  }, [cityState])
 
   return { wasSent, sendEvent }
 }

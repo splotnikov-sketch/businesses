@@ -223,4 +223,27 @@ router.post('/offer', requireAuth, async (req, res) => {
   }
 })
 
+router.post('/session/kill', requireApiKey, async (req, res) => {
+  const { channel, browser_id, currency, language } = req.body
+
+  try {
+    const event = {
+      browser_id,
+      channel,
+      pos: config.CDP_POINT_OF_SALE,
+      type: 'FORCE_CLOSE',
+      currency: !isNullOrEmpty(currency) ? currency : DEFAULT_CURRENCY,
+      language: !isNullOrEmpty(language) ? language : DEFAULT_LANGUAGE,
+    }
+
+    const url = CREATE_EVENT_URL + `&message=${JSON.stringify(event)}`
+    const response = await cdp_browser.get(url)
+    res.status(201).json({ ref: response.data.ref })
+  } catch (error) {
+    console.log('Error while calling /session/kill')
+    console.log(error)
+    res.status(500).send('Server error. Please try again later.')
+  }
+})
+
 export default router

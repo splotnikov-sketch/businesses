@@ -9,7 +9,17 @@ const postSearchEvent = async (event) => {
       return null
     }
 
-    const { browser_id, page, lat, lon, cityState, term, ext } = event
+    const {
+      browser_id,
+      page,
+      lat,
+      lon,
+      cityState,
+      term,
+      ext,
+      latitude = lat.toString(),
+      longitude = lon.toString(),
+    } = event
 
     console.log(
       'postSearchEvent',
@@ -37,8 +47,8 @@ const postSearchEvent = async (event) => {
       channel: config.CDP_CHANNEL,
       browser_id,
       page,
-      lat,
-      lon,
+      latitude,
+      longitude,
       cityState,
       term,
       platform: Platform.OS,
