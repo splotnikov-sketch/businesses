@@ -18,6 +18,7 @@ import SignupScreen from 'screens/account/SignupScreen'
 import LoginScreen from 'screens/account/LoginScreen'
 import ProfileScreen from 'screens/account/ProfileScreen'
 import EditLocationScreen from 'screens/location/EditLocationScreen'
+import killSession from 'api/cdp/killSession'
 
 const Stack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -42,6 +43,7 @@ function AuthenticatedStack() {
 
   const signOutLocal = async () => {
     signOut()
+    await killSession()
     await getCdpBrowserId()
   }
 
@@ -112,6 +114,7 @@ function Navigation() {
 
   useEffect(() => {
     ;(async () => {
+      await killSession()
       await detectLocation()
       await getCdpBrowserId()
     })()

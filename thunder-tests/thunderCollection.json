@@ -29,7 +29,7 @@
   },
   {
     "_id": "246e57c3-e08b-42d2-9a0c-5a848a626112",
-    "colName": "Food",
+    "colName": "Categories",
     "created": "2022-12-03T03:16:26.669Z",
     "sortNum": 70000,
     "folders": []

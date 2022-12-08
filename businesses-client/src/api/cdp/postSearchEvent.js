@@ -47,8 +47,8 @@ const postSearchEvent = async (event) => {
       channel: config.CDP_CHANNEL,
       browser_id,
       page,
-      latitude,
-      longitude,
+      lat: latitude,
+      lon: longitude,
       cityState,
       term,
       platform: Platform.OS,
@@ -58,10 +58,12 @@ const postSearchEvent = async (event) => {
       request.ext = ext
     }
 
-    console.log('postSearchEvent-request')
-    console.log(request)
-
     const response = await apiInstance.post(`/cdp/event/search`, request)
+
+    console.log('/cdp/event/search')
+    console.log('request')
+    console.log(request)
+    console.log(response.data)
 
     if (response.status !== 200 || isNullOrEmpty(response.data)) {
       return null
