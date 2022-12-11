@@ -9,4 +9,7 @@ const config = {
   CDP_CHANNEL: CDP_CHANNEL,
 }
 
+console.log('config')
+console.log(config)
+
 export default config

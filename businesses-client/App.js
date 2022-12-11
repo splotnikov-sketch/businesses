@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Button } from 'react-native'
+import { StyleSheet, Button, Alert } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { ThemeProvider } from '@rneui/themed'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
