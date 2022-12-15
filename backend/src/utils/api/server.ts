@@ -10,8 +10,10 @@ import YAML from 'yamljs'
 
 import * as api from '@root/api/controllers'
 import config from '@root/config'
-import { devLogger } from '@root/middleware/dev_logger'
-import logger from '@root/utils/logger'
+import { devLogger } from '@root/api/middleware/devLogger'
+import logger from '@root/utils/api/logger'
+
+import genericErrors from '@root/utils/errors/genericErrors'
 
 export async function createServer(): Promise<Express> {
   const yamlSpecFile = './config/openapi.yml'
@@ -25,23 +27,25 @@ export async function createServer(): Promise<Express> {
   // here we can initialize body/cookies parsers, connect logger, for example morgan
   server.use(bodyParser.json())
 
+  /* istanbul ignore next */
   if (config.morganLogger) {
     server.use(
       morgan(':method :url :status :response-time ms - :res[content-length]')
     )
   }
 
+  /* istanbul ignore next */
   if (config.morganBodyLogger) {
     morganBody(server)
   }
 
+  /* istanbul ignore next */
   if (config.devLogger) {
     server.use(devLogger)
   }
 
   // setup API validator
   const validatorOptions = {
-    coerceTypes: true,
     apiSpec: yamlSpecFile,
     validateRequests: true,
     validateResponses: true,
@@ -74,11 +78,13 @@ export async function createServer(): Promise<Express> {
       )
     },
     security: {
-      bearerAuth: api.auth,
+      apiKey: api.apiKey,
     },
   })
 
   connect(server)
+
+  server.use(genericErrors)
 
   return server
 }

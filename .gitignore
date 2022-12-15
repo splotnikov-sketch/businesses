@@ -17,6 +17,7 @@ web-build/
 .env
 .env.local
 .env.dev
+.env.test
 .env.prod
 .env.test.local
 .env.production.local

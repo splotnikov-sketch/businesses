@@ -13,7 +13,8 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-  - url: http://localhost:3010
+  - url: /api/v1
+  - url: http://localhost:3010/api/v1
     description: local
 tags:
   - name: greeting
@@ -47,7 +48,7 @@ paths:
         - greeting
       operationId: goodbye
       security:
-        - bearerAuth: []
+        - apiKey: []
       responses:
         200:
           description: Success
@@ -58,7 +59,7 @@ paths:
 
 components:
   securitySchemes:
-    bearerAuth:
+    apiKey:
       type: http
       scheme: bearer
   schemas:

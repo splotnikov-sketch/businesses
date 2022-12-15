@@ -1,5 +1,7 @@
+/* istanbul ignore file */
+
 import express from 'express'
-import logger from '@root/utils/logger'
+import logger from '@root/utils/api/logger'
 
 export const devLogger = (
   req: express.Request,

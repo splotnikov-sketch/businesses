@@ -1,6 +1,6 @@
 import config from '@root/config'
-import { createServer } from './utils/server'
-import logger from '@root/utils/logger'
+import { createServer } from './utils/api/server'
+import logger from '@root/utils/api/logger'
 
 createServer()
   .then((server) => {

@@ -1,2 +1,2 @@
 export * from './greeting'
-export * from './user'
+export * from '@root/api/middleware/apiKey'

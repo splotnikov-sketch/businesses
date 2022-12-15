@@ -1,22 +1,23 @@
 import * as express from 'express'
 
-import UserService, {
+import apiKeyValidator, {
   AuthResponse,
   ErrorResponse,
-} from '@root/api/services/user'
-import { writeJsonResponse } from '@root/utils/express'
+} from '@root/api/services/apiKeyValidator'
+import { writeJsonResponse } from '@root/utils/api/express'
 
-export function auth(
+export function apiKey(
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
 ): void {
   const token = req.headers.authorization!
-  UserService.auth(token)
+  apiKeyValidator
+    .validate(token)
     .then((authResponse) => {
       if (!(authResponse as any).error) {
         res.locals.auth = {
-          userId: (authResponse as { userId: string }).userId,
+          apiKey: (authResponse as { apiKey: string }).apiKey,
         }
         next()
       } else {

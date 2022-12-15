@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { writeJsonResponse } from '@root/utils/express'
+import { writeJsonResponse } from '@root/utils/api/express'
 
 export function hello(req: express.Request, res: express.Response): void {
   const name = req.query.name || 'stranger'
@@ -10,6 +10,6 @@ export function hello(req: express.Request, res: express.Response): void {
 }
 
 export function goodbye(req: express.Request, res: express.Response): void {
-  const userId = res.locals.auth.userId
-  writeJsonResponse(res, 200, { message: `Goodbye, ${userId}!` })
+  const apiKey = res.locals.auth.apiKey
+  writeJsonResponse(res, 200, { message: `Goodbye, ${apiKey}!` })
 }
