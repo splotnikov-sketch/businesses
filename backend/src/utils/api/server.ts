@@ -9,8 +9,9 @@ import { connector, summarise } from 'swagger-routes-express'
 import YAML from 'yamljs'
 
 import * as api from '@root/api/controllers'
+import { apiKeyMiddleware, devLoggerMiddleware } from '@root/api/middleware'
+
 import config from '@root/config'
-import { devLogger } from '@root/api/middleware/devLogger'
 import logger from '@root/utils/api/logger'
 
 import genericErrors from '@root/utils/errors/genericErrors'
@@ -41,7 +42,7 @@ export async function createServer(): Promise<Express> {
 
   /* istanbul ignore next */
   if (config.devLogger) {
-    server.use(devLogger)
+    server.use(devLoggerMiddleware)
   }
 
   // setup API validator
@@ -78,7 +79,7 @@ export async function createServer(): Promise<Express> {
       )
     },
     security: {
-      apiKey: api.apiKey,
+      apiKey: apiKeyMiddleware,
     },
   })
 

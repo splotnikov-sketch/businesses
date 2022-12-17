@@ -1,4 +1,4 @@
-import apiKeyValidator from '../apiKeyValidator'
+import apiKeyValidator from '@root/api/services/apiKeyValidator'
 import config from '@root/config'
 
 describe('apiKey', () => {

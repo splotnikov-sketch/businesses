@@ -9,6 +9,13 @@ export function writeJsonResponse(
 ): void {
   const data =
     typeof payload === 'object' ? JSON.stringify(payload, null, 2) : payload
-  res.writeHead(code, { ...headers, 'Content-Type': 'application/json' })
+
+  console.log('headers')
+  const headersToWrite = { ...headers, 'Content-Type': 'application/json' }
+  console.log(headersToWrite)
+  console.log('code', code)
+  console.log(res)
+
+  res.writeHead(code, headersToWrite)
   res.end(data)
 }

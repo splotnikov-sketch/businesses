@@ -1,4 +1,5 @@
-import * as express from 'express'
+import { NextFunction, Request, Response } from 'express'
+import logger from '@root/utils/api/logger'
 
 import apiKeyValidator, {
   AuthResponse,
@@ -6,15 +7,16 @@ import apiKeyValidator, {
 } from '@root/api/services/apiKeyValidator'
 import { writeJsonResponse } from '@root/utils/api/express'
 
-export function apiKey(
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
+export function apiKeyMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction
 ): void {
-  const token = req.headers.authorization!
+  const token = req?.headers?.authorization ?? ''
   apiKeyValidator
     .validate(token)
     .then((authResponse) => {
+      console.log(authResponse)
       if (!(authResponse as any).error) {
         res.locals.auth = {
           apiKey: (authResponse as { apiKey: string }).apiKey,

@@ -3,7 +3,7 @@
 import express from 'express'
 import logger from '@root/utils/api/logger'
 
-export const devLogger = (
+export const devLoggerMiddleware = (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
