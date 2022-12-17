@@ -7,35 +7,6 @@ import { Express } from 'express-serve-static-core'
 import apiKeyValidator from '@root/api/services/apiKeyValidator'
 import { createServer } from '@root/utils/api/server'
 
-//jest.mock('@root/api/services/apiKeyValidator')
-
-// let server: Express
-// beforeAll(async () => {
-//   server = await createServer()
-// })
-
-// describe('apiKeyValidator failed ', () => {
-//   it('should return 500 & valid response if auth rejects with an error', async () => {
-//     ;(apiKeyValidator.validate as jest.Mock).mockResolvedValue({
-//       error: { type: 'unauthorized', message: 'Authorization Failed' },
-//     })
-
-//     request(server)
-//       .get(`/api/v1/goodbye`)
-//       .set('Authorization', 'Bearer fakeToken')
-//       .expect(500)
-//       .end(function (err, res) {
-//         if (err) return err
-//         expect(res.body).toMatchObject({
-//           error: {
-//             type: 'internal_server_error',
-//             message: 'Internal Server Error',
-//           },
-//         })
-//       })
-//   })
-// })
-
 describe('ApiKey middleware', () => {
   let mockRequest: Partial<Request>
   let mockResponse: Partial<Response>
@@ -43,30 +14,35 @@ describe('ApiKey middleware', () => {
 
   const writeHeadCallback = jest.fn()
   const endCallback = jest.fn()
+  const writeJsonResponse = jest.fn()
+  const jsonCallback = jest.fn()
 
   beforeEach(() => {
     mockRequest = {}
     mockResponse = {
       writeHead: writeHeadCallback,
       end: endCallback,
+      json: jsonCallback,
     }
   })
 
   test('without headers', async () => {
-    const expectedResponse = {
-      error: "Missing API key from the 'Authorization' header",
-    }
+    const expectedResponse = JSON.stringify(
+      {
+        error: "Missing 'Authorization' header",
+      },
+      null,
+      2
+    )
     apiKeyMiddleware(
       mockRequest as Request,
       mockResponse as Response,
       nextFunction
     )
 
-    expect(endCallback).toBeCalledTimes(1)
-    expect(writeHeadCallback).toBeCalledTimes(1)
+    console.log(endCallback.mock)
 
-    // expect(mockResponse.writeHead).toBeCalledWith(401, {
-    //   'Content-Type': 'application/json',
-    // })
+    expect(endCallback).toBeCalledTimes(1)
+    expect(endCallback).toBeCalledWith(expectedResponse)
   })
 })

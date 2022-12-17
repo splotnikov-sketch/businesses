@@ -5,20 +5,27 @@ import apiKeyValidator, {
   AuthResponse,
   ErrorResponse,
 } from '@root/api/services/apiKeyValidator'
-import { writeJsonResponse } from '@root/utils/api/express'
+import { writeJsonResponse } from '@root/utils/api/expressHelpers'
 
 export function apiKeyMiddleware(
   req: Request,
   res: Response,
   next: NextFunction
 ): void {
+  if (!req.headers || !req.headers['authorization']) {
+    writeJsonResponse(res, 403, {
+      error: "Missing 'Authorization' header",
+    })
+  }
+
   const token = req?.headers?.authorization ?? ''
   apiKeyValidator
     .validate(token)
     .then((authResponse) => {
-      console.log(authResponse)
+      logger.info('authResponse')
+      logger.info(authResponse)
       if (!(authResponse as any).error) {
-        res.locals.auth = {
+        res.locals.data = {
           apiKey: (authResponse as { apiKey: string }).apiKey,
         }
         next()
