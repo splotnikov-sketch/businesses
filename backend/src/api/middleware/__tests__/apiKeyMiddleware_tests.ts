@@ -1,48 +1,99 @@
 import { NextFunction, Request, Response } from 'express'
 import { apiKeyMiddleware } from '@root/api/middleware'
-
-import request from 'supertest'
-import { Express } from 'express-serve-static-core'
-
-import apiKeyValidator from '@root/api/services/apiKeyValidator'
-import { createServer } from '@root/utils/api/server'
+import config from '@root/config'
 
 describe('ApiKey middleware', () => {
+  const mockReq = (): Partial<Request> => {
+    const req = {}
+    // ...from here assign what properties you need on a req to test with
+    return req
+  }
+
+  // const mockRes = (): Partial<Response> => {
+  //     const res = {};
+  //     res.status = jest.fn().mockReturnValue(res);
+  //     res.json = jest.fn().mockReturnValue(res);
+  //     return res;
+  // };
+
   let mockRequest: Partial<Request>
   let mockResponse: Partial<Response>
   let nextFunction: NextFunction = jest.fn()
 
-  const writeHeadCallback = jest.fn()
-  const endCallback = jest.fn()
-  const writeJsonResponse = jest.fn()
-  const jsonCallback = jest.fn()
+  let writeHeadCallback = jest.fn()
+  let endCallback = jest.fn()
+  let jsonCallback = jest.fn()
 
   beforeEach(() => {
+    writeHeadCallback = jest.fn()
+    endCallback = jest.fn()
+    jsonCallback = jest.fn()
+
     mockRequest = {}
     mockResponse = {
       writeHead: writeHeadCallback,
       end: endCallback,
       json: jsonCallback,
+      locals: {},
     }
   })
 
-  test('without headers', async () => {
-    const expectedResponse = JSON.stringify(
-      {
-        error: "Missing 'Authorization' header",
-      },
-      null,
-      2
-    )
+  const noAuthorizationError = {
+    error: {
+      type: 'unauthorized',
+      message: "Missing 'Authorization' header",
+    },
+  }
+
+  test('without headers', () => {
     apiKeyMiddleware(
       mockRequest as Request,
       mockResponse as Response,
       nextFunction
     )
 
-    console.log(endCallback.mock)
+    expect(endCallback).toBeCalledTimes(1)
+    expect(endCallback).toBeCalledWith(
+      JSON.stringify(noAuthorizationError, null, 2)
+    )
+  })
+
+  test('without "authorization" header', () => {
+    mockRequest = {
+      headers: {},
+    }
+
+    apiKeyMiddleware(
+      mockRequest as Request,
+      mockResponse as Response,
+      nextFunction
+    )
 
     expect(endCallback).toBeCalledTimes(1)
-    expect(endCallback).toBeCalledWith(expectedResponse)
+    expect(endCallback).toBeCalledWith(
+      JSON.stringify(noAuthorizationError, null, 2)
+    )
+  })
+
+  test('with valid "authorization" header', () => {
+    mockRequest = {
+      headers: {
+        authorization: `Bearer ${config.apiKey}`,
+      },
+    }
+
+    apiKeyMiddleware(
+      mockRequest as Request,
+      mockResponse as Response,
+      nextFunction
+    )
+
+    console.log('nextFunction')
+    console.log(nextFunction.mock)
+
+    // console.log('mockResponse')
+    // console.log(mockResponse)
+
+    expect(nextFunction).toBeCalledTimes(1)
   })
 })
