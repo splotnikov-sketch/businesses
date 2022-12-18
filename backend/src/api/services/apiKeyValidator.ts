@@ -5,14 +5,18 @@ export type AuthResponse = ErrorResponse | { apiKey: string }
 
 function validate(bearerToken: string): Promise<AuthResponse> {
   return new Promise(function (resolve, reject) {
+    console.log('bearerToken', bearerToken)
     const token = bearerToken.replace('Bearer ', '')
     if (token === config.apiKey) {
+      console.log('token is valid')
       resolve({ apiKey: token })
-      return
     }
 
     resolve({
-      error: { type: 'unauthorized', message: 'Authorization Failed' },
+      error: {
+        type: 'unauthorized',
+        message: 'Authorization Failed',
+      },
     })
   })
 }

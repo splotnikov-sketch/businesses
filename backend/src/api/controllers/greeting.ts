@@ -10,6 +10,6 @@ export function hello(req: express.Request, res: express.Response): void {
 }
 
 export function goodbye(req: express.Request, res: express.Response): void {
-  const apiKey = res.locals.data.apiKey
+  const apiKey = res.locals.apiKey
   writeJsonResponse(res, 200, { message: `Goodbye, ${apiKey}!` })
 }
