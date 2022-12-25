@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "cross-env ENV_FILE=./config/.env.prod NODE_ENV=production node -r tsconfig-paths/register ./dist/app.js",
-    "dev": "cross-env ENV_FILE=./config/.env.dev NODE_ENV=development ts-node -r tsconfig-paths/register ./src/app.ts",
+    "dev": "cross-env ENV_FILE=./config/.env.dev NODE_ENV=development ts-node -r tsconfig-paths/register --files ./src/app.ts",
     "test:unit": "cross-env ENV_FILE=./config/.env.test jest --verbose --silent=false",
     "test:coverage": "cross-env ENV_FILE=./config/.env.test jest --coverage",
     "migrate:postgres:dev": "dotenv -e ./config/.env.dev -- npx prisma migrate dev",

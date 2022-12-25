@@ -40,3 +40,7 @@
 ## Generate prisma client
 
 `npx prisma generate`
+
+## Starting wagger-editor in docker
+
+`docker run --rm -d -p 8044:8080 --name swagger-editor -e SWAGGER_FILE=/config/openapi.yml -v ${PWD}/config:/config swaggerapi/swagger-editor`

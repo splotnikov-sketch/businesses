@@ -1,7 +1,8 @@
 import * as yup from 'yup'
-import prisma, { User } from '@root/db/dbContext'
+import { User } from '@root/db/dbContext'
 import logger from '@root/utils/logger'
 import { isNullOrEmpty } from '@root/utils'
+import dbContext from '@root/db/dbContext'
 
 let userSchema = yup.object().shape({
   email: yup
@@ -14,13 +15,15 @@ let userSchema = yup.object().shape({
     .min(6, 'password must be at least 6 characters long'),
 })
 
-export type ErrorResponse = { error: { type: string; message: string } }
-export type CreateUserResult = User | ErrorResponse
+export type ErrorResult = { error: { type: string; message: string } }
+export type UserResult = User | ErrorResult
 
-export async function createUser(
+export { User }
+
+export async function insertUser(
   email: String,
   password: String
-): Promise<CreateUserResult> {
+): Promise<UserResult> {
   const user = {
     email,
     password,
@@ -30,8 +33,9 @@ export async function createUser(
     userSchema
       .validate(user)
       .then((validUser) => {
-        prisma.user
-          .create({ data: validUser })
+        dbContext
+          .db()
+          .user.create({ data: validUser })
           .then((createdUser: User) => {
             resolve(createdUser)
           })
@@ -64,10 +68,41 @@ export async function createUser(
   })
 }
 
-export async function getUser(email: string): Promise<User> {
-  return prisma.user.findUnique({
-    where: {
-      email: email,
-    },
+export async function getUser(email: string): Promise<UserResult> {
+  return new Promise((resolve, reject) => {
+    dbContext
+      .db()
+      .user.findUnique({
+        where: {
+          email: email,
+        },
+      })
+      .then((user) => {
+        if (user == null) {
+          resolve({
+            error: {
+              type: 'user_not_found',
+              message: `User with email ${email} not found`,
+            },
+          })
+        } else {
+          resolve(user)
+        }
+      })
+      .catch((error) => {
+        logger.error(error)
+        resolve({
+          error: {
+            type: 'internal_server_error',
+            message: 'Internal Server Error',
+          },
+        })
+      })
   })
 }
+
+//   return dbContext.db().user.findUnique({
+//     where: {
+//       email: email,
+//     },
+//   })

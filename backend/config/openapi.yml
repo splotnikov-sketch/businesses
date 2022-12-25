@@ -56,6 +56,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HelloResponse'
+  /user:
+    post:
+      summary: Create User
+      tags:
+        - user
+      operationId: createUser
+      security:
+        - apiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        201:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                  - userId
+                properties:
+                  userId:
+                    type: string
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
 
 components:
   securitySchemes:
@@ -70,4 +119,15 @@ components:
         - message
       properties:
         message:
+          type: string
+    FailResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - success
+        - error
+      properties:
+        success:
+          type: boolean
+        error:
           type: string
