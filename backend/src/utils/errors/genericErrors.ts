@@ -1,6 +1,6 @@
 import * as express from 'express'
 import HTTP from 'http-status-codes'
-import logger from '@root/utils/api/logger'
+import logger from '@root/utils/logger'
 import ERRORS from '@root/utils/errors/errors'
 
 const genericErrors = (

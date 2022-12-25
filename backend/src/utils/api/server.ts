@@ -12,7 +12,7 @@ import * as api from '@root/api/controllers'
 import { apiKeyMiddleware, devLoggerMiddleware } from '@root/api/middleware'
 
 import config from '@root/config'
-import logger from '@root/utils/api/logger'
+import logger from '@root/utils/logger'
 
 import genericErrors from '@root/utils/errors/genericErrors'
 

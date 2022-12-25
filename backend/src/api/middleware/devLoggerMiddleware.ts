@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import express from 'express'
-import logger from '@root/utils/api/logger'
+import logger from '@root/utils/logger'
 
 export const devLoggerMiddleware = (
   req: express.Request,

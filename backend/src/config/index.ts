@@ -37,6 +37,7 @@ interface Config {
     useCreateIndex: boolean
     autoIndex: boolean
   }
+  databaseUrl: string
 }
 
 const config: Config = {
@@ -52,6 +53,7 @@ const config: Config = {
     useCreateIndex: parsedEnv.MONGO_CREATE_INDEX as boolean,
     autoIndex: parsedEnv.MONGO_AUTO_INDEX as boolean,
   },
+  databaseUrl: parsedEnv.DATABASE_URL as string,
 }
 
 export default config

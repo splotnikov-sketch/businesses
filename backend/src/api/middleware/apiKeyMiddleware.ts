@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from 'express'
-import logger from '@root/utils/api/logger'
+import { NextFunction, Request, RequestHandler, Response } from 'express'
+import logger from '@root/utils/logger'
 import { isNullOrEmpty } from '@root/utils'
 
 import apiKeyValidator, {
@@ -8,13 +8,7 @@ import apiKeyValidator, {
 } from '@root/api/services/apiKeyValidator'
 import { writeJsonResponse } from '@root/utils/api/expressHelpers'
 
-export function apiKeyMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void {
-  console.log('request')
-  console.log(req)
+export const apiKeyMiddleware: RequestHandler = (req, res, next) => {
   if (
     isNullOrEmpty(req) ||
     isNullOrEmpty(req.headers) ||
@@ -36,12 +30,7 @@ export function apiKeyMiddleware(
     .then((authResponse) => {
       if (isNullOrEmpty((authResponse as any).error)) {
         const apiKey = (authResponse as { apiKey: string }).apiKey
-
         res.locals.apiKey = apiKey
-
-        console.log('next')
-        console.log(next)
-
         next()
       } else {
         writeJsonResponse(res, 401, authResponse)
