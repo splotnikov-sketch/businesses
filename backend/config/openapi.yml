@@ -105,6 +105,64 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FailResponse'
+  /login:
+    post:
+      summary: Login
+      tags:
+        - user
+      operationId: login
+      security:
+        - apiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Expires-After:
+              description: date in UTC when token expires
+              required: true
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                  - userId
+                properties:
+                  userId:
+                    type: string
+                  token:
+                    type: string
+        404:
+          description: Invalid Login/Password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
 
 components:
   securitySchemes:

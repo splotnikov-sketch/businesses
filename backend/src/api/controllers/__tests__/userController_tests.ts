@@ -4,6 +4,8 @@ import { Express } from 'express-serve-static-core'
 import config from '@root/config'
 import { createServer } from '@root/utils/api/server'
 import dbContext from '@root/db/dbContext'
+import { User } from '@root/db/dbContext'
+import { insertUser } from '@root/db/actions/userActions'
 
 let server: Express
 
@@ -113,5 +115,45 @@ describe('POST /api/v1/user', () => {
         })
         done()
       })
+  })
+})
+
+describe('POST /api/v1/login', () => {
+  test('should return JWT token, userId, expireAt to a valid login/password', async () => {
+    const email = faker.internet.email()
+    const password = faker.internet.password()
+    const user = (await insertUser(email, password)) as User
+
+    console.log('user')
+    console.log(user)
+    expect(user).not.toBeNull()
+    expect(user.id).not.toBeNull()
+
+    const data = {
+      email: email,
+      password: password,
+    }
+
+    const response = await request(server)
+      .post(`/api/v1/login`)
+      .set('Authorization', `Bearer ${config.apiKey}`)
+      .send(data)
+
+    expect(response.status).toEqual(200)
+    const { body } = response
+    const { header } = response
+
+    expect(body).not.toBeNull()
+
+    expect(body).toEqual(
+      expect.objectContaining({
+        userId: expect.any(String),
+        token: expect.any(String),
+        expireAt: expect.any(String),
+      })
+    )
+
+    expect(header).not.toBeNull()
+    expect(header['x-expires-after']).toEqual(expect.any(String))
   })
 })

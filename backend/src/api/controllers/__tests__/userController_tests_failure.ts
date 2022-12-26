@@ -12,13 +12,11 @@ jest.mock('@root/db/actions/userActions')
 let server: Express
 
 beforeAll(async () => {
-  //await prisma.$connect()
   await dbContext.connect()
   server = await createServer()
 })
 
 afterAll(async () => {
-  //await prisma.$disconnect()
   await dbContext.disconnect()
 })
 
