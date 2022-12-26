@@ -15,6 +15,7 @@ export const devLoggerMiddleware = (
       req.url
     } at ${new Date().toUTCString()}, User-Agent: ${req.get('User-Agent')}`
   )
+  // TODO: mask sensitive info
   logger.http(`Request Body: ${JSON.stringify(req.body)}`)
 
   const [oldWrite, oldEnd] = [res.write, res.end]

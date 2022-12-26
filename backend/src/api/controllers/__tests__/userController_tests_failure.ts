@@ -45,4 +45,29 @@ describe('createUser failure', () => {
         done()
       })
   })
+
+  it('should return internal_server_error if jwt.sign fails with the error', (done) => {
+    ;(mockUserActions.insertUser as jest.Mock).mockResolvedValue({
+      error: { type: 'unknown', message: 'unknown' },
+    })
+
+    request(server)
+      .post(`/api/v1/user`)
+      .set('Authorization', `Bearer ${config.apiKey}`)
+      .send({
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+      })
+      .expect(500)
+      .end(function (err, res) {
+        if (err) return done(err)
+        expect(res.body).toMatchObject({
+          error: {
+            type: 'internal_server_error',
+            message: 'Internal Server Error',
+          },
+        })
+        done()
+      })
+  })
 })
