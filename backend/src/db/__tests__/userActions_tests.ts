@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { User } from '@root/db/dbContext'
 import { insertUser, getUser } from '@root/db/actions/userActions'
-import { compareWithHash } from '@root/utils'
+import { compareWithHash } from '@root/utils/common'
 import dbContext from '@root/db/dbContext'
 
 beforeAll(async () => {

@@ -1,7 +1,7 @@
 import * as yup from 'yup'
 import { User } from '@root/db/dbContext'
 import logger from '@root/utils/logger'
-import { isNullOrEmpty } from '@root/utils'
+import { isNullOrEmpty } from '@root/utils/common'
 import dbContext from '@root/db/dbContext'
 
 let userSchema = yup.object().shape({

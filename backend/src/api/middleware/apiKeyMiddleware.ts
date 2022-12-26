@@ -1,6 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express'
 import logger from '@root/utils/logger'
-import { isNullOrEmpty } from '@root/utils'
+import { isNullOrEmpty } from '@root/utils/common'
 
 import apiKeyValidator, {
   AuthResponse,

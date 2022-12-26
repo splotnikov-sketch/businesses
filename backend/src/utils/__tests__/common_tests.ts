@@ -1,4 +1,4 @@
-import { isNullOrEmpty } from '@root/utils'
+import { isNullOrEmpty } from '@root/utils/common'
 
 describe('isNullOrEmpty', () => {
   test('should be true if null', () => {

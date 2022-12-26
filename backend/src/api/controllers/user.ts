@@ -2,7 +2,7 @@ import * as express from 'express'
 import { writeJsonResponse } from '@root/utils/api/expressHelpers'
 import logger from '@root/utils/logger'
 import { insertUser, ErrorResult, User } from '@root/db/actions/userActions'
-import { isNullOrEmpty } from '@root/utils'
+import { isNullOrEmpty } from '@root/utils/common'
 
 export function createUser(req: express.Request, res: express.Response): void {
   const { email, password } = req.body

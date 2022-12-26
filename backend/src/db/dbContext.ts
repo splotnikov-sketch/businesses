@@ -1,5 +1,5 @@
 import { PrismaClient, User } from '@prisma/client'
-import { getHash } from '@root/utils'
+import { getHash } from '@root/utils/common'
 import logger from '@root/utils/logger'
 
 class DbContext {

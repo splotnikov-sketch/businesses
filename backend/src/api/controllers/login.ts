@@ -1,13 +1,15 @@
 import * as express from 'express'
 import { writeJsonResponse } from '@root/utils/api/expressHelpers'
 import { getUser, ErrorResult, User } from '@root/db/actions/userActions'
-import { isNullOrEmpty } from '@root/utils'
-import { compareWithHash } from '@root/utils'
+import { isNullOrEmpty } from '@root/utils/common'
+import { compareWithHash } from '@root/utils/common'
 import { createAuthToken } from '@root/utils/auth'
 
 export type LoginUserResponse =
   | ErrorResult
   | { token: string; userId: string; expireAt: Date }
+
+//TODO: refactor to move logic to action
 
 export async function login(
   req: express.Request,
