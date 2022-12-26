@@ -100,9 +100,3 @@ export async function getUser(email: string): Promise<UserResult> {
       })
   })
 }
-
-//   return dbContext.db().user.findUnique({
-//     where: {
-//       email: email,
-//     },
-//   })

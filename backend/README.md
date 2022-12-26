@@ -44,3 +44,11 @@
 ## Starting wagger-editor in docker
 
 `docker run --rm -d -p 8044:8080 --name swagger-editor -e SWAGGER_FILE=/config/openapi.yml -v ${PWD}/config:/config swaggerapi/swagger-editor`
+
+## Generate private & public keys
+
+```bash
+mkdir config/jwt
+$ openssl genpkey -algorithm RSA -aes256 -out config/jwt/private.pem
+$ openssl rsa -in config/jwt/private.pem -pubout -outform PEM -out config/jwt/public.pem
+```

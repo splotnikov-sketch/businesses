@@ -31,13 +31,10 @@ interface Config {
   morganBodyLogger: boolean
   devLogger: boolean
   loggerLevel: LogLevel
-  mongo: {
-    url: string
-    db: string
-    useCreateIndex: boolean
-    autoIndex: boolean
-  }
   databaseUrl: string
+  privateKeyFile: string
+  privateKeyPassphrase: string
+  publicKeyFile: string
 }
 
 const config: Config = {
@@ -47,13 +44,10 @@ const config: Config = {
   morganBodyLogger: parsedEnv.MORGAN_BODY_LOGGER as boolean,
   devLogger: parsedEnv.DEV_LOGGER as boolean,
   loggerLevel: parsedEnv.LOGGER_LEVEL as LogLevel,
-  mongo: {
-    url: parsedEnv.MONGO_URL as string,
-    db: parsedEnv.MONGO_DB as string,
-    useCreateIndex: parsedEnv.MONGO_CREATE_INDEX as boolean,
-    autoIndex: parsedEnv.MONGO_AUTO_INDEX as boolean,
-  },
   databaseUrl: parsedEnv.DATABASE_URL as string,
+  privateKeyFile: parsedEnv.PRIVATE_KEY_FILE as string,
+  privateKeyPassphrase: parsedEnv.PRIVATE_KEY_PASSPHRASE as string,
+  publicKeyFile: parsedEnv.PUBLIC_KEY_FILE as string,
 }
 
 export default config
