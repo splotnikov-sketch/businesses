@@ -1,11 +1,8 @@
-import { NextFunction, Request, RequestHandler, Response } from 'express'
+import { RequestHandler } from 'express'
 import logger from '@root/utils/logger'
 import { isNullOrEmpty } from '@root/utils/common'
 
-import apiKeyValidator, {
-  AuthResponse,
-  ErrorResponse,
-} from '@root/api/services/apiKeyValidator'
+import apiKeyValidator from '@root/api/services/apiKeyValidator'
 import { writeJsonResponse } from '@root/utils/api/expressHelpers'
 
 export const apiKeyMiddleware: RequestHandler = (req, res, next) => {

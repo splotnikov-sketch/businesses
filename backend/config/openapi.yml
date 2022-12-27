@@ -23,10 +23,12 @@ tags:
 paths:
   /hello:
     get:
-      description: Returns 'Hello <name>/stranger!!!' to the caller
+      description: Returns 'Hello <id>' to the caller
       tags:
         - greeting
       operationId: hello
+      security:
+        - auth: []
       parameters:
         - name: name
           required: false
@@ -151,6 +153,7 @@ paths:
                     type: string
                   token:
                     type: string
+                    format: '^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$'
         404:
           description: Invalid Login/Password
           content:
@@ -169,6 +172,10 @@ components:
     apiKey:
       type: http
       scheme: bearer
+    auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     HelloResponse:
       type: object

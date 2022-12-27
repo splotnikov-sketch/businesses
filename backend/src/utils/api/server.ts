@@ -9,7 +9,11 @@ import { connector, summarise } from 'swagger-routes-express'
 import YAML from 'yamljs'
 
 import * as api from '@root/api/controllers'
-import { apiKeyMiddleware, devLoggerMiddleware } from '@root/api/middleware'
+import {
+  apiKeyMiddleware,
+  devLoggerMiddleware,
+  authMiddleware,
+} from '@root/api/middleware'
 
 import config from '@root/config'
 import logger from '@root/utils/logger'
@@ -80,6 +84,7 @@ export async function createServer(): Promise<Express> {
     },
     security: {
       apiKey: apiKeyMiddleware,
+      auth: authMiddleware,
     },
   })
 
