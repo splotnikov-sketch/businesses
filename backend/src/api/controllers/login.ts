@@ -1,4 +1,4 @@
-import * as express from 'express'
+import { Request, Response } from 'express'
 import { writeJsonResponse } from '@root/utils/api/expressHelpers'
 import { getUser, ErrorResult, User } from '@root/db/actions/userActions'
 import { isNullOrEmpty } from '@root/utils/common'
@@ -11,10 +11,7 @@ export type LoginUserResponse =
 
 //TODO: refactor to move logic to action
 
-export async function login(
-  req: express.Request,
-  res: express.Response
-): Promise<void> {
+export async function login(req: Request, res: Response): Promise<void> {
   const { email, password } = req.body
 
   if (isNullOrEmpty(email) || isNullOrEmpty(password)) {
