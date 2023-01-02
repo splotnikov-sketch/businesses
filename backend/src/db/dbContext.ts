@@ -1,4 +1,4 @@
-import { PrismaClient, User } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 import { getHash } from '@root/utils/common'
 import logger from '@root/utils/logger'
 
@@ -67,7 +67,5 @@ class DbContext {
     return this._prismaClient.$disconnect()
   }
 }
-
-export { User }
 
 export default DbContext.getInstance()

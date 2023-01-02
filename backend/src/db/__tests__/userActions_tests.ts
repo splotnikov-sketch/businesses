@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
-import { User } from '@root/db/dbContext'
 import { insertUser, getUser } from '@root/db/actions/userActions'
 import { compareWithHash } from '@root/utils/common'
 import dbContext from '@root/db/dbContext'
+import { UserModel } from '@root/models/userModel'
 
 beforeAll(async () => {
   await dbContext.connect()
@@ -18,11 +18,11 @@ describe('create user', () => {
     const password = faker.internet.password()
     const before = Date.now()
 
-    const user = (await insertUser(email, password)) as User
+    const user = (await insertUser(email, password)) as UserModel
     expect(user).not.toBeNull()
     expect(user.id).not.toBeNull()
 
-    const fetched = (await getUser(email)) as User
+    const fetched = (await getUser(email)) as UserModel
     expect(fetched).not.toBeNull()
 
     const after = Date.now()

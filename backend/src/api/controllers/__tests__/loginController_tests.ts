@@ -4,8 +4,9 @@ import { Express } from 'express-serve-static-core'
 import config from '@root/config'
 import { createServer } from '@root/utils/api/server'
 import dbContext from '@root/db/dbContext'
-import { User } from '@root/db/dbContext'
-import { insertUser, ErrorResult } from '@root/db/actions/userActions'
+import { insertUser } from '@root/db/actions/userActions'
+import { UserModel, isUserModel } from '@root/models/userModel'
+import { ErrorModel, isErrorModel } from '@root/models/errorModel'
 
 let server: Express
 
@@ -22,10 +23,10 @@ describe('POST /api/v1/login', () => {
   it('should return JWT token, userId, expireAt to a valid login/password', async () => {
     const email = faker.internet.email()
     const password = faker.internet.password()
-    const user = (await insertUser(email, password)) as User
+    const insertUserResult = (await insertUser(email, password)) as UserModel
 
-    expect(user).not.toBeNull()
-    expect(user.id).not.toBeNull()
+    expect(insertUserResult).not.toBeNull()
+    expect(insertUserResult.id).not.toBeNull()
 
     const data = {
       email,
@@ -73,15 +74,17 @@ describe('POST /api/v1/login - failures', () => {
 
     expect(response.status).toEqual(401)
     const { body } = response
-    expect((body as ErrorResult).error.type).toEqual('invalid_credentials')
+    expect(isErrorModel(body)).toBeTruthy()
+    expect(body.error.type).toEqual('invalid_credentials')
   })
 
   it(`should resolved with error if password doesn't match`, async () => {
     const email = faker.internet.email()
     const password = faker.internet.password()
-    const user = (await insertUser(email, password)) as User
-
+    let user = await insertUser(email, password)
     expect(user).not.toBeNull()
+    expect(isUserModel(user)).toBeTruthy()
+    user = user as UserModel
     expect(user.id).not.toBeNull()
 
     const data = {
@@ -96,6 +99,7 @@ describe('POST /api/v1/login - failures', () => {
 
     expect(response.status).toEqual(401)
     const { body } = response
-    expect((body as ErrorResult).error.type).toEqual('invalid_credentials')
+    expect(isErrorModel(body)).toBeTruthy()
+    expect(body.error.type).toEqual('invalid_credentials')
   })
 })

@@ -1,8 +1,10 @@
 import * as yup from 'yup'
-import { User } from '@root/db/dbContext'
 import logger from '@root/utils/logger'
 import { isNullOrEmpty } from '@root/utils/common'
 import dbContext from '@root/db/dbContext'
+import cacheLocal from '@root/utils/cacheLocal'
+import { ErrorModel } from '@root/models/errorModel'
+import { UserModel } from '@root/models/userModel'
 
 let userSchema = yup.object().shape({
   email: yup
@@ -15,15 +17,10 @@ let userSchema = yup.object().shape({
     .min(6, 'password must be at least 6 characters long'),
 })
 
-export type ErrorResult = { error: { type: string; message: string } }
-export type UserResult = User | ErrorResult
-
-export { User }
-
 export async function insertUser(
-  email: String,
-  password: String
-): Promise<UserResult> {
+  email: string,
+  password: string
+): Promise<UserModel | ErrorModel> {
   const user = {
     email,
     password,
@@ -36,7 +33,7 @@ export async function insertUser(
         dbContext
           .db()
           .user.create({ data: validUser })
-          .then((createdUser: User) => {
+          .then((createdUser: UserModel) => {
             resolve(createdUser)
           })
           .catch((error: any) => {
@@ -68,8 +65,15 @@ export async function insertUser(
   })
 }
 
-export async function getUser(email: string): Promise<UserResult> {
+export async function getUser(email: string): Promise<UserModel | ErrorModel> {
   return new Promise((resolve, reject) => {
+    let user = cacheLocal.get<UserModel>(email)
+
+    if (user) {
+      resolve(user)
+      return
+    }
+
     dbContext
       .db()
       .user.findUnique({
@@ -86,6 +90,7 @@ export async function getUser(email: string): Promise<UserResult> {
             },
           })
         } else {
+          cacheLocal.set(email, user)
           resolve(user)
         }
       })

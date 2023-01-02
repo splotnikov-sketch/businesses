@@ -1,12 +1,18 @@
 import { Request, Response } from 'express'
-import { writeJsonResponse } from '@root/utils/api/expressHelpers'
-import { getUser, ErrorResult, User } from '@root/db/actions/userActions'
+import {
+  writeJsonResponse,
+  writeResponse500,
+  writeResponseError,
+} from '@root/utils/api/expressHelpers'
+import { getUser } from '@root/db/actions/userActions'
 import { isNullOrEmpty } from '@root/utils/common'
 import { compareWithHash } from '@root/utils/common'
 import { createAuthToken } from '@root/utils/auth'
+import { ErrorModel, isErrorModel } from '@root/models/errorModel'
+import { isUserModel } from '@root/models/userModel'
 
 export type LoginUserResponse =
-  | ErrorResult
+  | ErrorModel
   | { token: string; userId: string; expireAt: Date }
 
 //TODO: refactor to move logic to action
@@ -15,55 +21,53 @@ export async function login(req: Request, res: Response): Promise<void> {
   const { email, password } = req.body
 
   if (isNullOrEmpty(email) || isNullOrEmpty(password)) {
-    writeJsonResponse(res, 400, {
-      error: {
-        type: 'bad_request',
-        message: 'Missing email or password',
-      },
-    })
+    writeResponseError(res, 400, 'bad_request', 'Missing email or password')
     return
   }
 
-  const response = await getUser(email)
-  if (!isNullOrEmpty((response as ErrorResult).error)) {
-    writeJsonResponse(res, 401, {
-      error: {
-        type: 'invalid_credentials',
-        message: 'Invalid email/password',
-      },
-    })
+  const getUserResult = await getUser(email)
+  if (isErrorModel(getUserResult)) {
+    writeResponseError(
+      res,
+      401,
+      'invalid_credentials',
+      'Invalid email/password'
+    )
     return
   }
 
-  const user = response as User
-  const passwordMatch = await compareWithHash(password, user.password)
+  if (!isUserModel(getUserResult)) {
+    writeResponse500(res)
+    return
+  }
+
+  const passwordMatch = await compareWithHash(password, getUserResult.password)
 
   if (!passwordMatch) {
-    writeJsonResponse(res, 401, {
-      error: {
-        type: 'invalid_credentials',
-        message: 'Invalid email/password',
-      },
-    })
+    writeResponseError(
+      res,
+      401,
+      'invalid_credentials',
+      'Invalid email/password'
+    )
     return
   }
 
   try {
-    const token = await createAuthToken(user.id)
+    const token = await createAuthToken(getUserResult.id)
     const tokenExpiresDate = token.expireAt.toISOString()
     writeJsonResponse(
       res,
       200,
-      { userId: user.id, token: token.token, expireAt: tokenExpiresDate },
+      {
+        userId: getUserResult.id,
+        token: token.token,
+        expireAt: tokenExpiresDate,
+      },
       { 'X-Expires-After': tokenExpiresDate }
     )
     return
   } catch (error) {
-    writeJsonResponse(res, 500, {
-      error: {
-        type: 'internal_server_error',
-        message: 'Internal Server Error',
-      },
-    })
+    writeResponse500(res)
   }
 }

@@ -1,8 +1,13 @@
 import * as express from 'express'
-import { writeJsonResponse } from '@root/utils/api/expressHelpers'
+import {
+  writeJsonResponse,
+  writeResponse500,
+} from '@root/utils/api/expressHelpers'
 import logger from '@root/utils/logger'
-import { insertUser, ErrorResult, User } from '@root/db/actions/userActions'
+import { insertUser } from '@root/db/actions/userActions'
 import { isNullOrEmpty } from '@root/utils/common'
+import { isErrorModel } from '@root/models/errorModel'
+import { isUserModel } from '@root/models/userModel'
 
 export function createUser(req: express.Request, res: express.Response): void {
   const { email, password } = req.body
@@ -17,27 +22,27 @@ export function createUser(req: express.Request, res: express.Response): void {
 
   insertUser(email, password)
     .then((result) => {
-      if ((result as any).error) {
-        if ((result as ErrorResult).error.type === 'account_already_exists') {
+      if (isErrorModel(result)) {
+        if (result.error.type === 'account_already_exists') {
           writeJsonResponse(res, 409, result)
+          return
         } else {
           throw new Error(`unsupported ${result}`)
         }
-      } else {
-        const response = {
-          userId: (result as User).id,
-        }
-        writeJsonResponse(res, 201, response)
       }
+
+      if (!isUserModel(result)) {
+        writeResponse500(res)
+        return
+      }
+
+      writeJsonResponse(res, 201, { userId: result.id })
+
+      return
     })
     .catch((error: any) => {
       logger.error(`createUser: ${error}`)
-      writeJsonResponse(res, 500, {
-        error: {
-          type: 'internal_server_error',
-          message: 'Internal Server Error',
-        },
-      })
+      writeResponse500(res)
       return
     })
 }

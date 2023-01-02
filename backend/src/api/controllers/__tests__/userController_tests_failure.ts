@@ -4,6 +4,7 @@ import { Express } from 'express-serve-static-core'
 import config from '@root/config'
 import { createServer } from '@root/utils/api/server'
 import dbContext from '@root/db/dbContext'
+import { ErrorModel } from '@root/models/errorModel'
 
 import * as mockUserActions from '@root/db/actions/userActions'
 
@@ -22,9 +23,10 @@ afterAll(async () => {
 
 describe('createUser failure', () => {
   it('should return 500 & valid response if insertUser resolved with an error', (done) => {
-    ;(mockUserActions.insertUser as jest.Mock).mockResolvedValue({
-      error: { type: 'unknown', message: 'unknown' },
-    })
+    const mock = jest.spyOn(mockUserActions, 'insertUser')
+    mock.mockImplementation(() =>
+      Promise.resolve({ error: { type: 'unknown', message: 'unknown' } })
+    )
 
     request(server)
       .post(`/api/v1/user`)
@@ -47,9 +49,10 @@ describe('createUser failure', () => {
   })
 
   it('should return internal_server_error if jwt.sign fails with the error', (done) => {
-    ;(mockUserActions.insertUser as jest.Mock).mockResolvedValue({
-      error: { type: 'unknown', message: 'unknown' },
-    })
+    const mock = jest.spyOn(mockUserActions, 'insertUser')
+    mock.mockImplementation(() =>
+      Promise.resolve({ error: { type: 'unknown', message: 'unknown' } })
+    )
 
     request(server)
       .post(`/api/v1/user`)

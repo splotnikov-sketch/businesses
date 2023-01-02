@@ -1,7 +1,7 @@
 import config from '@root/config'
+import { ErrorModel } from '@root/models/errorModel'
 
-export type ErrorResponse = { error: { type: string; message: string } }
-export type AuthResponse = ErrorResponse | { apiKey: string }
+export type AuthResponse = ErrorModel | { apiKey: string }
 
 function validate(bearerToken: string): Promise<AuthResponse> {
   return new Promise(function (resolve, reject) {

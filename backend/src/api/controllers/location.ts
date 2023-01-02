@@ -1,6 +1,10 @@
 import axios from 'axios'
 import { Request, Response } from 'express'
-import { writeJsonResponse } from '@root/utils/api/expressHelpers'
+import {
+  writeJsonResponse,
+  writeResponse500,
+  writeResponseError,
+} from '@root/utils/api/expressHelpers'
 import logger from '@root/utils/logger'
 import { isNullOrEmpty } from '@root/utils/common'
 import config from '@root/config'
@@ -17,12 +21,12 @@ export async function locationSearch(
   const { term } = req.body
 
   if (isNullOrEmpty(term)) {
-    writeJsonResponse(res, 400, {
-      error: {
-        type: 'bad_request',
-        message: 'Search term has to be supplied',
-      },
-    })
+    writeResponseError(
+      res,
+      400,
+      'bad_request',
+      'Search term has to be supplied'
+    )
   }
 
   try {
@@ -69,11 +73,6 @@ export async function locationSearch(
     writeJsonResponse(res, 200, result)
   } catch (error) {
     logger.error(`locationSearch: ${error}`)
-    writeJsonResponse(res, 500, {
-      error: {
-        type: 'internal_server_error',
-        message: 'Internal Server Error',
-      },
-    })
+    writeResponse500(res)
   }
 }

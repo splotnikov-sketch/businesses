@@ -5,4 +5,5 @@ module.exports = {
   moduleNameMapper: {
     '@root/(.*)': '<rootDir>/src/$1',
   },
+  testPathIgnorePatterns: ['node_modules', 'dist'],
 }

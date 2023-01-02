@@ -3,7 +3,11 @@ import logger from '@root/utils/logger'
 import { isNullOrEmpty } from '@root/utils/common'
 
 import apiKeyValidator from '@root/api/services/apiKeyValidator'
-import { writeJsonResponse } from '@root/utils/api/expressHelpers'
+import {
+  writeJsonResponse,
+  writeResponse500,
+  writeResponseError,
+} from '@root/utils/api/expressHelpers'
 
 export const apiKeyMiddleware: RequestHandler = (req, res, next) => {
   if (
@@ -11,12 +15,12 @@ export const apiKeyMiddleware: RequestHandler = (req, res, next) => {
     isNullOrEmpty(req.headers) ||
     isNullOrEmpty(req.headers.authorization)
   ) {
-    writeJsonResponse(res, 401, {
-      error: {
-        type: 'unauthorized',
-        message: "Missing 'Authorization' header",
-      },
-    })
+    writeResponseError(
+      res,
+      401,
+      'unauthorized',
+      `Missing 'Authorization' header`
+    )
     return
   }
 
@@ -35,11 +39,6 @@ export const apiKeyMiddleware: RequestHandler = (req, res, next) => {
     })
     .catch((err) => {
       logger.error(`Error at apiKeyMiddleware: ${err}`)
-      writeJsonResponse(res, 500, {
-        error: {
-          type: 'internal_server_error',
-          message: 'Internal Server Error',
-        },
-      })
+      writeResponse500(res)
     })
 }

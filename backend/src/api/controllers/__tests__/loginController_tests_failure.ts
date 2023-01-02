@@ -4,7 +4,8 @@ import { Express } from 'express-serve-static-core'
 import config from '@root/config'
 import { createServer } from '@root/utils/api/server'
 import dbContext from '@root/db/dbContext'
-import { insertUser, ErrorResult } from '@root/db/actions/userActions'
+import { insertUser } from '@root/db/actions/userActions'
+import { ErrorModel, isErrorModel } from '@root/models/errorModel'
 
 import * as mockAuth from '@root/utils/auth'
 jest.mock('@root/utils/auth')
@@ -22,7 +23,11 @@ afterAll(async () => {
 
 describe('POST /api/v1/login', () => {
   it('should return internal_server_error if jwt.sign fails with the error', async () => {
-    ;(mockAuth.createAuthToken as jest.Mock).mockRejectedValue('error')
+    const mock = jest.spyOn(mockAuth, 'createAuthToken')
+    mock.mockImplementation(() => Promise.reject('error'))
+
+    // ;(mockAuth.createAuthToken as jest.Mock).mockRejectedValue('error')
+
     const email = faker.internet.email()
     const password = faker.internet.password()
     const user = await insertUser(email, password)
@@ -39,6 +44,8 @@ describe('POST /api/v1/login', () => {
 
     expect(response.status).toEqual(500)
     const { body } = response
-    expect((body as ErrorResult).error.type).toEqual('internal_server_error')
+    expect(isErrorModel(body)).toBeTruthy()
+
+    expect((body as ErrorModel).error.type).toEqual('internal_server_error')
   })
 })

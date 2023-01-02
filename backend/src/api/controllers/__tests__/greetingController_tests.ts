@@ -14,6 +14,7 @@ describe('GET /hello', () => {
   it('should return 200 & valid response if request param list is empty', (done) => {
     request(server)
       .get(`/api/v1/hello`)
+      .set('Authorization', `Bearer ${config.apiKey}`)
       .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
@@ -26,6 +27,7 @@ describe('GET /hello', () => {
   it('should return 200 & valid response if name param is set', (done) => {
     request(server)
       .get(`/api/v1/hello?name=Test%20Name`)
+      .set('Authorization', `Bearer ${config.apiKey}`)
       .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
@@ -38,6 +40,7 @@ describe('GET /hello', () => {
   it('should return 400 & valid error response if name param is empty', (done) => {
     request(server)
       .get(`/api/v1/hello?name=`)
+      .set('Authorization', `Bearer ${config.apiKey}`)
       .expect('Content-Type', /json/)
       .expect(400)
       .end((err, res) => {

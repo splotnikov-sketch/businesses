@@ -28,7 +28,7 @@ paths:
         - greeting
       operationId: hello
       security:
-        - auth: []
+        - apiKey: []
       parameters:
         - name: name
           required: false
