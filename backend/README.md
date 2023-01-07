@@ -52,3 +52,7 @@ mkdir config/jwt
 $ openssl genpkey -algorithm RSA -aes256 -out config/jwt/private.pem
 $ openssl rsa -in config/jwt/private.pem -pubout -outform PEM -out config/jwt/public.pem
 ```
+
+## Running redis in docker
+
+`docker run --rm -d -p 6379:6379 --name redis redis --save ''`

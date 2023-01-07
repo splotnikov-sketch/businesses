@@ -4,7 +4,6 @@ import { Express } from 'express-serve-static-core'
 import config from '@root/config'
 import { createServer } from '@root/utils/api/server'
 import dbContext from '@root/db/dbContext'
-import { ErrorModel } from '@root/models/errorModel'
 
 import * as mockUserActions from '@root/db/actions/userActions'
 

@@ -2,7 +2,7 @@ import * as yup from 'yup'
 import logger from '@root/utils/logger'
 import { isNullOrEmpty } from '@root/utils/common'
 import dbContext from '@root/db/dbContext'
-import cacheLocal from '@root/utils/cacheLocal'
+import cacheLocal from '@root/utils/cache/CacheLocal'
 import { ErrorModel } from '@root/models/errorModel'
 import { UserModel } from '@root/models/userModel'
 

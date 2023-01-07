@@ -27,23 +27,31 @@ type LogLevel =
 interface Config {
   port: number
   apiKey: string
+
   morganLogger: boolean
   morganBodyLogger: boolean
   devLogger: boolean
   loggerLevel: LogLevel
+
   databaseUrl: string
+
   privateKeyFile: string
   privateKeyPassphrase: string
   publicKeyFile: string
+
   localCacheTtl: number
+  redisUrl: string
+
   yelp: {
     uri: string
     key: string
   }
+
   geoapify: {
     uri: string
     key: string
   }
+
   cdp: {
     uri: string
     browserUri: string
@@ -58,23 +66,31 @@ interface Config {
 const config: Config = {
   port: parsedEnv.PORT as number,
   apiKey: parsedEnv.API_KEY as string,
+
   morganLogger: parsedEnv.MORGAN_LOGGER as boolean,
   morganBodyLogger: parsedEnv.MORGAN_BODY_LOGGER as boolean,
   devLogger: parsedEnv.DEV_LOGGER as boolean,
   loggerLevel: parsedEnv.LOGGER_LEVEL as LogLevel,
+
   databaseUrl: parsedEnv.DATABASE_URL as string,
+
   privateKeyFile: parsedEnv.PRIVATE_KEY_FILE as string,
   privateKeyPassphrase: parsedEnv.PRIVATE_KEY_PASSPHRASE as string,
   publicKeyFile: parsedEnv.PUBLIC_KEY_FILE as string,
+
   localCacheTtl: parsedEnv.LOCAL_CACHE_TTL as number,
+  redisUrl: parsedEnv.REDIS_URL as string,
+
   yelp: {
     uri: parsedEnv.YELP_URI as string,
     key: parsedEnv.YELP_KEY as string,
   },
+
   geoapify: {
     uri: parsedEnv.GEOAPIFY_URI as string,
     key: parsedEnv.GEOAPIFY_KEY as string,
   },
+
   cdp: {
     uri: parsedEnv.CDP_URI as string,
     browserUri: parsedEnv.CDP_BROWSER_API_URI as string,
