@@ -2,13 +2,13 @@ import config from '@root/config'
 import dbContext from '@root/db/dbContext'
 import { createServer } from './utils/api/server'
 import logger from '@root/utils/logger'
-import { Cache } from '@root/utils/cache/Cache'
+import { getCacheProvider } from '@root/utils/cache/utils'
 
-const redis = Cache.instance
+const cacheProvider = getCacheProvider()
 
 ;(async () => {
   try {
-    await redis.connect()
+    await cacheProvider.connect()
     await dbContext.connect()
     const server = await createServer()
     server.listen(config.port, () => {

@@ -8,12 +8,16 @@ import {
 import logger from '@root/utils/logger'
 import { isNullOrEmpty } from '@root/utils/common'
 import config from '@root/config'
+import { getCacheProvider } from '@root/utils/cache/utils'
+
+const cacheProvider = getCacheProvider()
 
 const geopify = axios.create({
   baseURL: config.geoapify.uri,
   timeout: 1000,
 })
 
+// TODO: refactor to use actions
 export async function locationSearch(
   req: Request,
   res: Response
@@ -30,6 +34,19 @@ export async function locationSearch(
   }
 
   try {
+    const cacheResult = await cacheProvider.get(term)
+    if (cacheResult) {
+      logger.info(`locationSearch.cache.get term: ${term}`)
+      const result = JSON.parse(cacheResult)
+      writeJsonResponse(res, 200, result)
+      return
+    }
+  } catch (error) {
+    logger.warn(`locationSearch.cache.get: ${error}`)
+  }
+
+  try {
+    logger.info('geopify')
     const response = await geopify.get('/search', {
       params: {
         text: term,
@@ -38,7 +55,11 @@ export async function locationSearch(
       },
     })
 
+    logger.info('response', response)
+
     const data = await response.data
+
+    logger.info('data', data)
 
     if (
       isNullOrEmpty(data) ||
@@ -69,6 +90,8 @@ export async function locationSearch(
       address_line1: propertiesElement.address_line1,
       address_line2: propertiesElement.address_line2,
     }
+
+    await cacheProvider.set(term, JSON.stringify(result), -1)
 
     writeJsonResponse(res, 200, result)
   } catch (error) {

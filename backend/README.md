@@ -55,4 +55,4 @@ $ openssl rsa -in config/jwt/private.pem -pubout -outform PEM -out config/jwt/pu
 
 ## Running redis in docker
 
-`docker run --rm -d -p 6379:6379 --name redis redis --save ''`
+`docker run --rm -d -p 6379:6379 --name redis redis:latest`
