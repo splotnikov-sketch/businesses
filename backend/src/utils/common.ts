@@ -31,7 +31,7 @@ export async function compareWithHash(
   hash: string
 ): Promise<boolean> {
   return new Promise(function (resolve, reject) {
-    bcrypt.compare(token, hash, function (err, res) {
+    bcrypt.compare(token, hash, function (err: any, res: any) {
       if (err) {
         reject(err)
       } else {

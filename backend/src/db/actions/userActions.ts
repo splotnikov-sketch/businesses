@@ -81,7 +81,7 @@ export async function getUser(email: string): Promise<UserModel | ErrorModel> {
           email: email,
         },
       })
-      .then((user) => {
+      .then((user: any) => {
         if (user == null) {
           resolve({
             error: {
@@ -94,7 +94,7 @@ export async function getUser(email: string): Promise<UserModel | ErrorModel> {
           resolve(user)
         }
       })
-      .catch((error) => {
+      .catch((error: any) => {
         logger.error(error)
         resolve({
           error: {

@@ -1,3 +1,4 @@
+import * as path from 'path'
 import bodyParser from 'body-parser'
 import express from 'express'
 import * as OpenApiValidator from 'express-openapi-validator'
@@ -21,12 +22,15 @@ import logger from '@root/utils/logger'
 import genericErrors from '@root/utils/errors/genericErrors'
 
 export async function createServer(): Promise<Express> {
-  const yamlSpecFile = './config/openapi.yml'
+  const yamlSpecFile = path.resolve(__dirname, 'openapi.yml')
+
+  //const yamlSpecFile = 'openapi.yml'
   const apiDefinition = YAML.load(yamlSpecFile)
   const apiSummary = summarise(apiDefinition)
   logger.info(apiSummary)
 
   const server = express()
+
   server.use(cors())
 
   // here we can initialize body/cookies parsers, connect logger, for example morgan
@@ -55,7 +59,7 @@ export async function createServer(): Promise<Express> {
     validateRequests: true,
     validateResponses: true,
   }
-  //   await new OpenApiValidator(validatorOptions).install(server) // if version 3.*
+
   server.use(OpenApiValidator.middleware(validatorOptions))
 
   // error customization, if request is invalid

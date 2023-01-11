@@ -55,4 +55,19 @@ $ openssl rsa -in config/jwt/private.pem -pubout -outform PEM -out config/jwt/pu
 
 ## Running redis in docker
 
-`docker run --rm -d -p 6379:6379 --name redis redis:latest`
+`docker run --rm -d -p 6379:6379 -v /data --name redis redis:latest`
+
+Some useful docker commands to manage local registry:
+
+## Application in docker
+
+- Build docker image `docker build . -t businesses-backend`
+- Start container `docker run --rm -d -p 3010:3010 --env-file ./config/.env.dev --name businesses-backend businesses-backend:latest`
+
+## Docker in general
+
+```bash
+docker image ls
+docker image rm <repository name or image id>
+docker image prune --all --force # remove all unused image
+```

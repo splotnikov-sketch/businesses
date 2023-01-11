@@ -1,17 +1,5 @@
-import dotenvExtended from 'dotenv-extended'
-import dotenvParseVariables from 'dotenv-parse-variables'
-
-const env = dotenvExtended.load({
-  path: process.env.ENV_FILE,
-  defaults: './config/.env.defaults',
-  schema: './config/.env.schema',
-  includeProcessEnv: true,
-  silent: false,
-  errorOnMissing: true,
-  errorOnExtra: true,
-})
-
-const parsedEnv = dotenvParseVariables(env)
+import dotenv from 'dotenv'
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
 // Define log levels type (silent + Winston default npm)
 type LogLevel =
@@ -24,7 +12,7 @@ type LogLevel =
   | 'debug'
   | 'silly'
 
-interface Config {
+interface IConfig {
   port: number
   apiKey: string
 
@@ -35,9 +23,9 @@ interface Config {
 
   databaseUrl: string
 
-  privateKeyFile: string
+  privateKey: string
   privateKeyPassphrase: string
-  publicKeyFile: string
+  publicKey: string
 
   localCacheTtl: number
   redisUrl: string
@@ -63,43 +51,50 @@ interface Config {
   }
 }
 
-const config: Config = {
-  port: parsedEnv.PORT as number,
-  apiKey: parsedEnv.API_KEY as string,
+const config: IConfig = {
+  port: Number(process.env.PORT) || 3000,
+  apiKey: process.env.API_KEY || 'API_KEY is not defined',
 
-  morganLogger: parsedEnv.MORGAN_LOGGER as boolean,
-  morganBodyLogger: parsedEnv.MORGAN_BODY_LOGGER as boolean,
-  devLogger: parsedEnv.DEV_LOGGER as boolean,
-  loggerLevel: parsedEnv.LOGGER_LEVEL as LogLevel,
+  morganLogger: process.env.MORGAN_LOGGER === 'true',
+  morganBodyLogger: process.env.MORGAN_BODY_LOGGER === 'true',
+  devLogger: process.env.DEV_LOGGER === 'true',
+  loggerLevel: (process.env.LOGGER_LEVEL as LogLevel) || 'silent',
 
-  databaseUrl: parsedEnv.DATABASE_URL as string,
+  databaseUrl: process.env.DATABASE_URL || 'DATABASE_URL is not defined',
 
-  privateKeyFile: parsedEnv.PRIVATE_KEY_FILE as string,
-  privateKeyPassphrase: parsedEnv.PRIVATE_KEY_PASSPHRASE as string,
-  publicKeyFile: parsedEnv.PUBLIC_KEY_FILE as string,
+  privateKey: process.env.PRIVATE_KEY || 'PRIVATE_KEY is not defined',
+  privateKeyPassphrase:
+    process.env.PRIVATE_KEY_PASSPHRASE ||
+    'PRIVATE_KEY_PASSPHRASE is not defined',
+  publicKey: process.env.PUBLIC_KEY || 'PUBLIC_KEY is not defined',
 
-  localCacheTtl: parsedEnv.LOCAL_CACHE_TTL as number,
-  redisUrl: parsedEnv.REDIS_URL as string,
+  localCacheTtl: Number(process.env.LOCAL_CACHE_TTL) || 60,
+  redisUrl: process.env.REDIS_URL || 'REDIS_URL is not defined',
 
   yelp: {
-    uri: parsedEnv.YELP_URI as string,
-    key: parsedEnv.YELP_KEY as string,
+    uri: process.env.YELP_URI || 'YELP_URI is not defined',
+    key: process.env.YELP_KEY || 'YELP_KEY is not defined',
   },
 
   geoapify: {
-    uri: parsedEnv.GEOAPIFY_URI as string,
-    key: parsedEnv.GEOAPIFY_KEY as string,
+    uri: process.env.GEOAPIFY_URI || 'GEOAPIFY_URI is not defined',
+    key: process.env.GEOAPIFY_KEY || 'GEOAPIFY_KEY is not defined',
   },
 
   cdp: {
-    uri: parsedEnv.CDP_URI as string,
-    browserUri: parsedEnv.CDP_BROWSER_API_URI as string,
-    key: parsedEnv.CDP_API_KEY_ID as string,
-    secret: parsedEnv.CDP_API_SECRET as string,
-    pointOfSale: parsedEnv.CDP_POINT_OF_SALE as string,
-    providerId: parsedEnv.CDP_ID_PROVIDER as string,
-    offerTemplate: parsedEnv.CDP_OFFER_TEMPLATE as string,
+    uri: process.env.CDP_URI || 'CDP_URI is not defined',
+    browserUri:
+      process.env.CDP_BROWSER_API_URI || 'CDP_BROWSER_API_URI is not defined',
+    key: process.env.CDP_API_KEY_ID || 'CDP_API_KEY_ID is not defined',
+    secret: process.env.CDP_API_SECRET || 'CDP_API_SECRET is not defined',
+    pointOfSale:
+      process.env.CDP_POINT_OF_SALE || 'CDP_POINT_OF_SALE is not defined',
+    providerId: process.env.CDP_ID_PROVIDER || 'CDP_ID_PROVIDER is not defined',
+    offerTemplate:
+      process.env.CDP_OFFER_TEMPLATE || 'CDP_OFFER_TEMPLATE is not defined',
   },
 }
+
+console.log('config ==> ', config)
 
 export default config

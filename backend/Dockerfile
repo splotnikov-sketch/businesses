@@ -1,18 +1,23 @@
-FROM node:18.9.0-alpine AS appbuild
+FROM node:lts-alpine AS appbuild
+
 WORKDIR /app
-COPY package.json ./
+COPY package*.json ./
+COPY tsconfig.json ./
 RUN npm install
-COPY ./src ./src
+COPY . .
+RUN npx prisma generate
 RUN npm run build
 
-FROM node:18.9.0-alpine
+## stage 2
+FROM node:lts-alpine
 WORKDIR /app
-COPY package.json ./
-RUN npm install
+COPY package*.json ./
+COPY tsconfig.json ./
+RUN npm install --only=production
 COPY --from=appbuild /app/dist ./dist
 
 ENV PORT 80
 
 EXPOSE $PORT
 
-CMD ["npm", "run", "docker-prod"]
+CMD ["node", "-r", "ts-node/register/transpile-only", "-r", "tsconfig-paths/register", "dist/app.js"]

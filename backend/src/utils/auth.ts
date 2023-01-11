@@ -1,13 +1,10 @@
-import fs from 'fs'
 import jwt, { SignOptions, VerifyErrors, VerifyOptions } from 'jsonwebtoken'
 import config from '@root/config'
 import logger from '@root/utils/logger'
 import { isNullOrEmpty } from '@root/utils/common'
 
-const privateKey = fs.readFileSync(config.privateKeyFile)
-
 const privateSecret = {
-  key: privateKey,
+  key: config.privateKey,
   passphrase: config.privateKeyPassphrase,
 }
 
@@ -16,8 +13,6 @@ const signOptions: SignOptions = {
   algorithm: 'RS256',
   expiresIn: '14d',
 }
-
-const publicKey = fs.readFileSync(config.publicKeyFile)
 
 const verifyOptions: VerifyOptions = {
   algorithms: ['RS256'],
@@ -54,7 +49,7 @@ export function createAuthToken(
 
 export function verifyAuthToken(token: string): Promise<AuthResult> {
   return new Promise(function (resolve, reject) {
-    jwt.verify(token, publicKey, verifyOptions, (err, decoded) => {
+    jwt.verify(token, config.publicKey, verifyOptions, (err, decoded) => {
       if (err === null && !isNullOrEmpty(decoded)) {
         const decodedObj = decoded as { payload: { id?: string; exp: number } }
         const expired = Date.now() >= decodedObj.payload.exp * 1000
